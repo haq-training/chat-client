@@ -61,7 +61,7 @@ export default function Register() {
   const mdUp = useResponsive('up', 'md');
 
   return (
-    <Page title="Đăng ký">
+    <>
       <RootStyle>
         <HeaderStyle>
           <Logo sx={{ width: 80, height: 36 }} />
@@ -109,6 +109,6 @@ export default function Register() {
           </ContentStyle>
         </Container>
       </RootStyle>
-    </Page>
+    </>
   );
 }

@@ -4,7 +4,7 @@ import { Box, Tooltip, Link, ListItemText } from '@mui/material';
 import { useLocales } from '../../../locales';
 import Iconify from '../../Iconify';
 import { StyledItem, StyledIcon, StyledDotIcon } from './styles';
-import RoleBasedGuard from '../../../guards/RoleBasedGuard';
+// import RoleBasedGuard from '../../../guards/RoleBasedGuard';
 
 // ----------------------------------------------------------------------
 
@@ -19,7 +19,7 @@ NavItem.propTypes = {
 export default function NavItem({ item, depth, open, active, isExternalLink, ...other }) {
   const { translate } = useLocales();
 
-  const { title, path, icon, info, children, disabled, caption, roles } = item;
+  const { title, path, icon, info, children, disabled, caption } = item;
 
   const subItem = depth !== 1;
 
@@ -90,6 +90,6 @@ export default function NavItem({ item, depth, open, active, isExternalLink, ...
       </Link>
     );
   };
-
-  return <RoleBasedGuard roles={roles}> {renderItem()} </RoleBasedGuard>;
+  return renderItem();
+  // return <RoleBasedGuard roles={roles}> {renderItem()} </RoleBasedGuard>;
 }

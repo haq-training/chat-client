@@ -1,7 +1,7 @@
 // noinspection JSUnresolvedReference
 
 import PropTypes from 'prop-types';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import {
   Badge,
   Box,
@@ -13,76 +13,74 @@ import {
   ListSubheader,
   Typography,
 } from '@mui/material';
-import { useMutation, useQuery, useSubscription } from '@apollo/client';
-import { loader } from 'graphql.macro';
+// import { useMutation, useQuery, useSubscription } from '@apollo/client';
+// import { loader } from 'graphql.macro';
 import { useSnackbar } from 'notistack';
 import Iconify from '../../../components/Iconify';
 import Scrollbar from '../../../components/Scrollbar';
 import MenuPopover from '../../../components/MenuPopover';
 import { IconButtonAnimate } from '../../../components/animate';
-import useAuth from '../../../hooks/useAuth';
+// import useAuth from '../../../hooks/useAuth';
 import NotificationDialog from '../../../sections/@dashboard/notification/NotificationDialog';
 import useToggle from '../../../hooks/useToggle';
 
 // ----------------------------------------------------------------------
-const SUBSCRIPTION = loader('../../../graphql/subscription/subscribeNotifications.graphql');
-const NOTIFICATION = loader('../../../graphql/queries/userNotification/listUserNotification.graphql');
-const NOTIFICATION_UPDATE = loader('../../../graphql/mutations/userNotification/updateStatusUserNotification.graphql');
+// const SUBSCRIPTION = loader('../../../graphql/subscription/subscribeNotifications.graphql');
+// const NOTIFICATION = loader('../../../graphql/queries/userNotification/listUserNotification.graphql');
+// const NOTIFICATION_UPDATE = loader('../../../graphql/mutations/userNotification/updateStatusUserNotification.graphql');
 // ----------------------------------------------------------------------
 
 NotificationsPopover.propTypes = {
   setMessageIncome: PropTypes.func.isRequired,
 };
 export default function NotificationsPopover({ setMessageIncome }) {
-  const { user } = useAuth();
-
   const { enqueueSnackbar } = useSnackbar();
 
   const [getListUserNotification, setGetListUserNotification] = useState([]);
   const [newOderNotifications, setNewOderNotifications] = useState([]);
   const [otherNotifications, setOtherNotifications] = useState([]);
 
-  const { data, loading } = useSubscription(SUBSCRIPTION, {
-    variables: { input: { userId: Number(user.id) } },
-  });
+  // const { data, loading } = useSubscription(SUBSCRIPTION, {
+  //   variables: { input: { userId: Number(user.id) } },
+  // });
 
-  const { data: listNotification, refetch } = useQuery(NOTIFICATION, {
-    variables: { input: { userId: Number(user.id) } },
-  });
-  useEffect(() => {
-    if (listNotification) {
-      setGetListUserNotification(listNotification.listUserNotification?.edges.map((el) => el.node));
-    }
-  }, [listNotification]);
-  useEffect(() => {
-    if (listNotification) {
-      setNewOderNotifications(
-        getListUserNotification.filter((newOderNotifications) => newOderNotifications.notification.event === 'NewOrder')
-      );
-      setOtherNotifications(
-        getListUserNotification.filter((newOderNotifications) => newOderNotifications.notification.event !== 'NewOrder')
-      );
-    }
-  }, [listNotification, getListUserNotification]);
-
-  const [update] = useMutation(NOTIFICATION_UPDATE, {
-    onCompleted: () => {
-      refetch().catch((error) => {
-        console.error(error);
-      });
-    },
-    refetchQueries: () => [
-      {
-        query: NOTIFICATION,
-        variables: { variables: { input: { userId: Number(user.id) } } },
-      },
-    ],
-    onError: (error) => {
-      enqueueSnackbar(`error-${error.message}`, {
-        variant: 'error',
-      });
-    },
-  });
+  // const { data: listNotification, refetch } = useQuery(NOTIFICATION, {
+  //   variables: { input: { userId: Number(user.id) } },
+  // });
+  // useEffect(() => {
+  //   if (listNotification) {
+  //     setGetListUserNotification(listNotification.listUserNotification?.edges.map((el) => el.node));
+  //   }
+  // }, [listNotification]);
+  // useEffect(() => {
+  //   if (listNotification) {
+  //     setNewOderNotifications(
+  //       getListUserNotification.filter((newOderNotifications) => newOderNotifications.notification.event === 'NewOrder')
+  //     );
+  //     setOtherNotifications(
+  //       getListUserNotification.filter((newOderNotifications) => newOderNotifications.notification.event !== 'NewOrder')
+  //     );
+  //   }
+  // }, [listNotification, getListUserNotification]);
+  //
+  // const [update] = useMutation(NOTIFICATION_UPDATE, {
+  //   onCompleted: () => {
+  //     refetch().catch((error) => {
+  //       console.error(error);
+  //     });
+  //   },
+  //   refetchQueries: () => [
+  //     {
+  //       query: NOTIFICATION,
+  //       variables: { variables: { input: { userId: Number(user.id) } } },
+  //     },
+  //   ],
+  //   onError: (error) => {
+  //     enqueueSnackbar(`error-${error.message}`, {
+  //       variant: 'error',
+  //     });
+  //   },
+  // });
 
   const totalUnRead = getListUserNotification.filter((item) => item.isRead === false).length;
 
@@ -96,22 +94,22 @@ export default function NotificationsPopover({ setMessageIncome }) {
     setOpen(null);
   };
 
-  useEffect(() => {
-    if (!loading && data) {
-      setMessageIncome(data?.subscribeNotifications);
-      enqueueSnackbar(`${data.subscribeNotifications?.message}`, {
-        variant: 'success',
-      });
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [loading, data]);
-
-  const handleUpdate = async (id, isRead) => {
-    await update({
-      variables: { input: { userNotificationIds: Number(id), isRead } },
-    });
-    // handleClose();
-  };
+  // useEffect(() => {
+  //   if (!loading && data) {
+  //     setMessageIncome(data?.subscribeNotifications);
+  //     enqueueSnackbar(`${data.subscribeNotifications?.message}`, {
+  //       variant: 'success',
+  //     });
+  //   }
+  //   // eslint-disable-next-line react-hooks/exhaustive-deps
+  // }, [loading, data]);
+  //
+  // const handleUpdate = async (id, isRead) => {
+  //   await update({
+  //     variables: { input: { userNotificationIds: Number(id), isRead } },
+  //   });
+  //   // handleClose();
+  // };
 
   return (
     <>
@@ -159,7 +157,7 @@ export default function NotificationsPopover({ setMessageIncome }) {
               <NotificationItem
                 key={notification.notification.id}
                 notifications={notification}
-                onUpdate={() => handleUpdate(notification.idUserNotification, true)}
+                // onUpdate={() => handleUpdate(notification.idUserNotification, true)}
               />
             ))}
           </List>
@@ -176,7 +174,7 @@ export default function NotificationsPopover({ setMessageIncome }) {
               <NotificationItem
                 key={notification.notification.id}
                 notifications={notification}
-                onUpdate={() => handleUpdate(notification.idUserNotification, true)}
+                // onUpdate={() => handleUpdate(notification.idUserNotification, true)}
               />
             ))}
           </List>
