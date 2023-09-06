@@ -7,7 +7,7 @@ import useResponsive from '../../../hooks/useResponsive';
 import { HEADER, NAV } from '../../../config-global';
 import { useSettingsContext } from '../../../components/settings';
 import Searchbar from './Searchbar';
-import AccountPopover from './AccountPopover';
+// import AccountPopover from './AccountPopover';
 import Iconify from '../../../components/Iconify';
 import Logo from '../../../components/Logo';
 import NotificationsPopover from './NotificationsPopover';
@@ -52,7 +52,6 @@ export default function Header({ onOpenNav, setMessageIncome }) {
         spacing={{ xs: 1, sm: 2 }}
         sx={{ mr: 1 }}
       >
-        <AccountPopover />
         <NotificationsPopover setMessageIncome={setMessageIncome} />
       </Stack>
     </>

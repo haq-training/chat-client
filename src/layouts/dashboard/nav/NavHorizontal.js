@@ -7,7 +7,7 @@ import { NavSectionHorizontal } from '../../../components/nav-section';
 import useAuth from '../../../hooks/useAuth';
 import commonNavConfig from './NavConfig';
 import NotificationsPopover from '../header/NotificationsPopover';
-import AccountPopover from '../header/AccountPopover';
+// import AccountPopover from '../header/AccountPopover';
 import { AccountPopoverStyledRoot } from './NavMini';
 import Searchbar from '../header/Searchbar';
 
@@ -40,7 +40,6 @@ function NavHorizontal({ setMessageIncome }) {
         <NavSectionHorizontal data={commonNavConfig(user)} />
         <AccountPopoverStyledRoot>
           <Stack direction="row" alignItems="center" spacing={2}>
-            <AccountPopover />
             <NotificationsPopover setMessageIncome={setMessageIncome} />
           </Stack>
         </AccountPopoverStyledRoot>

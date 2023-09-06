@@ -8,7 +8,7 @@ import NavToggleButton from './NavToggleButton';
 import Logo from '../../../components/Logo';
 import commonNavConfig from './NavConfig';
 import useAuth from '../../../hooks/useAuth';
-import AccountPopover from '../header/AccountPopover';
+// import AccountPopover from '../header/AccountPopover';
 import NotificationsPopover from '../header/NotificationsPopover';
 
 // ----------------------------------------------------------------------
@@ -56,7 +56,6 @@ export default function NavMini({ setMessageIncome }) {
         <AccountPopoverStyledRoot>
           <Stack spacing={1}>
             <NotificationsPopover setMessageIncome={setMessageIncome} />
-            <AccountPopover />
           </Stack>
         </AccountPopoverStyledRoot>
 

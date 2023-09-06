@@ -11,7 +11,7 @@ import NavToggleButton from './NavToggleButton';
 import Logo from '../../../components/Logo';
 import useAuth from '../../../hooks/useAuth';
 import commonNavConfig from './NavConfig';
-import AccountPopover from '../header/AccountPopover';
+// import AccountPopover from '../header/AccountPopover';
 import NotificationsPopover from '../header/NotificationsPopover';
 
 // ----------------------------------------------------------------------
@@ -71,7 +71,6 @@ export default function NavVertical({ openNav, onCloseNav, setMessageIncome }) {
           <Stack spacing={1}>
             <NotificationsPopover setMessageIncome={setMessageIncome} />
             <Stack direction="row" alignItems="center">
-              <AccountPopover />
               <Typography sx={{ ml: 1 }} variant="subtitle1" fontWeight={500}>
                 {user?.displayName}
               </Typography>
