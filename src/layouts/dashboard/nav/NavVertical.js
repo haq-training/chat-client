@@ -80,7 +80,7 @@ export default function NavVertical({ openNav, onCloseNav, setMessageIncome }) {
       </Stack>
       <Divider sx={{ borderStyle: 'dashed', paddingY: 1 }} />
 
-      <NavSectionVertical data={commonNavConfig(user)} />
+      <NavSectionVertical data={commonNavConfig} />
 
       <Box sx={{ flexGrow: 1 }} />
     </Scrollbar>

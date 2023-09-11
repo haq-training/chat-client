@@ -38,7 +38,7 @@ export const SSM_PATH_DASHBOARD = {
     app: path(ROOTS_DASHBOARD, '/app'),
   },
   chat: path(ROOTS_DASHBOARD, '/chat'),
-  // userAccount: path(ROOTS_DASHBOARD, `/thong-tin-tai-khoan`),
-  // contacts: path(ROOTS_DASHBOARD, '/danh-ba-ban-be'),
-  // pinned: path(ROOTS_DASHBOARD, '/muc-ghim'),
+  userAccount: path(ROOTS_DASHBOARD, `/thong-tin-tai-khoan`),
+  contacts: path(ROOTS_DASHBOARD, '/danh-ba-ban-be'),
+  pinned: path(ROOTS_DASHBOARD, '/muc-ghim'),
 };

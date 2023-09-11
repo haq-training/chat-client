@@ -1,32 +1,12 @@
-import {
-  accountantNavConfig,
-  adminNavConfig,
-  directorNavConfig,
-  driverNavConfig,
-  salesNavConfig,
-  transporterManagerNavConfig,
-} from './NavbarRouteByRole';
-import { Role } from '../../../constant';
+import Sidebar from './NavbarRouteByRole';
+// import { Role } from '../../../constant';
 
 // ----------------------------------------------------------------------
 
-const commonNavConfig = (user) => {
-  switch (user?.role) {
-    case Role.admin:
-      return adminNavConfig;
-    case Role.director:
-      return directorNavConfig;
-    case Role.accountant:
-      return accountantNavConfig;
-    case Role.sales:
-      return salesNavConfig;
-    case Role.transporterManager:
-      return transporterManagerNavConfig;
-    case Role.driver:
-      return driverNavConfig;
-    default:
-      return [];
-  }
-};
-
+const commonNavConfig = () => (
+  // if (user?.role === Role.user) {
+  <Sidebar />
+); //
+// }
+// return null;
 export default commonNavConfig;

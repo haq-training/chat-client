@@ -6,7 +6,7 @@ import useOffSetTop from '../../../hooks/useOffSetTop';
 import useResponsive from '../../../hooks/useResponsive';
 import { HEADER, NAV } from '../../../config-global';
 import { useSettingsContext } from '../../../components/settings';
-import Searchbar from './Searchbar';
+// import Searchbar from './Searchbar';
 // import AccountPopover from './AccountPopover';
 import Iconify from '../../../components/Iconify';
 import Logo from '../../../components/Logo';
@@ -42,7 +42,7 @@ export default function Header({ onOpenNav, setMessageIncome }) {
         </IconButton>
       )}
 
-      <Searchbar />
+      {/* <Searchbar /> */}
 
       <Stack
         flexGrow={1}
