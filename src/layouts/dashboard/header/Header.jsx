@@ -42,8 +42,6 @@ export default function Header({ onOpenNav, setMessageIncome }) {
         </IconButton>
       )}
 
-      {/* <Searchbar /> */}
-
       <Stack
         flexGrow={1}
         direction="row"

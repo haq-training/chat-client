@@ -4,12 +4,12 @@ import { useTheme } from '@mui/material/styles';
 import { AppBar, Box, Stack, Toolbar } from '@mui/material';
 import { bgBlur } from '../../../utils/cssStyles';
 import { NavSectionHorizontal } from '../../../components/nav-section';
-// import useAuth from '../../../hooks/useAuth';
+import useAuth from '../../../hooks/useAuth';
 import commonNavConfig from './NavConfig';
 import NotificationsPopover from '../header/NotificationsPopover';
 // import AccountPopover from '../header/AccountPopover';
 import { AccountPopoverStyledRoot } from './NavMini';
-import Searchbar from '../header/Searchbar';
+// import Searchbar from '../header/Searchbar';
 
 // ----------------------------------------------------------------------
 NavHorizontal.propTypes = {
@@ -18,7 +18,7 @@ NavHorizontal.propTypes = {
 
 function NavHorizontal({ setMessageIncome }) {
   const theme = useTheme();
-  // const { user } = useAuth();
+  const { user } = useAuth();
   return (
     <AppBar
       component="nav"
@@ -36,8 +36,7 @@ function NavHorizontal({ setMessageIncome }) {
           }),
         }}
       >
-        <Searchbar />
-        <NavSectionHorizontal data={commonNavConfig} />
+        <NavSectionHorizontal data={commonNavConfig(user)} />
         <AccountPopoverStyledRoot>
           <Stack direction="row" alignItems="center" spacing={2}>
             <NotificationsPopover setMessageIncome={setMessageIncome} />

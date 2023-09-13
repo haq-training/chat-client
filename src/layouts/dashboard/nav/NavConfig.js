@@ -1,12 +1,12 @@
-import Sidebar from './NavbarRouteByRole';
+import {
+  chat
+} from './NavbarRouteByRole';
 // import { Role } from '../../../constant';
 
 // ----------------------------------------------------------------------
 
-const commonNavConfig = () => (
-  // if (user?.role === Role.user) {
-  <Sidebar />
-); //
-// }
-// return null;
+const commonNavConfig = () => {
+  return chat;
+};
+
 export default commonNavConfig;

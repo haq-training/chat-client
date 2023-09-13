@@ -3,10 +3,6 @@ function path(root, subLink) {
   return `${root}${subLink}`;
 }
 
-const ROOTS_AUTH = '/auth';
-const ROOTS_DASHBOARD = '/dashboard';
-// const ROOTS_MANAGER_PATH = '/menu';
-
 export const SINGLE_KEY_PATH = {
   dashboard: 'dashboard',
   auth: 'auth',
@@ -18,7 +14,14 @@ export const SINGLE_KEY_PATH = {
   userAccount: 'thong-tin-tai-khoan',
   product: 'san-pham',
   user: 'nguoi-dung',
+  chat: 'chat',
+  contacts: 'danh-ba-ban-be',
+  pinned: 'muc-ghim',
 };
+
+const ROOTS_AUTH = `/${SINGLE_KEY_PATH.auth}`;
+const ROOTS_DASHBOARD = `/${SINGLE_KEY_PATH.dashboard}`;
+const ROOTS_CHAT = `/${SINGLE_KEY_PATH.dashboard}/${SINGLE_KEY_PATH.chat}`;
 
 // ----------------------------------------------------------------------
 
