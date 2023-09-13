@@ -7,7 +7,7 @@ import { NavSectionMini } from '../../../components/nav-section';
 import NavToggleButton from './NavToggleButton';
 import Logo from '../../../components/Logo';
 import commonNavConfig from './NavConfig';
-import useAuth from '../../../hooks/useAuth';
+// import useAuth from '../../../hooks/useAuth';
 // import AccountPopover from '../header/AccountPopover';
 import NotificationsPopover from '../header/NotificationsPopover';
 
@@ -25,7 +25,7 @@ NavMini.propTypes = {
   setMessageIncome: PropTypes.func.isRequired,
 };
 export default function NavMini({ setMessageIncome }) {
-  const { user } = useAuth();
+  // const { user } = useAuth();
   return (
     <Box
       component="nav"
@@ -61,7 +61,7 @@ export default function NavMini({ setMessageIncome }) {
 
         <Divider sx={{ borderStyle: 'dashed', paddingY: 1 }} />
 
-        <NavSectionMini data={commonNavConfig(user)} />
+        <NavSectionMini data={commonNavConfig} />
       </Stack>
     </Box>
   );

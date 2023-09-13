@@ -3,6 +3,9 @@ function path(root, subLink) {
   return `${root}${subLink}`;
 }
 
+const ROOTS_AUTH = '/auth';
+const ROOTS_DASHBOARD = '/dashboard';
+
 export const SINGLE_KEY_PATH = {
   dashboard: 'dashboard',
   auth: 'auth',
@@ -15,13 +18,8 @@ export const SINGLE_KEY_PATH = {
   product: 'san-pham',
   user: 'nguoi-dung',
   chat: 'chat',
-  contacts: 'danh-ba-ban-be',
-  pinned: 'muc-ghim',
+  contacts: 'danh-ba',
 };
-
-const ROOTS_AUTH = `/${SINGLE_KEY_PATH.auth}`;
-const ROOTS_DASHBOARD = `/${SINGLE_KEY_PATH.dashboard}`;
-const ROOTS_CHAT = `/${SINGLE_KEY_PATH.dashboard}/${SINGLE_KEY_PATH.chat}`;
 
 // ----------------------------------------------------------------------
 
@@ -37,6 +35,7 @@ export const PATH_DOCS = 'https://tcn.techbyq.app/';
 
 export const SSM_PATH_DASHBOARD = {
   root: ROOTS_DASHBOARD,
+
   general: {
     app: path(ROOTS_DASHBOARD, '/app'),
   },
