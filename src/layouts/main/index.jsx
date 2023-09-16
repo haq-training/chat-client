@@ -1,22 +1,25 @@
 import { Outlet } from 'react-router-dom';
-import { Box, Stack } from '@mui/material';
+import { Box, Stack, Container } from '@mui/material';
 import { useState } from 'react';
-import MainFooter from './MainFooter';
-import MainHeader from './MainHeader';
+import Logo from '../../components/Logo';
 
 // ----------------------------------------------------------------------
 
 export default function MainLayout() {
   const [, setPageHeading] = useState(null);
   return (
-    <Stack sx={{ minHeight: 1 }}>
-      <MainHeader />
-
-      <Outlet context={{ setPageHeading }} />
-
-      <Box sx={{ flexGrow: 1 }} />
-
-      <MainFooter />
-    </Stack>
+    <Container sx={{ mt: 5 }} maxWidth="sm">
+      <Stack spacing={5}>
+        <Stack sx={{ width: '100%' }} direction="column" alignItems={'center'}>
+          <Stack style={{ height: 90, width: 90 }}>
+            <Logo />
+          </Stack>
+        </Stack>
+      </Stack>
+      <Stack sx={{ minHeight: 1 }}>
+        <Outlet context={{ setPageHeading }} />
+        <Box sx={{ flexGrow: 1 }} />
+      </Stack>
+    </Container>
   );
 }

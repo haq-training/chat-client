@@ -42,10 +42,10 @@ export default function Router() {
       path: '/',
       element: <DashboardLayout />,
       children: [
-        { path: '/chat', element: <Chat /> },
-        { path: '/thong-tin-tai-khoan', element: <UserAccount /> },
-        { path: '/danh-ba-ban-be', element: <Contacts /> },
-        { path: '/muc-ghim', element: <Pinned /> },
+        { path: 'chat', element: <Chat /> },
+        { path: 'thong-tin-tai-khoan', element: <UserAccount /> },
+        { path: 'danh-ba-ban-be', element: <Contacts /> },
+        { path: 'muc-ghim', element: <Pinned /> },
       ],
     },
 
