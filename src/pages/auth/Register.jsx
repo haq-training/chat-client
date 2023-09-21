@@ -5,7 +5,7 @@ import { styled } from '@mui/material/styles';
 import { Box, Card, Container, Link, Typography } from '@mui/material';
 import useResponsive from '../../hooks/useResponsive';
 import { PATH_AUTH } from '../../routes/paths';
-import Page from '../../components/Page';
+// import Page from '../../components/Page';
 import Logo from '../../components/Logo';
 import Image from '../../components/Image';
 import { RegisterForm } from '../../sections/auth/register';
@@ -50,6 +50,7 @@ const ContentStyle = styled('div')(({ theme }) => ({
   minHeight: '100vh',
   flexDirection: 'column',
   justifyContent: 'center',
+  textAlign: 'center',
   padding: theme.spacing(12, 0),
 }));
 
@@ -102,7 +103,7 @@ export default function Register() {
               <Typography variant="body2" sx={{ mt: 3, textAlign: 'center' }}>
                 Bạn đã có tài khoản?{' '}
                 <Link variant="subtitle2" to={PATH_AUTH.login} component={RouterLink}>
-                  Đăng nhập ngay
+                  Đăng nhập ngay.
                 </Link>
               </Typography>
             )}

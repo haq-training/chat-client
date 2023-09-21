@@ -21,7 +21,7 @@ export const SINGLE_KEY_PATH = {
 
 const ROOTS_AUTH = `/${SINGLE_KEY_PATH.auth}`;
 const ROOTS_DASHBOARD = `/${SINGLE_KEY_PATH.dashboard}`;
-const ROOTS_CHAT = `/${SINGLE_KEY_PATH.dashboard}/${SINGLE_KEY_PATH.chat}`;
+
 
 // ----------------------------------------------------------------------
 
@@ -29,7 +29,7 @@ export const PATH_AUTH = {
   root: ROOTS_AUTH,
   login: path(ROOTS_AUTH, `/dang-nhap`),
   register: path(ROOTS_AUTH, `/dang-ky`),
-  resetPassword: path(ROOTS_AUTH, `/doi-mat-khau`),
+  resetPassword: path(ROOTS_AUTH, `/reset-mat-khau`),
   logout: path(ROOTS_AUTH, `/dang-xuat`),
 };
 

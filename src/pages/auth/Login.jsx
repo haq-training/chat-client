@@ -8,7 +8,7 @@ import Logo from '../../components/Logo';
 import Image from '../../components/Image';
 import { LoginForm } from '../../sections/auth/login';
 import UnAuthorizationPage from '../../components/UnAuthorizationPage';
-import { PATH_AUTH } from '../../routes/paths';
+// import { PATH_AUTH } from '../../routes/paths';
 // ----------------------------------------------------------------------
 
 const RootStyle = styled('div')(({ theme }) => ({
@@ -66,16 +66,16 @@ export default function Login() {
 
         {mdUp && (
           <SectionStyle>
-            <Image visibleByDefault disabledEffect alt="login" src="/static/illustrations/security.png" />
+            <Image visibleByDefault disabledEffect alt="login" src="/static/illustrations/right-financial.svg" />
           </SectionStyle>
         )}
 
         <Container maxWidth="sm">
           <ContentStyle>
-            <Stack direction="row" alignItems="center" sx={{ mb: 5 }}>
-              <Box sx={{ flexGrow: 1 }}>
+            <Stack direction="column" sx={{ mb: 5 }}>
+              <Box sx={{ flexGrow: 1, justifyContent: 'right', mx: 'auto' }}>
                 <Typography variant="h4" gutterBottom>
-                  Đăng nhập hệ thống nội bộ
+                  Đăng nhập
                 </Typography>
               </Box>
             </Stack>

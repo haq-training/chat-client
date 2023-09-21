@@ -1,11 +1,11 @@
 import { lazy, Suspense } from 'react';
 import { Navigate, useLocation, useRoutes } from 'react-router-dom';
-import MainLayout from '../layouts/main';
+// import MainLayout from '../layouts/main';
 // import LogoOnlyLayout from '../layouts/LogoOnlyLayout';
 // import GuestGuard from '../guards/GuestGuard';
 // import AuthGuard from '../guards/AuthGuard';
 // import RoleBasedGuard from '../guards/RoleBasedGuard';
-import { PATH_AFTER_LOGIN } from '../config';
+// import { PATH_AFTER_LOGIN } from '../config';
 import LoadingScreen from '../components/LoadingScreen';
 import { DashboardLayout } from '../layouts/dashboard';
 
@@ -34,6 +34,10 @@ export default function Router() {
         {
           path: 'dang-ky',
           element: <Register />,
+        },
+        {
+          path: 'reset-mat-khau',
+          element: <ResetPassword/>
         },
       ],
     },
@@ -73,6 +77,8 @@ export default function Router() {
 // AUTHENTICATION
 const Login = Loadable(lazy(() => import('../pages/auth/Login')));
 const Register = Loadable(lazy(() => import('../pages/auth/Register')));
+const ResetPassword = Loadable(lazy(() => import('../pages/auth/ResetPassword')));
+
 
 // MAIN
 // const HomePage = Loadable(lazy(() => import('../pages/Home')));
