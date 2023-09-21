@@ -4,9 +4,6 @@ import { useTheme } from '@mui/material/styles';
 import { useSelector } from 'react-redux';
 import ContactForm from '../../sections/@dashboard/contacts/contactForm';
 import Conversation from '../../components/Conversation';
-import Contact from '../../sections/@dashboard/contacts/Contact';
-import StarredMessages from '../../components/StarredMessages';
-import SharedMessages from '../../components/SharedMessages';
 
 export default function Contacts() {
   const theme = useTheme();
@@ -23,22 +20,6 @@ export default function Contacts() {
       >
         <Conversation />
       </Box>
-      {sidebar.open &&
-        (() => {
-          switch (sidebar.type) {
-            case 'CONTACT':
-              return <Contact />;
-
-            case 'STARRED':
-              return <StarredMessages />;
-
-            case 'SHARED':
-              return <SharedMessages />;
-
-            default:
-              return null;
-          }
-        })()}
     </Stack>
   );
 }
