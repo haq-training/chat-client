@@ -3,6 +3,9 @@ function path(root, subLink) {
   return `${root}${subLink}`;
 }
 
+const ROOTS_AUTH = '/auth';
+const ROOTS_DASHBOARD = '/dashboard';
+
 export const SINGLE_KEY_PATH = {
   dashboard: 'dashboard',
   auth: 'auth',
@@ -15,13 +18,8 @@ export const SINGLE_KEY_PATH = {
   product: 'san-pham',
   user: 'nguoi-dung',
   chat: 'chat',
-  contacts: 'danh-ba-ban-be',
-  pinned: 'muc-ghim',
+  contacts: 'danh-ba',
 };
-
-const ROOTS_AUTH = `/${SINGLE_KEY_PATH.auth}`;
-const ROOTS_DASHBOARD = `/${SINGLE_KEY_PATH.dashboard}`;
-
 
 // ----------------------------------------------------------------------
 
@@ -29,7 +27,7 @@ export const PATH_AUTH = {
   root: ROOTS_AUTH,
   login: path(ROOTS_AUTH, `/dang-nhap`),
   register: path(ROOTS_AUTH, `/dang-ky`),
-  resetPassword: path(ROOTS_AUTH, `/reset-mat-khau`),
+  resetPassword: path(ROOTS_AUTH, `/doi-mat-khau`),
   logout: path(ROOTS_AUTH, `/dang-xuat`),
 };
 
@@ -40,8 +38,10 @@ export const SSM_PATH_DASHBOARD = {
   general: {
     app: path(ROOTS_DASHBOARD, '/app'),
   },
-  chat: path(ROOTS_DASHBOARD, '/chat'),
   userAccount: path(ROOTS_DASHBOARD, `/thong-tin-tai-khoan`),
   contacts: path(ROOTS_DASHBOARD, '/danh-ba-ban-be'),
   pinned: path(ROOTS_DASHBOARD, '/muc-ghim'),
+  call: path(ROOTS_DASHBOARD, '/goi-dien'),
+  group: path(ROOTS_DASHBOARD, '/nhom'),
+  settings: path(ROOTS_DASHBOARD, '/cai-dat'),
 };

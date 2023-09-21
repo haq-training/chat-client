@@ -65,7 +65,7 @@ export default function NavVertical({ openNav, onCloseNav, setMessageIncome }) {
           flexShrink: 0,
         }}
       >
-        <Logo cusHeight={30} cusWidth={80} />
+        <Logo cusHeight={60} cusWidth={60} />
 
         <AccPopoverStyledRoot>
           <Stack spacing={1}>

@@ -9,11 +9,11 @@ import { Box } from '@mui/material';
 const RootStyle = styled('div')(() => ({
   flexGrow: 1,
   height: '100%',
-  overflow: 'hidden',
+  overflow: 'scroll',
 }));
 
 const SimpleBarStyle = styled(SimpleBarReact)(({ theme }) => ({
-  maxHeight: '100%',
+  // maxHeight: '100%',
   '& .simplebar-scrollbar': {
     '&:before': {
       backgroundColor: alpha(theme.palette.grey[600], 0.48),
@@ -31,6 +31,9 @@ const SimpleBarStyle = styled(SimpleBarReact)(({ theme }) => ({
   '& .simplebar-mask': {
     zIndex: 'inherit',
   },
+  "& .simplebar-placeholder": {
+    height: '0 !important',
+  }
 }));
 
 // ----------------------------------------------------------------------
@@ -61,3 +64,5 @@ export default function Scrollbar({ children, sx, ...other }) {
     </RootStyle>
   );
 }
+
+export {SimpleBarStyle};

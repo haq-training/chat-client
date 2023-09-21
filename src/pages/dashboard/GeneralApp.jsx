@@ -2,18 +2,18 @@ import React from 'react';
 import { Box, Stack } from '@mui/material';
 import { useTheme } from '@mui/material/styles';
 import { useSelector } from 'react-redux';
-import ContactForm from '../../sections/@dashboard/contacts/contactForm';
+import Chats from './Chat';
 import Conversation from '../../components/Conversation';
 import Contact from '../../sections/@dashboard/contacts/Contact';
-import StarredMessages from '../../components/StarredMessages';
 import SharedMessages from '../../components/SharedMessages';
+import StarredMessages from '../../components/StarredMessages';
 
-export default function Contacts() {
+export default function GeneralApp() {
   const theme = useTheme();
   const { sidebar } = useSelector((store) => store.app);
   return (
     <Stack direction="row" sx={{ width: '100%' }}>
-      <ContactForm />
+      <Chats />
       <Box
         sx={{
           height: '100%',
