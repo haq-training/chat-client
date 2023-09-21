@@ -8,7 +8,7 @@ import Logo from '../../components/Logo';
 import Image from '../../components/Image';
 import { LoginForm } from '../../sections/auth/login';
 import UnAuthorizationPage from '../../components/UnAuthorizationPage';
-import { PATH_AUTH } from '../../routes/paths';
+// import { PATH_AUTH } from '../../routes/paths';
 // ----------------------------------------------------------------------
 
 const RootStyle = styled('div')(({ theme }) => ({

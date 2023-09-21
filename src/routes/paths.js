@@ -35,12 +35,13 @@ export const PATH_DOCS = 'https://tcn.techbyq.app/';
 
 export const SSM_PATH_DASHBOARD = {
   root: ROOTS_DASHBOARD,
-
   general: {
     app: path(ROOTS_DASHBOARD, '/app'),
   },
-  chat: path(ROOTS_DASHBOARD, '/chat'),
   userAccount: path(ROOTS_DASHBOARD, `/thong-tin-tai-khoan`),
   contacts: path(ROOTS_DASHBOARD, '/danh-ba-ban-be'),
   pinned: path(ROOTS_DASHBOARD, '/muc-ghim'),
+  call: path(ROOTS_DASHBOARD, '/goi-dien'),
+  group: path(ROOTS_DASHBOARD, '/nhom'),
+  settings: path(ROOTS_DASHBOARD, '/cai-dat'),
 };
