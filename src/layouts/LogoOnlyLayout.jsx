@@ -24,7 +24,7 @@ export default function LogoOnlyLayout() {
   return (
     <>
       <HeaderStyle>
-        <Logo sx={{ width: 80, height: 36 }} />
+        <Logo sx={{ width: 24, height: 12 }} />
       </HeaderStyle>
       <Outlet context={{ setPageHeading }} />
     </>

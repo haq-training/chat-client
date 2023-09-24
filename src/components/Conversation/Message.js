@@ -10,7 +10,6 @@ const Message = ({ menu }) => (
         switch (el.type) {
           case 'divider':
             return <TimeLine el={el} />;
-
           case 'msg':
             switch (el.subtype) {
               case 'img':
@@ -26,8 +25,6 @@ const Message = ({ menu }) => (
               default:
                 return <TextMsg el={el} menu={menu} />;
             }
-            break;
-
           default:
             return <></>;
         }

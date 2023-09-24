@@ -9,6 +9,7 @@ import { Box, Container, Link, Typography } from '@mui/material';
 // routes
 import { Link as RouterLink } from 'react-router-dom';
 import { blueGrey, red } from '@mui/material/colors';
+// import background from '../../../../../../../public/static/illustrations/b2.jpg';
 import { PATH_AUTH } from '../../routes/paths';
 // components
 import Page from '../../components/Page';
@@ -60,7 +61,13 @@ export default function ResetPassword() {
   // const [sent, setSent] = useState(false);
 
   return (
-    <Page title="Reset Password" sx={{ height: 1 }}>
+    <Page
+      title="Reset Password"
+      sx={{
+        height: 1,
+        backgroundImage: `url("https://img.freepik.com/free-vector/flat-geometric-background_23-2148957201.jpg?w=1480&t=st=1695577077~exp=1695577677~hmac=716bbf8204175c2a4167b3c4c24fb6a0e2c550035f325179fc2047f78ebf4bcf")`,
+      }}
+    >
       <RootStyle>
         <HeaderStyle>
           <Typography sx={{ mt: { md: -2 } }}>
