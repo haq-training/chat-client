@@ -59,23 +59,28 @@ export default function Login() {
 
   return (
     <UnAuthorizationPage title="Đăng nhập">
-      <RootStyle>
+      <RootStyle
+        sx={{
+          height: 1,
+          backgroundImage: `url("https://img.freepik.com/free-vector/powder-pastel-with-hand-drawn-elements-background_23-2148583790.jpg?w=1480&t=st=1695577378~exp=1695577978~hmac=ab3d981cf1e1beebe66c28930afb736ee31e72daeffb5bc5ffde509eacbc5cc1")`,
+        }}
+      >
         <HeaderStyle>
           <Logo />
         </HeaderStyle>
 
         {mdUp && (
           <SectionStyle>
-            <Image visibleByDefault disabledEffect alt="login" src="/static/illustrations/security.png" />
+            <Image visibleByDefault disabledEffect alt="login" src="/static/illustrations/right-financial.svg" />
           </SectionStyle>
         )}
 
         <Container maxWidth="sm">
           <ContentStyle>
-            <Stack direction="row" alignItems="center" sx={{ mb: 5 }}>
-              <Box sx={{ flexGrow: 1 }}>
+            <Stack direction="column" sx={{ mb: 5 }}>
+              <Box sx={{ flexGrow: 1, justifyContent: 'right', mx: 'auto' }}>
                 <Typography variant="h4" gutterBottom>
-                  Đăng nhập hệ thống nội bộ
+                  Đăng nhập
                 </Typography>
               </Box>
             </Stack>

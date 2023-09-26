@@ -7,37 +7,27 @@ const Message = ({ menu }) => (
   <Box p={3}>
     <Stack spacing={3}>
       {chatHistory.map((el) => {
-        let renderedComponent = null;
-
         switch (el.type) {
           case 'divider':
-            renderedComponent = <TimeLine el={el} />;
-            break;
-
+            return <TimeLine el={el} />;
           case 'msg':
             switch (el.subtype) {
               case 'img':
-                renderedComponent = <MediaMsg el={el} menu={menu} />;
-                break;
+                return <MediaMsg el={el} menu={menu} />;
               case 'doc':
-                renderedComponent = <DocMsg el={el} menu={menu} />;
-                break;
+                return <DocMsg el={el} menu={menu} />;
+
               case 'link':
-                renderedComponent = <LinkMsg el={el} menu={menu} />;
-                break;
+                return <LinkMsg el={el} menu={menu} />;
               case 'reply':
-                renderedComponent = <ReplyMsg el={el} menu={menu} />;
-                break;
+                return <ReplyMsg el={el} menu={menu} />;
+
               default:
-                renderedComponent = <TextMsg el={el} menu={menu} />;
+                return <TextMsg el={el} menu={menu} />;
             }
-            break;
-
           default:
-            break;
+            return <></>;
         }
-
-        return renderedComponent;
       })}
     </Stack>
   </Box>

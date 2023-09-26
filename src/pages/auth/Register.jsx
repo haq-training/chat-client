@@ -5,7 +5,7 @@ import { styled } from '@mui/material/styles';
 import { Box, Card, Container, Link, Typography } from '@mui/material';
 import useResponsive from '../../hooks/useResponsive';
 import { PATH_AUTH } from '../../routes/paths';
-import Page from '../../components/Page';
+// import Page from '../../components/Page';
 import Logo from '../../components/Logo';
 import Image from '../../components/Image';
 import { RegisterForm } from '../../sections/auth/register';
@@ -22,7 +22,7 @@ const HeaderStyle = styled('header')(({ theme }) => ({
   top: 0,
   zIndex: 9,
   lineHeight: 0,
-  width: '100%',
+  width: '70%',
   display: 'flex',
   alignItems: 'center',
   position: 'absolute',
@@ -49,7 +49,9 @@ const ContentStyle = styled('div')(({ theme }) => ({
   display: 'flex',
   minHeight: '100vh',
   flexDirection: 'column',
+
   justifyContent: 'center',
+  textAlign: 'center',
   padding: theme.spacing(12, 0),
 }));
 
@@ -62,14 +64,19 @@ export default function Register() {
 
   return (
     <>
-      <RootStyle>
+      <RootStyle
+        sx={{
+          height: 1,
+          backgroundImage: `url("https://img.freepik.com/free-vector/hand-painted-watercolor-abstract-watercolor-background_23-2148999934.jpg?w=1480&t=st=1695577150~exp=1695577750~hmac=a06959aa6c2e192e0511d3d3475c3ff5afbf9338250262222ddbbfc1c89bdb42")`,
+        }}
+      >
         <HeaderStyle>
-          <Logo sx={{ width: 80, height: 36 }} />
+          <Logo sx={{ width: 36, height: 24 }} />
           {smUp && (
             <Typography variant="body2" sx={{ mt: { md: -2 } }}>
               Bạn đã có tài khoản?{' '}
               <Link variant="subtitle2" component={RouterLink} to={PATH_AUTH.login}>
-                Đăng nhập ngay
+                Đăng nhập ngay.
               </Link>
             </Typography>
           )}
@@ -102,7 +109,7 @@ export default function Register() {
               <Typography variant="body2" sx={{ mt: 3, textAlign: 'center' }}>
                 Bạn đã có tài khoản?{' '}
                 <Link variant="subtitle2" to={PATH_AUTH.login} component={RouterLink}>
-                  Đăng nhập ngay
+                  Đăng nhập ngay.
                 </Link>
               </Typography>
             )}

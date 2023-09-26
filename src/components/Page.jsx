@@ -2,18 +2,18 @@
 
 import PropTypes from 'prop-types';
 import { Helmet } from 'react-helmet-async';
-import { forwardRef, useEffect } from 'react';
+import { forwardRef } from 'react';
 import { Box } from '@mui/material';
-import { useOutletContext } from 'react-router';
+// import { useOutletContext } from 'react-router';
 
 // ----------------------------------------------------------------------
 
-const Page = forwardRef(({ children, title = '', meta, ...other }, ref) => {
-  const { setPageHeading } = useOutletContext();
-  useEffect(() => {
-    setPageHeading(title);
-  }, [setPageHeading, title]);
-  return (
+const Page = forwardRef(({ children, title = '', meta, ...other }, ref) => 
+  // const { setPageHeading } = useOutletContext();
+  // useEffect(() => {
+  //   setPageHeading(title);
+  // }, [setPageHeading, title]);
+   (
     <>
       <Helmet>
         <title>{`${title} | Công ty CP Thép Công Nghiệp HN`}</title>
@@ -24,8 +24,8 @@ const Page = forwardRef(({ children, title = '', meta, ...other }, ref) => {
         {children}
       </Box>
     </>
-  );
-});
+  )
+);
 
 Page.propTypes = {
   children: PropTypes.node.isRequired,

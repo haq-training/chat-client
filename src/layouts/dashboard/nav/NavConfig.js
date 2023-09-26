@@ -5,8 +5,6 @@ import {
 
 // ----------------------------------------------------------------------
 
-const commonNavConfig = () => {
-  return chat;
-};
+const commonNavConfig = () => chat;
 
 export default commonNavConfig;
