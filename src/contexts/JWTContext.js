@@ -1,8 +1,14 @@
 import { createContext, useEffect, useReducer } from 'react';
 import PropTypes from 'prop-types';
 // utils
-import axios from '../utils/axios';
+import { loader } from 'graphql.macro';
+import { useLazyQuery } from '@apollo/client';
 import { isValidToken, setSession } from '../utils/jwt';
+import { SESSION_KEY } from '../constant';
+
+// ----------------------------------------------------------------------
+const LOGIN = loader('../graphql/queries/auth/login.graphql');
+const PROFILE = loader('../graphql/queries/user/me.graphql');
 
 // ----------------------------------------------------------------------
 
@@ -36,15 +42,6 @@ const handlers = {
     isAuthenticated: false,
     user: null,
   }),
-  REGISTER: (state, action) => {
-    const { user } = action.payload;
-
-    return {
-      ...state,
-      isAuthenticated: true,
-      user,
-    };
-  },
 };
 
 const reducer = (state, action) => (handlers[action.type] ? handlers[action.type](state, action) : state);
@@ -54,7 +51,6 @@ const AuthContext = createContext({
   method: 'jwt',
   login: () => Promise.resolve(),
   logout: () => Promise.resolve(),
-  register: () => Promise.resolve(),
 });
 
 // ----------------------------------------------------------------------
@@ -66,24 +62,63 @@ AuthProvider.propTypes = {
 function AuthProvider({ children }) {
   const [state, dispatch] = useReducer(reducer, initialState);
 
+  const [loginFn] = useLazyQuery(LOGIN, {
+    onCompleted: async (res) => {
+      if (res) {
+        return res;
+      }
+      return null;
+    },
+  });
+
+  const [fetchProfile] = useLazyQuery(PROFILE, {
+    fetchPolicy: 'network-only',
+    onCompleted: async (res) => {
+      if (res) {
+        return res.userInfo;
+      }
+      return null;
+    },
+  });
+
   useEffect(() => {
     const initialize = async () => {
       try {
-        const accessToken = window.localStorage.getItem('accessToken');
+        const accessToken = window.localStorage.getItem(SESSION_KEY.ACCESS_TOKEN);
 
         if (accessToken && isValidToken(accessToken)) {
           setSession(accessToken);
-
-          const response = await axios.get('/api/account/my-account');
-          const { user } = response.data;
-
-          dispatch({
-            type: 'INITIALIZE',
-            payload: {
-              isAuthenticated: true,
-              user,
-            },
-          });
+          const fetchedData = await fetchProfile();
+          const user = fetchedData.me ?? fetchedData?.data?.me;
+          if (user) {
+            const currentUser = {
+              ...user,
+              id: `${user?.id}`,
+              role: user?.role,
+              signatureImg: user?.signatureImg,
+              displayName: user?.fullName,
+              photoURL: user?.avatarURL,
+              status: user?.isActive === true ? 'Đang hoạt động' : 'Ngừng hoạt động',
+              phone: user?.phoneNumber,
+              company: 'Công ty CP Thép Công Nghiệp HN',
+            };
+            dispatch({
+              type: 'INITIALIZE',
+              payload: {
+                isAuthenticated: true,
+                user: currentUser,
+              },
+            });
+          } else {
+            setSession(null);
+            dispatch({
+              type: 'INITIALIZE',
+              payload: {
+                isAuthenticated: false,
+                user: null,
+              },
+            });
+          }
         } else {
           dispatch({
             type: 'INITIALIZE',
@@ -105,41 +140,46 @@ function AuthProvider({ children }) {
       }
     };
 
-    initialize();
-  }, []);
+    initialize().catch((e) => console.error(e));
+  }, [fetchProfile]);
 
-  const login = async (email, password) => {
-    const response = await axios.post('/api/account/login', {
-      email,
-      password,
-    });
-    const { accessToken, user } = response.data;
-
-    setSession(accessToken);
-    dispatch({
-      type: 'LOGIN',
-      payload: {
-        user,
+  const login = async (account, password) => {
+    const response = await loginFn({
+      variables: {
+        input: {
+          account,
+          password,
+        },
       },
+      fetchPolicy: 'cache-and-network',
+    }).catch((e) => {
+      throw e;
     });
-  };
-
-  const register = async (email, password, firstName, lastName) => {
-    const response = await axios.post('/api/account/register', {
-      email,
-      password,
-      firstName,
-      lastName,
-    });
-    const { accessToken, user } = response.data;
-
-    window.localStorage.setItem('accessToken', accessToken);
-    dispatch({
-      type: 'REGISTER',
-      payload: {
-        user,
-      },
-    });
+    if (!response.error && response.data.login) {
+      const { token, user } = response.data.login;
+      const currentUser = {
+        ...user,
+        id: `${user?.id}`,
+        role: user?.role,
+        signatureImg: user?.signatureImg,
+        displayName: user?.fullName,
+        photoURL: user?.avatarURL,
+        status: user?.isActive === true ? 'Đang hoạt động' : 'Ngừng hoạt động',
+        phone: user?.phoneNumber,
+        company: 'Công ty CP Thép Công Nghiệp HN',
+      };
+      setSession(token);
+      dispatch({
+        type: 'LOGIN',
+        payload: {
+          isAuthenticated: true,
+          user: currentUser,
+        },
+      });
+    }
+    if (response.errors) {
+      throw response.error;
+    }
   };
 
   const logout = async () => {
@@ -154,7 +194,6 @@ function AuthProvider({ children }) {
         method: 'jwt',
         login,
         logout,
-        register,
       }}
     >
       {children}

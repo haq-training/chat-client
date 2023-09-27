@@ -2,7 +2,7 @@ import { lazy, Suspense } from 'react';
 import { Navigate, useLocation, useRoutes } from 'react-router-dom';
 import MainLayout from '../layouts/main';
 import LogoOnlyLayout from '../layouts/LogoOnlyLayout';
-// import GuestGuard from '../guards/GuestGuard';
+import GuestGuard from '../guards/GuestGuard';
 // import AuthGuard from '../guards/AuthGuard';
 // import RoleBasedGuard from '../guards/RoleBasedGuard';
 import { PATH_AFTER_LOGIN } from '../config';
@@ -30,11 +30,19 @@ export default function Router() {
       children: [
         {
           path: 'dang-nhap',
-          element: <Login />,
+          element: (
+            <GuestGuard>
+              <Login />
+            </GuestGuard>
+          ),
         },
         {
           path: 'dang-ky',
-          element: <Register />,
+          element: (
+            <GuestGuard>
+              <Register />
+            </GuestGuard>
+          ),
         },
         { path: 'doi-mat-khau', element: <ResetPassword /> },
       ],

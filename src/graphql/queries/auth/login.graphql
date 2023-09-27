@@ -1,0 +1,18 @@
+query Query($input: UserLoginInput!) {
+  login(input: $input) {
+    token
+    user {
+      id
+      email
+      firstName
+      lastName
+      status
+      story
+      createdAt
+      updatedAt
+      role
+      location
+      avatarUrl
+    }
+  }
+}

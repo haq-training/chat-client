@@ -2,6 +2,7 @@ import { BrowserRouter } from 'react-router-dom';
 import { HelmetProvider } from 'react-helmet-async';
 import { Provider as ReduxProvider } from 'react-redux';
 import { PersistGate } from 'redux-persist/lib/integration/react';
+import { ApolloProvider } from '@apollo/client';
 // import AdapterDateFns from '@mui/lab/AdapterDateFns';
 // import LocalizationProvider from '@mui/lab/LocalizationProvider';
 // mock api
@@ -20,7 +21,8 @@ import 'react-lazy-load-image-component/src/effects/black-and-white.css';
 import React from 'react';
 import { persistor, store } from './redux/store';
 
-// import { AuthProvider } from './contexts/JWTContext';
+import { AuthProvider } from './contexts/JWTContext';
+import apolloConnection from './apolloServer';
 import Router from './routes';
 import ThemeProvider from './theme';
 import { SettingsProvider, ThemeSettings } from './components/settings';
@@ -35,29 +37,33 @@ import { SnackbarProvider } from './components/snackbar';
 
 export default function App() {
   return (
-    <HelmetProvider>
-      <ReduxProvider store={store}>
-        <PersistGate loading={null} persistor={persistor}>
-          <SettingsProvider>
-            <BrowserRouter>
-              <ScrollToTop />
-              <MotionLazyContainer>
-                <ThemeProvider>
-                  <ThemeSettings>
-                    <ThemeLocalization>
-                      <SnackbarProvider>
-                        <ProgressBarStyle />
-                        <ChartStyle />
-                        <Router />
-                      </SnackbarProvider>
-                    </ThemeLocalization>
-                  </ThemeSettings>
-                </ThemeProvider>
-              </MotionLazyContainer>
-            </BrowserRouter>
-          </SettingsProvider>
-        </PersistGate>
-      </ReduxProvider>
-    </HelmetProvider>
+    <ApolloProvider client={apolloConnection}>
+      <AuthProvider>
+        <HelmetProvider>
+          <ReduxProvider store={store}>
+            <PersistGate loading={null} persistor={persistor}>
+              <SettingsProvider>
+                <BrowserRouter>
+                  <ScrollToTop />
+                  <MotionLazyContainer>
+                    <ThemeProvider>
+                      <ThemeSettings>
+                        <ThemeLocalization>
+                          <SnackbarProvider>
+                            <ProgressBarStyle />
+                            <ChartStyle />
+                            <Router />
+                          </SnackbarProvider>
+                        </ThemeLocalization>
+                      </ThemeSettings>
+                    </ThemeProvider>
+                  </MotionLazyContainer>
+                </BrowserRouter>
+              </SettingsProvider>
+            </PersistGate>
+          </ReduxProvider>
+        </HelmetProvider>
+      </AuthProvider>
+    </ApolloProvider>
   );
 }

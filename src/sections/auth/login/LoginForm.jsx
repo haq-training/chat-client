@@ -2,10 +2,10 @@
 
 import * as Yup from 'yup';
 import { useEffect, useMemo, useState } from 'react';
-import { Link as RouterLink, useNavigate } from 'react-router-dom';
+import { Link as RouterLink } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
-import { Alert, IconButton, InputAdornment, Link, Stack, TextField } from '@mui/material';
+import { Alert, IconButton, InputAdornment, Link, Stack } from '@mui/material';
 import { LoadingButton } from '@mui/lab';
 import { PATH_AUTH } from '../../../routes/paths';
 import useIsMountedRef from '../../../hooks/useIsMountedRef';
@@ -27,8 +27,8 @@ export default function LoginForm() {
 
   const defaultValues = useMemo(
     () => ({
-      email: 'demo123@gmail.com',
-      password: 'Demo.123',
+      email: '',
+      password: '',
       remember: true,
     }),
     []
@@ -43,13 +43,8 @@ export default function LoginForm() {
     reset,
     setError,
     handleSubmit,
-    watch,
     formState: { errors, isSubmitting },
   } = methods;
-
-  const values = watch();
-
-  console.log('values', values);
 
   useEffect(() => {
     reset(defaultValues);
@@ -91,6 +86,7 @@ export default function LoginForm() {
       </Stack>
 
       <Stack direction="row" alignItems="center" justifyContent="space-between" sx={{ my: 2 }}>
+        <RHFCheckbox name="remember" label="Ghi nhớ tài khoản" />
         <Link component={RouterLink} variant="subtitle2" to={PATH_AUTH.resetPassword}>
           Quên mật khẩu?
         </Link>

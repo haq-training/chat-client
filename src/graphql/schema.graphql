@@ -1,0 +1,74 @@
+# This file was generated. Do not edit manually.
+
+schema {
+    query: Query
+    mutation: Mutation
+}
+
+type Mutation {
+    register(input: CreateUserInput!): User!
+}
+
+type PageInfo {
+    endCursor: Cursor
+    hasNextPage: Boolean!
+}
+
+type Query {
+    login(input: UserLoginInput!): UserLoginResponse!
+    me: User!
+}
+
+type User {
+    avatarUrl: String
+    createdAt: Date
+    email: String!
+    firstName: String!
+    id: Int!
+    lastName: String!
+    location: String
+    role: Int!
+    status: Boolean
+    story: String
+    updatedAt: Date
+}
+
+type UserLoginResponse {
+    token: String!
+    user: User!
+}
+
+enum SuccessResponse {
+    success
+}
+
+scalar Cursor
+
+scalar Date
+
+scalar JSON
+
+scalar Upload
+
+input CreateUserInput {
+    avatarUrl: Upload
+    email: String!
+    firstName: String!
+    lastName: String!
+    location: String
+    password: String!
+    role: Int!
+    story: String
+}
+
+input PaginationInput {
+    after: Cursor
+    before: Cursor
+    first: Int
+    last: Int
+}
+
+input UserLoginInput {
+    account: String!
+    password: String!
+}
