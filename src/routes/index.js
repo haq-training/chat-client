@@ -4,8 +4,8 @@ import MainLayout from '../layouts/main';
 import LogoOnlyLayout from '../layouts/LogoOnlyLayout';
 import GuestGuard from '../guards/GuestGuard';
 // import AuthGuard from '../guards/AuthGuard';
-// import RoleBasedGuard from '../guards/RoleBasedGuard';
 import { PATH_AFTER_LOGIN } from '../config';
+import { SINGLE_KEY_PATH } from './paths';
 import LoadingScreen from '../components/LoadingScreen';
 import { DashboardLayout } from '../layouts/dashboard';
 
@@ -26,7 +26,6 @@ export default function Router() {
   return useRoutes([
     {
       path: '/auth',
-      element: <MainLayout />,
       children: [
         {
           path: 'dang-nhap',
@@ -49,10 +48,15 @@ export default function Router() {
     },
     // Dashboard Routes
     {
-      path: '/',
-      element: <DashboardLayout />,
+      path: SINGLE_KEY_PATH.dashboard,
+      element: (
+        // (
+        // <AuthGuard>
+        <DashboardLayout />
+      ),
+      //   </AuthGuard>
+      // ),
       children: [
-        { element: <Navigate to={PATH_AFTER_LOGIN} replace />, index: true },
         { path: 'app', element: <GeneralApp /> },
         { path: 'cai-dat', element: <Settings /> },
         { path: 'goi-dien', element: <Call /> },
@@ -68,6 +72,11 @@ export default function Router() {
         { path: '404', element: <NotFound /> },
         { path: '*', element: <Navigate to="/404" replace /> },
       ],
+    },
+    {
+      path: '/',
+      element: <MainLayout />,
+      children: [{ element: <Navigate to={PATH_AFTER_LOGIN} replace />, index: true }],
     },
   ]);
 }

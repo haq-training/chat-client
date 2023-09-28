@@ -14,11 +14,13 @@ export const SINGLE_KEY_PATH = {
   verify: 'verify',
   resetPassword: 'reset-password',
   app: 'app',
-  userAccount: 'thong-tin-tai-khoan',
-  product: 'san-pham',
+  userAccount: 'thong-tin',
   user: 'nguoi-dung',
   chat: 'chat',
   contacts: 'danh-ba',
+  call: 'goi-dien',
+  pinned: 'muc-ghim',
+  settings: 'cai-dat',
 };
 
 // ----------------------------------------------------------------------
@@ -38,10 +40,9 @@ export const SSM_PATH_DASHBOARD = {
   general: {
     app: path(ROOTS_DASHBOARD, '/app'),
   },
-  userAccount: path(ROOTS_DASHBOARD, `/thong-tin-tai-khoan`),
-  contacts: path(ROOTS_DASHBOARD, '/danh-ba-ban-be'),
+  userAccount: path(ROOTS_DASHBOARD, `/thong-tin`),
+  contacts: path(ROOTS_DASHBOARD, '/danh-ba'),
   pinned: path(ROOTS_DASHBOARD, '/muc-ghim'),
   call: path(ROOTS_DASHBOARD, '/goi-dien'),
-  group: path(ROOTS_DASHBOARD, '/nhom'),
   settings: path(ROOTS_DASHBOARD, '/cai-dat'),
 };

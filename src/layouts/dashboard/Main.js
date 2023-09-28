@@ -1,45 +1,49 @@
 import React, { useState } from 'react';
-import { Avatar, Box, Divider, IconButton, Menu, MenuItem, Stack, Switch } from '@mui/material';
+import { Avatar, Box, Divider, IconButton, Menu, MenuItem, Stack } from '@mui/material';
 import { useTheme } from '@mui/material/styles';
 import { Gear } from 'phosphor-react';
 import { faker } from '@faker-js/faker';
 import { useNavigate } from 'react-router-dom';
-import { profileMenu, navButtons } from '../../_apis_/data';
+import { navButtons, profileMenu } from '../../_apis_/data';
 import useSettings from '../../hooks/useSettings';
 import AntSwitch from '../../components/AntSwitch';
-// import Logo from '../../assets/Images/logo.ico';
 import Logo from '../../components/Logo';
 
+// eslint-disable-next-line consistent-return
 const getPath = (index) => {
   switch (index) {
     case 0:
-      return '/app';
+      return '/dashboard/app';
 
     case 1:
-      return '/group';
+      return '/dashboard/danh-ba';
 
     case 2:
-      return '/call';
+      return '/dashboard/goi-dien';
 
     case 3:
-      return '/settings';
+      return '/dashboard/muc-ghim';
+
+    case 4:
+      return '/dashboard/cai-dat';
 
     default:
       break;
   }
 };
 
+// eslint-disable-next-line consistent-return
 const getMenuPath = (index) => {
   switch (index) {
     case 0:
       return '/profile';
 
     case 1:
-      return '/settings';
+      return '/dashboard/cai-dat';
 
     case 2:
       // todo - update token and set isAuth = false
-      return '/auth/login';
+      return '/auth/dang-nhap';
 
     default:
       break;
@@ -47,8 +51,8 @@ const getMenuPath = (index) => {
 };
 
 const SideBar = () => {
-  const [anchorEl, setAnchorEl] = React.useState(null);
-  const open = Boolean(anchorEl);
+  const [anchor, setAnchorEl] = React.useState(null);
+  const open = Boolean(anchor);
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
     navigate();
@@ -108,7 +112,7 @@ const SideBar = () => {
               )
             )}
             <Divider sx={{ width: '48px' }} />
-            {selected === 3 ? (
+            {selected === 4 ? (
               <Box sx={{ backgroundColor: theme.palette.primary.main, borderRadius: 1.5 }}>
                 <IconButton sx={{ width: 'max-content', color: '#fff' }}>
                   <Gear />
@@ -117,8 +121,8 @@ const SideBar = () => {
             ) : (
               <IconButton
                 onClick={() => {
-                  setSelected(3);
-                  navigate(getPath(3));
+                  setSelected(4);
+                  navigate(getPath(4));
                 }}
                 sx={{
                   width: 'max-content',
@@ -149,7 +153,7 @@ const SideBar = () => {
           />
           <Menu
             id="basic-menu"
-            anchorEl={anchorEl}
+            anchorEl={anchor}
             open={open}
             onClose={handleClose}
             MenuListProps={{
@@ -160,6 +164,7 @@ const SideBar = () => {
           >
             <Stack spacing={1} px={1}>
               {profileMenu.map((el, idx) => (
+                // eslint-disable-next-line react/jsx-key
                 <MenuItem
                   onClick={() => {
                     handleClick();
