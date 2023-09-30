@@ -1,5 +1,5 @@
 import { faker } from '@faker-js/faker';
-import { ChatCircleDots, Gear, GearSix, Phone, SignOut, User, Users } from 'phosphor-react';
+import { ChatCircleDots, Gear, GearSix, Phone, SignOut, User, Users, Bookmarks } from 'phosphor-react';
 
 export const profileMenu = [
   {
@@ -28,6 +28,10 @@ export const navButtons = [
   {
     index: 2,
     icon: <Phone />,
+  },
+  {
+    index: 3,
+    icon: <Bookmarks />,
   },
 ];
 

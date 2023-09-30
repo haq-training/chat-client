@@ -24,6 +24,9 @@ const getPath = (index) => {
     case 3:
       return '/settings';
 
+    case 4:
+      return '/bookmark';
+
     default:
       break;
   }
@@ -160,11 +163,7 @@ const SideBar = () => {
           >
             <Stack spacing={1} px={1}>
               {profileMenu.map((el, idx) => (
-                <MenuItem
-                  onClick={() => {
-                    handleClick();
-                  }}
-                >
+                <MenuItem>
                   <Stack
                     onClick={() => {
                       navigate(getMenuPath(idx));

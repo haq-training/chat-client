@@ -22,7 +22,6 @@ const HeaderStyle = styled('header')(({ theme }) => ({
   zIndex: 9,
   lineHeight: 0,
   width: '100%',
-  display: 'flex',
   alignItems: 'center',
   position: 'absolute',
   padding: theme.spacing(3),
@@ -35,11 +34,11 @@ const HeaderStyle = styled('header')(({ theme }) => ({
 
 const SectionStyle = styled(Card)(({ theme }) => ({
   width: '100%',
-  maxWidth: 464,
+  maxWidth: 600,
   display: 'flex',
   flexDirection: 'column',
   justifyContent: 'center',
-  margin: theme.spacing(2, 0, 2, 2),
+  margin: theme.spacing('auto'),
 }));
 
 const ContentStyle = styled('div')(({ theme }) => ({
@@ -59,16 +58,10 @@ export default function Login() {
 
   return (
     <UnAuthorizationPage title="Đăng nhập">
-      <RootStyle
-        sx={{
-          height: 1,
-          backgroundImage: `url("https://img.freepik.com/free-vector/powder-pastel-with-hand-drawn-elements-background_23-2148583790.jpg?w=1480&t=st=1695577378~exp=1695577978~hmac=ab3d981cf1e1beebe66c28930afb736ee31e72daeffb5bc5ffde509eacbc5cc1")`,
-        }}
-      >
+      <RootStyle>
         <HeaderStyle>
           <Logo />
         </HeaderStyle>
-
         {mdUp && (
           <SectionStyle>
             <Image visibleByDefault disabledEffect alt="login" src="/static/illustrations/right-financial.svg" />
