@@ -36,7 +36,7 @@ const getPath = (index) => {
 const getMenuPath = (index) => {
   switch (index) {
     case 0:
-      return '/profile';
+      return '/dashboard/thong-tin';
 
     case 1:
       return '/dashboard/cai-dat';

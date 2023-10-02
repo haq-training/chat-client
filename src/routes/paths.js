@@ -33,8 +33,6 @@ export const PATH_AUTH = {
   logout: path(ROOTS_AUTH, `/dang-xuat`),
 };
 
-export const PATH_DOCS = 'https://tcn.techbyq.app/';
-
 export const SSM_PATH_DASHBOARD = {
   root: ROOTS_DASHBOARD,
   general: {

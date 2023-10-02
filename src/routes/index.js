@@ -3,7 +3,7 @@ import { Navigate, useLocation, useRoutes } from 'react-router-dom';
 import MainLayout from '../layouts/main';
 import LogoOnlyLayout from '../layouts/LogoOnlyLayout';
 import GuestGuard from '../guards/GuestGuard';
-// import AuthGuard from '../guards/AuthGuard';
+import AuthGuard from '../guards/AuthGuard';
 import { PATH_AFTER_LOGIN } from '../config';
 import { SINGLE_KEY_PATH } from './paths';
 import LoadingScreen from '../components/LoadingScreen';
@@ -50,12 +50,10 @@ export default function Router() {
     {
       path: SINGLE_KEY_PATH.dashboard,
       element: (
-        // (
-        // <AuthGuard>
-        <DashboardLayout />
+        <AuthGuard>
+          <DashboardLayout />
+        </AuthGuard>
       ),
-      //   </AuthGuard>
-      // ),
       children: [
         { path: 'app', element: <GeneralApp /> },
         { path: 'cai-dat', element: <Settings /> },
