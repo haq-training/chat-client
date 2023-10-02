@@ -40,7 +40,7 @@ const SectionStyle = styled(Card)(({ theme }) => ({
   display: 'flex',
   flexDirection: 'column',
   justifyContent: 'center',
-  margin: theme.spacing(2, 0, 2, 2),
+  margin: theme.spacing('auto'),
 }));
 
 const ContentStyle = styled('div')(({ theme }) => ({
@@ -49,7 +49,6 @@ const ContentStyle = styled('div')(({ theme }) => ({
   display: 'flex',
   minHeight: '100vh',
   flexDirection: 'column',
-
   justifyContent: 'center',
   textAlign: 'center',
   padding: theme.spacing(12, 0),
@@ -64,14 +63,9 @@ export default function Register() {
 
   return (
     <>
-      <RootStyle
-        sx={{
-          height: 1,
-          backgroundImage: `url("https://img.freepik.com/free-vector/hand-painted-watercolor-abstract-watercolor-background_23-2148999934.jpg?w=1480&t=st=1695577150~exp=1695577750~hmac=a06959aa6c2e192e0511d3d3475c3ff5afbf9338250262222ddbbfc1c89bdb42")`,
-        }}
-      >
+      <RootStyle>
         <HeaderStyle>
-          <Logo sx={{ width: 36, height: 24 }} />
+          <Logo />
           {smUp && (
             <Typography variant="body2" sx={{ mt: { md: -2 } }}>
               Bạn đã có tài khoản?{' '}
