@@ -4,13 +4,12 @@ import * as Yup from 'yup';
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
-import { Alert, Stack, IconButton, InputAdornment, TextField } from '@mui/material';
+import { Alert, IconButton, InputAdornment, Stack } from '@mui/material';
 import { LoadingButton } from '@mui/lab';
 import useAuth from '../../../hooks/useAuth';
 import useIsMountedRef from '../../../hooks/useIsMountedRef';
 import Iconify from '../../../components/Iconify';
 import { FormProvider, RHFTextField } from '../../../components/hook-form';
-// import { useNavigate} from 'react-router-dom';
 
 // ----------------------------------------------------------------------
 
@@ -32,7 +31,7 @@ export default function RegisterForm() {
     email: Yup.string().email('Hãy điền 1 email').required('Email không được để trống'),
     password: Yup.string()
       .required('Mật khẩu không được để trống')
-      .min(10, 'Mật khẩu phải có ít nhất 10 ký tự hoặc hơn')
+      .min(6, 'Mật khẩu phải có ít nhất 6 ký tự hoặc hơn')
       .matches(regex.number, 'Có ít nhất 1 số.')
       .matches(regex.lowerCase, 'Có ít nhất 1 ký tự viết thường.')
       .matches(regex.upperCase, 'Có ít nhất 1 ký tự in hoa.')
@@ -55,12 +54,9 @@ export default function RegisterForm() {
     reset,
     setError,
     handleSubmit,
-    watch,
     formState: { errors, isSubmitting },
   } = methods;
-  const values = watch();
 
-  console.log('values', values);
   const onSubmit = async (data) => {
     try {
       await register(data.email, data.password, data.firstName, data.lastName);
