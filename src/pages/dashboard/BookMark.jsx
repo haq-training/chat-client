@@ -2,6 +2,9 @@ import { Box, IconButton, Stack, Typography, Button, Divider } from '@mui/materi
 import { ArchiveBox, CircleDashed, MagnifyingGlass } from 'phosphor-react';
 import { useTheme } from '@mui/material/styles';
 import React from 'react';
+import ContactForm from '../../sections/@dashboard/contacts/contactForm';
+import Conversation from '../../components/Conversation';
+import {useSelector} from "../../redux/store";
 
 export default function BookMark() {
   const theme = useTheme();
@@ -15,30 +18,13 @@ export default function BookMark() {
       }}
     >
       <Stack p={3} spacing={2} sx={{ height: '100vh' }}>
+          <ContactForm />
         <Stack direction="row" alignItems="center" justifyContent="space-between">
           <Typography variant="h5">BookMark</Typography>
           <IconButton>
             <CircleDashed />
           </IconButton>
         </Stack>
-
-        {/* <Stack sx={{ width: '100%' }}> */}
-        {/*  <Search> */}
-        {/*    <SearchIconWrapper> */}
-        {/*      <MagnifyingGlass color="#709CE6" /> */}
-        {/*    </SearchIconWrapper> */}
-        {/*    <StyledInputBase placeholder="Search..." inputProps={{ 'aria-label': 'search' }} /> */}
-        {/*  </Search> */}
-        {/* </Stack> */}
-
-        {/* <Stack spacing={1}> */}
-        {/*  <Stack direction="row" alignItems="center" spacing={1.5}> */}
-        {/*    <ArchiveBox size={24} /> */}
-        {/*    <Button>Archive</Button> */}
-        {/*  </Stack> */}
-        {/*  <Divider /> */}
-        {/* </Stack> */}
-
         <Stack spacing={2} direction="column" sx={{ flexGrow: 1, overflow: 'scroll', height: '100%' }} />
       </Stack>
     </Box>

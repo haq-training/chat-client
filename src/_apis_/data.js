@@ -78,8 +78,54 @@ export const CallLogs = [
     missed: true,
     incoming: true,
   },
+  {
+    id: 5,
+    img: faker.image.avatar(),
+    name: faker.name.firstName(),
+    missed: true,
+    incoming: false,
+  },
+
+  {
+    id: 5,
+    img: faker.image.avatar(),
+    name: faker.name.firstName(),
+    missed: false,
+    incoming: true,
+  },
 ];
 
+export const bookmarkList = [
+  {
+    id: 0,
+    img: faker.image.url(),
+  },
+
+  {
+    type: 'msg',
+    subtype: 'link',
+    preview: faker.image.cats(),
+    message: 'Yep, I can also do that',
+    incoming: true,
+    outgoing: false,
+  },
+  {
+    type: 'msg',
+    subtype: 'link',
+    preview: faker.image.cats(),
+    message: 'Yep, I can also do that',
+    incoming: true,
+    outgoing: false,
+  },
+  {
+    type: 'msg',
+    subtype: 'link',
+    preview: faker.image.cats(),
+    message: 'Yep, I can also do that',
+    incoming: true,
+    outgoing: false,
+  },
+];
 export const membersList = [
   {
     id: 0,
@@ -112,6 +158,7 @@ export const membersList = [
     online: true,
   },
 ];
+
 
 export const chatList = [
   {

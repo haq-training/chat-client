@@ -70,7 +70,7 @@ function AuthProvider({ children }) {
       return null;
     },
   });
-
+  // console.log('login',loginFn());
   const [fetchProfile] = useLazyQuery(PROFILE, {
     fetchPolicy: 'network-only',
     onCompleted: async (res) => {
@@ -90,6 +90,7 @@ function AuthProvider({ children }) {
           setSession(accessToken);
           const fetchedData = await fetchProfile();
           const user = fetchedData.me ?? fetchedData?.data?.me;
+
           if (user) {
             const currentUser = {
               ...user,
