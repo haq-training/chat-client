@@ -70,7 +70,7 @@ function AuthProvider({ children }) {
       return null;
     },
   });
-  // console.log('login',loginFn());
+
   const [fetchProfile] = useLazyQuery(PROFILE, {
     fetchPolicy: 'network-only',
     onCompleted: async (res) => {
@@ -143,6 +143,7 @@ function AuthProvider({ children }) {
 
     initialize().catch((e) => console.error(e));
   }, [fetchProfile]);
+
 
   const login = async (account, password) => {
     const response = await loginFn({

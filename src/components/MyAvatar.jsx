@@ -6,7 +6,7 @@ import Avatar from './Avatar';
 
 export default function MyAvatar({ ...other }) {
   const { user } = useAuth();
-
+  console.log('user',user);
   return (
     <Avatar
       src={user?.photoURL}

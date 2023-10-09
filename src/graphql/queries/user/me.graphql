@@ -1,10 +1,15 @@
-query me {
-  me {
+query Query($id: ID!) {
+  user(id: $id){
     id
     email
-    role
-    lastName
     firstName
+    lastName
+    status
+    story
+    createdAt
     updatedAt
+    role
+    location
+    avatarUrl
   }
 }

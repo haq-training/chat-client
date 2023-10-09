@@ -1,9 +1,9 @@
-import { Box, IconButton, Stack, Typography, Button, Divider } from '@mui/material';
-import { ArchiveBox, CircleDashed, MagnifyingGlass } from 'phosphor-react';
-import { useTheme } from '@mui/material/styles';
+import {Box, Stack, Typography} from '@mui/material';
+import {useTheme} from '@mui/material/styles';
 import React from 'react';
 import {bookmarkList} from "../../_apis_/data";
 import BookMarkElement from "../../components/BookMarksElement";
+
 
 
 export default function BookMark() {
@@ -38,3 +38,4 @@ export default function BookMark() {
    </>
   );
 }
+
