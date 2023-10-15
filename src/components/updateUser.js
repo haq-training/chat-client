@@ -1,12 +1,17 @@
 import PropTypes from 'prop-types';
+import * as Yup from "yup";
 import {loader} from 'graphql.macro';
-import {Box, Card, CardHeader, Dialog, Grid, Stack} from '@mui/material';
+import {yupResolver} from "@hookform/resolvers/yup/dist/yup";
+import {Box, Card, CardHeader, Dialog, Grid, Stack, Typography} from '@mui/material';
 import {LoadingButton} from '@mui/lab';
 import {useSnackbar} from 'notistack';
 import {useForm} from 'react-hook-form';
 import {useMutation, useQuery} from '@apollo/client';
-import {useEffect, useMemo} from 'react';
-import {FormProvider, RHFTextField} from './hook-form';
+import {useCallback, useEffect, useMemo, useState} from 'react';
+import {FormProvider, RHFTextField, RHFUploadAvatar} from './hook-form';
+import {fData} from "../utils/formatNumber";
+import CommonBackdrop from "./CommonBackdrop";
+
 
 // ----------------------------------------------------------------------
 const GET_USER_INFO = loader('../graphql/queries/user/me.graphql');
@@ -25,7 +30,16 @@ UserInfoPersonalPopup.propTypes = {
 
 export default function UserInfoPersonalPopup({  user, isEdit, isOpen, onClose, id }) {
   const { enqueueSnackbar } = useSnackbar();
-
+  const [uploadFile, setUploadFile] = useState(null);
+  const [updateBtnEnable, setUpdateBtnEnable] = useState(false);
+  const updateUserSchema = Yup.object().shape({
+    phoneNumber: Yup.string()
+        .required('Hãy nhập số điện thoại')
+        .matches(/([+84|84|0]+(3|5|7|8|9|1[2|6|8|9]))+([0-9]{8})\b/, 'Không đúng định dạng số điện thoại')
+        .max(12, 'Số điện thoại chỉ có tối đa 10 số'),
+    firstName: Yup.string().required('Bạn hãy nhập tên'),
+    lastName: Yup.string().required('Bạn hãy nhập họ'),
+  });
   const defaultValues = useMemo(
       () => ({
         id: user?.id || id,
@@ -37,15 +51,16 @@ export default function UserInfoPersonalPopup({  user, isEdit, isOpen, onClose, 
       }),
       [id, user]
   );
-
   const methods = useForm({
+    resolver: yupResolver(updateUserSchema),
     defaultValues,
   });
+
 
   const {
     reset,
     watch,
-
+      setValue,
     handleSubmit,
     formState: { isSubmitting },
   } = methods;
@@ -62,6 +77,7 @@ export default function UserInfoPersonalPopup({  user, isEdit, isOpen, onClose, 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isEdit, user]);
   const handleCancel = () => {
+      methods.reset();
     onClose();
   };
 
@@ -71,7 +87,24 @@ export default function UserInfoPersonalPopup({  user, isEdit, isOpen, onClose, 
     },
   });
 
-  const [updateUserInfoFn] = useMutation(UPDATE_USER_INFO, {
+    const handleDrop = useCallback(
+        (acceptedFiles) => {
+            const file = acceptedFiles[0];
+
+            if (file) {
+                setValue(
+                    'avatarUrl',
+                    Object.assign(file, {
+                        preview: URL.createObjectURL(file),
+                    })
+                );
+            }
+            setUploadFile(file);
+            setUpdateBtnEnable(true);
+        },
+        [setValue]
+    );
+  const [updateUserInfoFn, { loading: loadingUpdate }] = useMutation(UPDATE_USER_INFO, {
     refetchQueries: () => [
       {
         query: GET_USER_INFO,
@@ -85,8 +118,10 @@ export default function UserInfoPersonalPopup({  user, isEdit, isOpen, onClose, 
           variables: {
             input: {
               id: Number(values.id),
-              firstName: values.firstName,
-              lastName: values.lastName,
+              avatar: uploadFile,
+              firstName:
+                  user?.firstName && values?.firstName && user?.firstName === values?.firstName ? null : values?.firstName,
+              lastName: user?.lastName && values?.lastName && user?.lastName === values?.lastName ? null : values?.lastName,
               location: values.location,
               story: values.story,
             },
@@ -100,8 +135,6 @@ export default function UserInfoPersonalPopup({  user, isEdit, isOpen, onClose, 
 
     } catch (error) {
       enqueueSnackbar(
-
-
               `Sửa thông tin cá nhân không thành công. Nguyên nhân: ${error.message}`,
           {
             variant: 'error',
@@ -116,30 +149,62 @@ export default function UserInfoPersonalPopup({  user, isEdit, isOpen, onClose, 
           <CardHeader sx={{ mb: 3 }} title={'Sửa sơ yếu lý lịch'} />
 
           <Grid container spacing={3}>
-            <Grid item xs={12} md={12}>
+            <Grid item xs={6} md={6}>
               <Card sx={{ p: 3 }}>
                 <Box
                     sx={{
                       display: 'grid',
                       columnGap: 2,
+                        alignItems: 'center',
+                        justifyContent: 'center',
                       rowGap: 3,
                       gridTemplateColumns: { xs: 'repeat(1, 1fr)', sm: 'repeat(2, 1fr)' },
                     }}
                 >
-                  <RHFTextField size="small" name="firstName" label="Họ" />
-                  <RHFTextField size="small" name="lastName" label="Tên" />
-                  <RHFTextField size="small" name="location" label="Địa chỉ" />
-                  <RHFTextField size="small" name="story" label="Story" />
+                  <RHFUploadAvatar
+                      name="avatarUrl"
+                      accept={{
+                        'image/*': ['.png'],
+                        'image/jpeg': ['.jpg', '.jpeg'],
+                      }}
+                      maxSize={31457280}
+                      onDrop={handleDrop}
+                      helperText={
+                        <Typography
+                            variant="caption"
+                            sx={{ mt: 2, mx: 'auto', display: 'block', textAlign: 'center', color: 'text.secondary' }}
+                        >
+                          Định dạng ảnh *.jpeg, *.jpg, *.png <br /> Dung lượng tối đa {fData(31457280)}
+                        </Typography>
+                      }
+                  />
                 </Box>
-                <Stack alignItems="flex-end" sx={{ mt: 3 }}>
-                  <LoadingButton type="submit" variant="contained" loading={isSubmitting}>
-                    {'Sửa'}
-                  </LoadingButton>
-                </Stack>
               </Card>
             </Grid>
+              <Grid container justifyContent="center" item xs={6} sm={6} md={6} >
+                  <Card sx={{ p: 3 }}>
+                      <RHFTextField name="firstName" label="Họ" />
+                      <RHFTextField name="lastName" label="Tên" sx={{ mt: 4 }} />
+                      <RHFTextField name="story" label="Story" sx={{ mt: 4 }} />
+                      <RHFTextField name="location" label="Địa chỉ" sx={{ mt: 4 }} />
+                      <Grid container justifyContent="flex-end" sx={{ mt: 4 }}>
+                          <Grid item>
+                              <LoadingButton variant="contained" onClick={handleCancel}>
+                                  Hủy
+                              </LoadingButton>
+                          </Grid>
+                          <Grid item sx={{ ml: 1 }}>
+                              <LoadingButton type="submit" variant="contained" loading={isSubmitting}>
+                                  Lưu
+                              </LoadingButton>
+                          </Grid>
+                          <CommonBackdrop loading={isSubmitting || loadingUpdate} />
+                      </Grid>
+                  </Card>
+              </Grid>
           </Grid>
         </FormProvider>
       </Dialog>
   );
 }
+

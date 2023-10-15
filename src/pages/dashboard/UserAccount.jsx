@@ -1,14 +1,25 @@
-import {useTheme} from '@mui/material/styles';
+import {useTheme,styled} from '@mui/material/styles';
 import React, {useState} from 'react';
 import {Box, Icon, IconButton, Stack, Typography} from "@mui/material";
 import useAuth from "../../hooks/useAuth";
 import MyAvatar from "../../components/MyAvatar";
 import UserInfoPersonalPopup from "../../components/updateUser";
 import useToggle from '../../hooks/useToggle';
+import Iconify from '../../components/Iconify';
 // import MenuPopover from "../../components/MenuPopover";
 
 
-
+const AccountStyle = styled('div')(({ theme }) => ({
+    display: 'flex',
+    alignItems: 'center',
+    padding: theme.spacing(2, 2.5),
+    borderRadius: theme.shape.borderRadiusSm,
+    backgroundColor: theme.palette.grey[200]
+}));
+const RowStyle = styled('div')(({ theme }) => ({
+    display: 'flex',
+    marginTop: theme.spacing(1.5),
+}));
 
 export default function UserAccount() {
     const {user} = useAuth();
@@ -40,31 +51,37 @@ export default function UserAccount() {
                         <Stack direction="row" alignItems="center" justifyContent="space-between">
                             <Typography variant="h5">My Profile</Typography>
                             <IconButton onClick={onOpenUserInfoPopup}>
-                                <Icon />
+                                <Iconify icon={"line-md:edit-twotone"} sx={{ mr: 1,  height: 16, color: 'info.main'}}/>
                             </IconButton>
 
                         </Stack>
-                        <Box direction="row" alignItems="center" justifyContent="space-between">
+                        <AccountStyle>
                             <MyAvatar/>
-                            <Typography noWrap variant="subtitle1">
-                                {user?.story}
-                            </Typography>
-                        </Box>
-                        <Stack direction="row" alignItems="center" spacing={2} sx={{py: 2, pr: 1, pl: 2.5}}>
-                            <div>
-                                <Typography noWrap variant="subtitle1">
+                            <Box sx={{ ml: 2 }}>
+                                <Typography variant="subtitle2" sx={{ color: 'text.primary' }}>
                                     {user?.firstName} {user?.lastName}
                                 </Typography>
-                                <Typography noWrap variant="body2" sx={{color: 'text.secondary'}}>
-                                    {user?.email}
-                                </Typography>
-                                <Typography noWrap variant="body2" sx={{color: 'text.secondary'}}>
-                                    {user?.location}
-                                </Typography>
-                                <Typography noWrap variant="body2" sx={{color: 'text.secondary'}}>
-                                    {user?.status}
-                                </Typography>
-
+                            </Box>
+                        </AccountStyle>
+                        <Stack direction="row" alignItems="center" spacing={2} sx={{py: 2, pr: 1, pl: 2.5}}>
+                            <div>
+                                <RowStyle>
+                                    <Typography variant="h6" sx={{ color: 'text.primary' }}>
+                                        {user?.story}
+                                    </Typography>
+                                </RowStyle>
+                                <RowStyle>
+                                    <Iconify icon={"tdesign:assignment-user"} sx={{ mr: 1,  height: 16, color: 'info.main'}}/>
+                                    <Typography variant={"body2"}>Name: {user?.firstName} {user?.lastName}</Typography>
+                                </RowStyle>
+                                <RowStyle>
+                                    <Iconify icon={'line-md:email-twotone'} sx={{ mr: 1,  height: 16, color: 'info.main'}} />
+                                    <Typography variant="body2">Email: {user?.email}</Typography>
+                                </RowStyle>
+                            <RowStyle>
+                                <Iconify icon={'carbon:location-filled'} sx={{ mr: 1,  height: 16, color: 'info.main' }} />
+                                <Typography variant="body2">Quê quán: {user?.location}</Typography>
+                            </RowStyle>
                             </div>
                             <Stack>
 
