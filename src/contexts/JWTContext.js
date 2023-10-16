@@ -96,12 +96,8 @@ function AuthProvider({ children }) {
               ...user,
               id: `${user?.id}`,
               role: user?.role,
-              signatureImg: user?.signatureImg,
-              displayName: user?.fullName,
-              photoURL: user?.avatarURL,
-              status: user?.isActive === true ? 'Đang hoạt động' : 'Ngừng hoạt động',
-              phone: user?.phoneNumber,
-              company: 'Công ty CP Thép Công Nghiệp HN',
+              photoURL: user?.avatarUrl,
+              status: user?.status === true ? 'Đang hoạt động' : 'Ngừng hoạt động',
             };
             dispatch({
               type: 'INITIALIZE',
@@ -143,7 +139,6 @@ function AuthProvider({ children }) {
 
     initialize().catch((e) => console.error(e));
   }, [fetchProfile]);
-
 
   const login = async (account, password) => {
     const response = await loginFn({
