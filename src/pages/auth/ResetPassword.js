@@ -57,17 +57,8 @@ const HeaderStyle = styled('header')(({ theme }) => ({
 // ----------------------------------------------------------------------
 
 export default function ResetPassword() {
-  // const [email, setEmail] = useState('');
-  // const [sent, setSent] = useState(false);
-
   return (
-    <Page
-      title="Reset Password"
-      sx={{
-        height: 1,
-        backgroundImage: `url("https://img.freepik.com/free-vector/flat-geometric-background_23-2148957201.jpg?w=1480&t=st=1695577077~exp=1695577677~hmac=716bbf8204175c2a4167b3c4c24fb6a0e2c550035f325179fc2047f78ebf4bcf")`,
-      }}
-    >
+    <Page title="Reset Password">
       <RootStyle>
         <HeaderStyle>
           <Typography sx={{ mt: { md: -2 } }}>
