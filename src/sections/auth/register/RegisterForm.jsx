@@ -1,25 +1,55 @@
 // noinspection JSUnresolvedVariable
 
 import * as Yup from 'yup';
-import { useState } from 'react';
+import { forwardRef, useState } from 'react';
 import { useForm } from 'react-hook-form';
+import { loader } from 'graphql.macro';
+import { useMutation } from '@apollo/client';
 import { yupResolver } from '@hookform/resolvers/yup';
-import { Alert, Stack, IconButton, InputAdornment, TextField } from '@mui/material';
+import {
+  Alert,
+  Button,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogContentText,
+  DialogTitle,
+  IconButton,
+  InputAdornment,
+  Stack,
+  Slide,
+} from '@mui/material';
+import { useNavigate } from 'react-router-dom';
 import { LoadingButton } from '@mui/lab';
-import useAuth from '../../../hooks/useAuth';
 import useIsMountedRef from '../../../hooks/useIsMountedRef';
 import Iconify from '../../../components/Iconify';
 import { FormProvider, RHFTextField } from '../../../components/hook-form';
-// import { useNavigate} from 'react-router-dom';
 
 // ----------------------------------------------------------------------
+const REGISTER = loader('../../../graphql/mutations/user/register.graphql');
+// ----------------------------------------------------------------------
+const Transition = forwardRef((props, ref) => <Slide direction="up" ref={ref} {...props} />);
+// -----------------------------------------------------------------
 
 export default function RegisterForm() {
-  const { register } = useAuth();
-  // const  navigate = useNavigate();
+  const navigate = useNavigate();
   const isMountedRef = useIsMountedRef();
-
+  const [registerFn] = useMutation(REGISTER, {
+    onCompleted: async (res) => {
+      if (res) {
+        return res;
+      }
+      return null;
+    },
+  });
   const [showPassword, setShowPassword] = useState(false);
+  const [open, setOpen] = useState(false);
+
+  const handleClose = () => {
+    setOpen(false);
+    navigate('/', { replace: true });
+  };
+
   const regex = {
     number: /^(?=.*[0-9]).+$/,
     lowerCase: /^(?=.*[a-z]).+$/,
@@ -32,7 +62,7 @@ export default function RegisterForm() {
     email: Yup.string().email('Hãy điền 1 email').required('Email không được để trống'),
     password: Yup.string()
       .required('Mật khẩu không được để trống')
-      .min(10, 'Mật khẩu phải có ít nhất 10 ký tự hoặc hơn')
+      .min(6, 'Mật khẩu phải có ít nhất 6 ký tự hoặc hơn')
       .matches(regex.number, 'Có ít nhất 1 số.')
       .matches(regex.lowerCase, 'Có ít nhất 1 ký tự viết thường.')
       .matches(regex.upperCase, 'Có ít nhất 1 ký tự in hoa.')
@@ -55,15 +85,25 @@ export default function RegisterForm() {
     reset,
     setError,
     handleSubmit,
-    watch,
     formState: { errors, isSubmitting },
   } = methods;
-  const values = watch();
 
-  console.log('values', values);
   const onSubmit = async (data) => {
     try {
-      await register(data.email, data.password, data.firstName, data.lastName);
+      const response = await registerFn({
+        variables: {
+          input: {
+            email: data.email,
+            password: data.password,
+            firstName: data.firstName,
+            lastName: data.lastName,
+            role: 1,
+          },
+        },
+      });
+      if (response.data) {
+        setOpen(true);
+      }
     } catch (error) {
       console.error(error);
       reset();
@@ -103,6 +143,19 @@ export default function RegisterForm() {
           Đăng ký
         </LoadingButton>
       </Stack>
+      <Dialog disableEscapeKeyDown open={open} TransitionComponent={Transition} keepMounted onClose={handleClose}>
+        <DialogTitle>Tạo tài khoản thành công</DialogTitle>
+        <DialogContent>
+          <DialogContentText id="alert-dialog-slide-description">
+            Bạn đã tạo tài khoản thành công. Bạn có thể đăng nhập.
+          </DialogContentText>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleClose} color="primary">
+            OK
+          </Button>
+        </DialogActions>
+      </Dialog>
     </FormProvider>
   );
 }

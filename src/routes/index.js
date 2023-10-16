@@ -8,6 +8,7 @@ import { PATH_AFTER_LOGIN } from '../config';
 import { SINGLE_KEY_PATH } from './paths';
 import LoadingScreen from '../components/LoadingScreen';
 import { DashboardLayout } from '../layouts/dashboard';
+import Chats from '../pages/dashboard/Chat';
 
 // ----------------------------------------------------------------------
 
@@ -43,7 +44,7 @@ export default function Router() {
             </GuestGuard>
           ),
         },
-        { path: 'doi-mat-khau', element: <ResetPassword /> },
+        { path: 'quen-mat-khau', element: <ResetPassword /> },
       ],
     },
     // Dashboard Routes
@@ -56,11 +57,14 @@ export default function Router() {
       ),
       children: [
         { path: 'app', element: <GeneralApp /> },
+        { path: 'chat', element: <Chats /> },
         { path: 'cai-dat', element: <Settings /> },
         { path: 'goi-dien', element: <Call /> },
         { path: 'thong-tin', element: <UserAccount /> },
         { path: 'danh-ba', element: <Contacts /> },
         { path: 'muc-ghim', element: <BookMark /> },
+        { path: 'danh-sach', element: <ListUser /> },
+        { path: 'doi-mat-khau', element: <ChangePass /> },
       ],
     },
     {
@@ -83,11 +87,13 @@ export default function Router() {
 const Login = Loadable(lazy(() => import('../pages/auth/Login')));
 const Register = Loadable(lazy(() => import('../pages/auth/Register')));
 const ResetPassword = Loadable(lazy(() => import('../pages/auth/ResetPassword')));
+const ChangePass = Loadable(lazy(() => import('../pages/dashboard/ChangePass')));
 // main router
 const UserAccount = Loadable(lazy(() => import('../pages/dashboard/UserAccount')));
 const Contacts = Loadable(lazy(() => import('../pages/dashboard/Contacts')));
 const BookMark = Loadable(lazy(() => import('../pages/dashboard/BookMark')));
 const Settings = Loadable(lazy(() => import('../pages/dashboard/Settings')));
 const Call = Loadable(lazy(() => import('../pages/dashboard/Call')));
+const ListUser = Loadable(lazy(() => import('../pages/dashboard/ListUser')));
 const GeneralApp = Loadable(lazy(() => import('../pages/dashboard/GeneralApp')));
 const NotFound = Loadable(lazy(() => import('../pages/Page404')));

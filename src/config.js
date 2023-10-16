@@ -12,6 +12,15 @@ export const HEADER = {
   DASHBOARD_DESKTOP_OFFSET_HEIGHT: 92 - 48,
 };
 
+export const defaultSettings = {
+  themeMode: 'light',
+  themeDirection: 'ltr',
+  themeContrast: 'default',
+  themeLayout: 'horizontal',
+  themeColorPresets: 'default',
+  themeStretch: false,
+};
+
 export const NAVBAR = {
   BASE_WIDTH: 260,
   DASHBOARD_WIDTH: 240,
