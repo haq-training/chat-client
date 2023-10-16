@@ -1,4 +1,4 @@
-import { useTheme, styled } from '@mui/material/styles';
+import { styled, useTheme } from '@mui/material/styles';
 import React, { useState } from 'react';
 import { Box, IconButton, Stack, Typography } from '@mui/material';
 import useAuth from '../../hooks/useAuth';
@@ -23,8 +23,8 @@ export default function UserAccount() {
   const { user } = useAuth();
   const theme = useTheme();
 
-  const [dataUserInfo, setDataUserInfo] = useState();
-  const [isEdit, setIsEdit] = useState(false);
+  const [setDataUserInfo] = useState();
+  const [setIsEdit] = useState(false);
 
   const { toggle: isOpenUserInfoPopup, onOpen: onOpenUserInfoPopup, onClose: onCloseUserInfoPopup } = useToggle();
   const handleUpdateUserInformation = (dataInfo) => {
