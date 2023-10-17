@@ -1,5 +1,17 @@
 import { faker } from '@faker-js/faker';
-import { ChatCircleDots, Gear, GearSix, Phone, SignOut, User, Users, Bookmarks, Image, Link,File} from 'phosphor-react';
+import {
+  ChatCircleDots,
+  Gear,
+  GearSix,
+  Phone,
+  SignOut,
+  User,
+  Users,
+  Bookmarks,
+  Image,
+  Link,
+  File,
+} from 'phosphor-react';
 
 export const profileMenu = [
   {
@@ -98,22 +110,22 @@ export const CallLogs = [
 export const bookmarkList = [
   {
     id: 0,
-    Icon: <Image/>,
+    Icon: <Image />,
     name: 'Ảnh mèo',
     msg: '14.5 MB',
   },
   {
     id: 1,
-    icon: <Link/>,
+    icon: <Link />,
     name: 'Web',
-    msg: 'http://bgpattern.com/',
+    msg: 'http://bgpattern.com/324123re2f34tgf4rg2354gr',
   },
   {
     id: 2,
-    icon: <File/>,
-    name : 'Tài liệu học tập',
+    icon: <File />,
+    name: 'Tài liệu học tập',
     msg: '10 MB',
-  }
+  },
 ];
 export const membersList = [
   {
@@ -147,7 +159,6 @@ export const membersList = [
     online: true,
   },
 ];
-
 
 export const chatList = [
   {

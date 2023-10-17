@@ -2,10 +2,16 @@ import { Box, IconButton, MenuItem, Stack, Typography } from '@mui/material';
 import { useTheme } from '@mui/material/styles';
 import { File } from 'phosphor-react';
 import React, { useState } from 'react';
+import PropTypes from 'prop-types';
 import Iconify from './Iconify';
 import MenuPopover from './MenuPopover';
 
-const BookMarkElement = ({ name, img, msg }) => {
+BookMarkElement.propTypes = {
+  name: PropTypes.string,
+  img: PropTypes.string,
+  msg: PropTypes.string,
+};
+function BookMarkElement({ name, img, msg }) {
   const [open, setOpen] = useState(null);
   const ICON = {
     mr: 2,
@@ -30,21 +36,28 @@ const BookMarkElement = ({ name, img, msg }) => {
       p={2}
     >
       <Stack direction="row" display="flex" justifyContent="space-between">
-        <Stack direction="row" display="flex" justifyContent="space-between" spacing={2}>
+        <Stack
+          direction="row"
+          spacing={2}
+          sx={{
+            textOverflow: 'clip',
+            overflow: 'hidden',
+            width: '100%',
+          }}
+        >
           {
-            <Box
-              overlap="circular"
-              anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
-              variant="dot"
-              align="left"
-            >
+            <Box overlap="circular" anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }} variant="dot">
               <File src={img} size={32} />
             </Box>
           }
 
-          <Stack spacing={0.3}>
-            <Typography variant="subtitle2">{name}</Typography>
-            <Typography variant="caption">{msg}</Typography>
+          <Stack spacing={0.3} textOverflow="ellipsis" overflow="hidden">
+            <Typography variant="subtitle2" fontSize="h6.fontSize">
+              {name}
+            </Typography>
+            <Typography variant="caption" textOverflow="ellipsis" fontStyle="italic" overflow="hidden" maxWidth="100%">
+              {msg}
+            </Typography>
           </Stack>
 
           <MenuPopover
@@ -84,6 +97,6 @@ const BookMarkElement = ({ name, img, msg }) => {
       </Stack>
     </Box>
   );
-};
+}
 
 export default BookMarkElement;
