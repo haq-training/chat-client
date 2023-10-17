@@ -1,11 +1,11 @@
-import { Avatar, Box, Stack, Typography, Icon, IconButton, MenuItem } from '@mui/material';
+import { Box, IconButton, MenuItem, Stack, Typography } from '@mui/material';
 import { useTheme } from '@mui/material/styles';
 import { File } from 'phosphor-react';
 import React, { useState } from 'react';
 import Iconify from './Iconify';
 import MenuPopover from './MenuPopover';
 
-const BookMarkElement = ({ id, name, img, msg }) => {
+const BookMarkElement = ({ name, img, msg }) => {
   const [open, setOpen] = useState(null);
   const ICON = {
     mr: 2,
@@ -29,8 +29,8 @@ const BookMarkElement = ({ id, name, img, msg }) => {
       }}
       p={2}
     >
-      <Stack direction="row">
-        <Stack direction="row" spacing={2}>
+      <Stack direction="row" display="flex" justifyContent="space-between">
+        <Stack direction="row" display="flex" justifyContent="space-between" spacing={2}>
           {
             <Box
               overlap="circular"
@@ -46,9 +46,7 @@ const BookMarkElement = ({ id, name, img, msg }) => {
             <Typography variant="subtitle2">{name}</Typography>
             <Typography variant="caption">{msg}</Typography>
           </Stack>
-          <IconButton align="right" size="large" color="inherit" onClick={handleOpen}>
-            <Iconify icon={'eva:more-vertical-fill'} width={20} height={20} />
-          </IconButton>
+
           <MenuPopover
             open={Boolean(open)}
             anchorEl={open}
@@ -80,6 +78,9 @@ const BookMarkElement = ({ id, name, img, msg }) => {
             </MenuItem>
           </MenuPopover>
         </Stack>
+        <IconButton align="right" size="large" color="inherit" onClick={handleOpen}>
+          <Iconify icon={'eva:more-vertical-fill'} width={20} height={20} />
+        </IconButton>
       </Stack>
     </Box>
   );

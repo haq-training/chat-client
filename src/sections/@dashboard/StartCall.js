@@ -19,7 +19,6 @@ const StartCall = ({ open, handleClose }) => (
   >
     <DialogTitle sx={{ mb: 3 }}>Start Call</DialogTitle>
     <DialogContent>
-      {/* Form */}
       <Stack spacing={3}>
         <Stack sx={{ width: '100%' }}>
           <Search>
@@ -31,7 +30,6 @@ const StartCall = ({ open, handleClose }) => (
         </Stack>
       </Stack>
 
-      {/* Call List */}
       {membersList.map((el) => (
         <CallElement {...el} />
       ))}
