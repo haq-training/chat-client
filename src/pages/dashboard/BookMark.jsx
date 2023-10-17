@@ -2,7 +2,7 @@ import { Box, Stack, Typography } from '@mui/material';
 import React from 'react';
 import { useTheme } from '@mui/material/styles';
 import { bookmarkList } from '../../_apis_/data';
-import BookMarkElement from '../../components/BookMarksElement';
+import BookMarkElement from '../../sections/@dashboard/bookmarks/BookMarksElement';
 
 export default function BookMark() {
   const theme = useTheme();
