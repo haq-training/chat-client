@@ -1,16 +1,15 @@
 import React, { useState } from 'react';
-import { Avatar, Box, Divider, IconButton, Menu, MenuItem, Stack } from '@mui/material';
+import { Box, Divider, IconButton, Stack, Tooltip } from '@mui/material';
 import { useTheme } from '@mui/material/styles';
 import { Gear } from 'phosphor-react';
-import { faker } from '@faker-js/faker';
 import { useNavigate } from 'react-router-dom';
-import { navButtons, profileMenu } from '../../_apis_/data';
-import useSettings from '../../hooks/useSettings';
-import AntSwitch from '../../components/AntSwitch';
+import { navButtonsUser, navButtonsAdmin, Role } from '../../_apis_/data';
 import Logo from '../../components/Logo';
+import useAuth from '../../hooks/useAuth';
+import AccountPopover from './header/AccountPopover';
 
 // eslint-disable-next-line consistent-return
-const getPath = (index) => {
+const getPathUser = (index) => {
   switch (index) {
     case 0:
       return '/dashboard/app';
@@ -28,45 +27,40 @@ const getPath = (index) => {
       return '/dashboard/cai-dat';
 
     default:
-      break;
+      return '/';
   }
 };
 
-// eslint-disable-next-line consistent-return
-const getMenuPath = (index) => {
+const getPathAdmin = (index) => {
   switch (index) {
     case 0:
-      return '/dashboard/thong-tin';
+      return '/dashboard/app';
 
     case 1:
-      return '/dashboard/cai-dat';
+      return '/dashboard/danh-ba';
 
     case 2:
-      // todo - update token and set isAuth = false
-      return '/auth/dang-nhap';
+      return '/dashboard/goi-dien';
+
+    case 3:
+      return '/dashboard/muc-ghim';
+
+    case 4:
+      return '/dashboard/danh-sach';
+    case 5:
+      return '/dashboard/cai-dat';
 
     default:
-      break;
+      return '/';
   }
 };
 
 const SideBar = () => {
-  const [anchor, setAnchorEl] = React.useState(null);
-  const open = Boolean(anchor);
-  const handleClick = (event) => {
-    setAnchorEl(event.currentTarget);
-    navigate();
-  };
-  const handleClose = () => {
-    setAnchorEl(null);
-  };
-
   const theme = useTheme();
   const navigate = useNavigate();
-  // state for selected button
-  const [selected, setSelected] = useState(0); // by default 0 index button is selected
-  // switch themes
-  const { onToggleMode } = useSettings();
+  const [selected, setSelected] = useState(0);
+  const { user } = useAuth();
+
   return (
     <Box
       p={2}
@@ -87,105 +81,122 @@ const SideBar = () => {
       >
         <Stack alignItems={'center'} spacing={4}>
           <Logo />
-          <Stack sx={{ width: 'max-content' }} direction="column" alignItems="center" spacing={3}>
-            {navButtons.map((el) =>
-              el.index === selected ? (
-                <Box key={''} sx={{ backgroundColor: theme.palette.primary.main, borderRadius: 1.5 }}>
-                  <IconButton sx={{ width: 'max-content', color: '#fff' }} key={el.index}>
-                    {el.icon}
-                  </IconButton>
+          {user.role === Role.admin && (
+            <Stack sx={{ width: 'max-content' }} direction="column" alignItems="center" spacing={3}>
+              {navButtonsAdmin.map((el) =>
+                el.index === selected ? (
+                  <Box key={''} sx={{ backgroundColor: theme.palette.primary.main, borderRadius: 1.5 }}>
+                    <Tooltip title={el.tooltip}>
+                      <IconButton sx={{ width: 'max-content', color: '#fff' }} key={el.index}>
+                        {el.icon}
+                      </IconButton>
+                    </Tooltip>
+                  </Box>
+                ) : (
+                  <Tooltip key={el.index} title={el.tooltip}>
+                    <IconButton
+                      onClick={() => {
+                        setSelected(el.index);
+                        navigate(getPathAdmin(el.index));
+                      }}
+                      sx={{
+                        width: 'max-content',
+                        color: theme.palette.mode === 'light' ? '#000' : theme.palette.text.primary,
+                      }}
+                      key={el.index}
+                    >
+                      {el.icon}
+                    </IconButton>
+                  </Tooltip>
+                )
+              )}
+              <Divider sx={{ width: '48px' }} />
+              {selected === 5 ? (
+                <Box sx={{ backgroundColor: theme.palette.primary.main, borderRadius: 1.5 }}>
+                  <Tooltip title="Cài đặt">
+                    <IconButton sx={{ width: 'max-content', color: '#fff' }}>
+                      <Gear />
+                    </IconButton>
+                  </Tooltip>
                 </Box>
               ) : (
-                <IconButton
-                  onClick={() => {
-                    setSelected(el.index);
-                    navigate(getPath(el.index));
-                  }}
-                  sx={{
-                    width: 'max-content',
-                    color: theme.palette.mode === 'light' ? '#000' : theme.palette.text.primary,
-                  }}
-                  key={el.index}
-                >
-                  {el.icon}
-                </IconButton>
-              )
-            )}
-            <Divider sx={{ width: '48px' }} />
-            {selected === 4 ? (
-              <Box sx={{ backgroundColor: theme.palette.primary.main, borderRadius: 1.5 }}>
-                <IconButton sx={{ width: 'max-content', color: '#fff' }}>
-                  <Gear />
-                </IconButton>
-              </Box>
-            ) : (
-              <IconButton
-                onClick={() => {
-                  setSelected(4);
-                  navigate(getPath(4));
-                }}
-                sx={{
-                  width: 'max-content',
-                  color: theme.palette.mode === 'light' ? '#000' : theme.palette.text.primary,
-                }}
-              >
-                <Gear />
-              </IconButton>
-            )}
-          </Stack>
+                <Tooltip title="Cài đặt">
+                  <IconButton
+                    onClick={() => {
+                      setSelected(5);
+                      navigate(getPathAdmin(5));
+                    }}
+                    sx={{
+                      width: 'max-content',
+                      color: theme.palette.mode === 'light' ? '#000' : theme.palette.text.primary,
+                    }}
+                  >
+                    <Gear />
+                  </IconButton>
+                </Tooltip>
+              )}
+            </Stack>
+          )}
+          {user.role === Role.user && (
+            <Stack sx={{ width: 'max-content' }} direction="column" alignItems="center" spacing={3}>
+              {navButtonsUser.map((el) =>
+                el.index === selected ? (
+                  <Box key={''} sx={{ backgroundColor: theme.palette.primary.main, borderRadius: 1.5 }}>
+                    <Tooltip title={el.tooltip}>
+                      <IconButton sx={{ width: 'max-content', color: '#fff' }} key={el.index}>
+                        {el.icon}
+                      </IconButton>
+                    </Tooltip>
+                  </Box>
+                ) : (
+                  <Tooltip key={el.index} title={el.tooltip}>
+                    <IconButton
+                      onClick={() => {
+                        setSelected(el.index);
+                        navigate(getPathUser(el.index));
+                      }}
+                      sx={{
+                        width: 'max-content',
+                        color: theme.palette.mode === 'light' ? '#000' : theme.palette.text.primary,
+                      }}
+                      key={el.index}
+                    >
+                      {el.icon}
+                    </IconButton>
+                  </Tooltip>
+                )
+              )}
+              <Divider sx={{ width: '48px' }} />
+              {selected === 4 ? (
+                <Box sx={{ backgroundColor: theme.palette.primary.main, borderRadius: 1.5 }}>
+                  <Tooltip title="Cài đặt">
+                    <IconButton sx={{ width: 'max-content', color: '#fff' }}>
+                      <Gear />
+                    </IconButton>
+                  </Tooltip>
+                </Box>
+              ) : (
+                <Tooltip title="Cài đặt">
+                  <IconButton
+                    onClick={() => {
+                      setSelected(4);
+                      navigate(getPathUser(4));
+                    }}
+                    sx={{
+                      width: 'max-content',
+                      color: theme.palette.mode === 'light' ? '#000' : theme.palette.text.primary,
+                    }}
+                  >
+                    <Gear />
+                  </IconButton>
+                </Tooltip>
+              )}
+            </Stack>
+          )}
         </Stack>
 
         <Stack spacing={4}>
-          <AntSwitch
-            onChange={() => {
-              onToggleMode();
-            }}
-            defaultChecked
-          />
-          <Avatar
-            id="basic-button"
-            sx={{ cursor: 'pointer' }}
-            src={faker.image.avatar()}
-            aria-controls={open ? 'basic-menu' : undefined}
-            aria-haspopup="true"
-            aria-expanded={open ? 'true' : undefined}
-            onClick={handleClick}
-          />
-          <Menu
-            id="basic-menu"
-            anchorEl={anchor}
-            open={open}
-            onClose={handleClose}
-            MenuListProps={{
-              'aria-labelledby': 'basic-button',
-            }}
-            anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
-            transformOrigin={{ vertical: 'bottom', horizontal: 'left' }}
-          >
-            <Stack spacing={1} px={1}>
-              {profileMenu.map((el, idx) => (
-                // eslint-disable-next-line react/jsx-key
-                <MenuItem
-                  onClick={() => {
-                    handleClick();
-                  }}
-                >
-                  <Stack
-                    onClick={() => {
-                      navigate(getMenuPath(idx));
-                    }}
-                    sx={{ width: 100 }}
-                    direction="row"
-                    alignItems={'center'}
-                    justifyContent="space-between"
-                  >
-                    <span>{el.title}</span>
-                    {el.icon}
-                  </Stack>
-                </MenuItem>
-              ))}
-            </Stack>
-          </Menu>
+          <AccountPopover />
         </Stack>
       </Stack>
     </Box>

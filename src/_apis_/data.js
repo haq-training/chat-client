@@ -1,5 +1,5 @@
 import { faker } from '@faker-js/faker';
-import { ChatCircleDots, Gear, GearSix, Phone, SignOut, User, Users, Bookmarks } from 'phosphor-react';
+import { ChatCircleDots, Gear, GearSix, Phone, SignOut, User, Users, Bookmarks, UserList } from 'phosphor-react';
 
 export const profileMenu = [
   {
@@ -16,24 +16,61 @@ export const profileMenu = [
   },
 ];
 
-export const navButtons = [
+export const navButtonsUser = [
   {
     index: 0,
     icon: <ChatCircleDots />,
+    tooltip: 'Chat',
   },
   {
     index: 1,
     icon: <Users />,
+    tooltip: 'Danh bạ',
   },
   {
     index: 2,
     icon: <Phone />,
+    tooltip: 'Cuộc gọi',
   },
   {
     index: 3,
     icon: <Bookmarks />,
+    tooltip: 'Mục ghim',
   },
 ];
+
+export const navButtonsAdmin = [
+  {
+    index: 0,
+    icon: <ChatCircleDots />,
+    tooltip: 'Chat',
+  },
+  {
+    index: 1,
+    icon: <Users />,
+    tooltip: 'Danh bạ',
+  },
+  {
+    index: 2,
+    icon: <Phone />,
+    tooltip: 'Cuộc gọi',
+  },
+  {
+    index: 3,
+    icon: <Bookmarks />,
+    tooltip: 'Mục ghim',
+  },
+  {
+    index: 4,
+    icon: <UserList />,
+    tooltip: 'Danh sách user',
+  },
+];
+
+export const Role = {
+  user: 1,
+  admin: 0,
+};
 
 export const navSetting = [
   {

@@ -1,13 +1,10 @@
 import { useState, useEffect } from 'react';
-import localStorageAvailable from '../utils/localStorageAvailable';
 
 // ----------------------------------------------------------------------
 
 export default function useLocalStorage(key, defaultValue) {
-  const storageAvailable = localStorageAvailable();
-
   const [value, setValue] = useState(() => {
-    const storedValue = storageAvailable ? localStorage.getItem(key) : null;
+    const storedValue = localStorage.getItem(key);
 
     return storedValue === null ? defaultValue : JSON.parse(storedValue);
   });
@@ -15,7 +12,7 @@ export default function useLocalStorage(key, defaultValue) {
   useEffect(() => {
     const listener = (e) => {
       if (e.storageArea === localStorage && e.key === key) {
-        setValue(e.newValue ? JSON.parse(e.newValue) : e.newValue);
+        setValue(JSON.parse(e.newValue));
       }
     };
     window.addEventListener('storage', listener);
@@ -29,9 +26,7 @@ export default function useLocalStorage(key, defaultValue) {
     setValue((currentValue) => {
       const result = typeof newValue === 'function' ? newValue(currentValue) : newValue;
 
-      if (storageAvailable) {
-        localStorage.setItem(key, JSON.stringify(result));
-      }
+      localStorage.setItem(key, JSON.stringify(result));
 
       return result;
     });

@@ -1,40 +1,42 @@
-import PropTypes from 'prop-types';
-import { createContext, useEffect, useContext, useMemo, useCallback } from 'react';
+// provider === component
+import { createContext, useEffect, useContext } from 'react';
+import { defaultSettings } from '../../config';
 import useLocalStorage from '../../hooks/useLocalStorage';
-import localStorageAvailable from '../../utils/localStorageAvailable';
-import { defaultSettings } from './config-setting';
-import { defaultPreset, getPresets, presetsOption } from './presets';
-
-// ----------------------------------------------------------------------
+import getColorPresets, { defaultPreset, colorPresets } from '../../utils/getColorPresets';
 
 const initialState = {
   ...defaultSettings,
+
   // Mode
   onToggleMode: () => {},
   onChangeMode: () => {},
+
   // Direction
   onToggleDirection: () => {},
   onChangeDirection: () => {},
   onChangeDirectionByLang: () => {},
+
   // Layout
   onToggleLayout: () => {},
   onChangeLayout: () => {},
+
   // Contrast
   onToggleContrast: () => {},
   onChangeContrast: () => {},
+
   // Color
-  onChangeColorPresets: () => {},
-  presetsColor: defaultPreset,
-  presetsOption: [],
+  onChangeColor: () => {},
+  setColor: defaultPreset,
+  colorOption: [],
+
   // Stretch
   onToggleStretch: () => {},
+
   // Reset
   onResetSetting: () => {},
 };
 
-// ----------------------------------------------------------------------
-
-export const SettingsContext = createContext(initialState);
+const SettingsContext = createContext(initialState);
 
 export const useSettingsContext = () => {
   const context = useContext(SettingsContext);
@@ -44,20 +46,18 @@ export const useSettingsContext = () => {
   return context;
 };
 
-// ----------------------------------------------------------------------
+// eslint-disable-next-line react/prop-types
+const SettingsProvider = ({ children }) => {
+  const [settings, setSettings] = useLocalStorage('settings', {
+    themeMode: initialState.themeMode,
+    themeLayout: initialState.themeLayout,
+    themeStretch: initialState.themeStretch,
+    themeContrast: initialState.themeContrast,
+    themeDirection: initialState.themeDirection,
+    themeColorPresets: initialState.themeColorPresets,
+  });
 
-SettingsProvider.propTypes = {
-  children: PropTypes.node,
-};
-
-export function SettingsProvider({ children }) {
-  const [settings, setSettings] = useLocalStorage('settings', defaultSettings);
-
-  const storageAvailable = localStorageAvailable();
-
-  const langStorage = storageAvailable ? localStorage.getItem('i18nextLng') : '';
-
-  const isArabic = langStorage === 'ar';
+  const isArabic = localStorage.getItem('i18nextLng') === 'ar';
 
   useEffect(() => {
     if (isArabic) {
@@ -67,137 +67,147 @@ export function SettingsProvider({ children }) {
   }, [isArabic]);
 
   // Mode
-  const onToggleMode = useCallback(() => {
-    const themeMode = settings.themeMode === 'light' ? 'dark' : 'light';
-    setSettings({ ...settings, themeMode });
-  }, [setSettings, settings]);
 
-  const onChangeMode = useCallback(
-    (event) => {
-      const themeMode = event.target.value;
-      setSettings({ ...settings, themeMode });
-    },
-    [setSettings, settings]
-  );
+  const onToggleMode = () => {
+    setSettings({
+      ...settings,
+      themeMode: settings.themeMode === 'light' ? 'dark' : 'light',
+    });
+  };
+
+  const onChangeMode = (event) => {
+    setSettings({
+      ...settings,
+      themeMode: event.target.value,
+    });
+  };
 
   // Direction
-  const onToggleDirection = useCallback(() => {
-    const themeDirection = settings.themeDirection === 'rtl' ? 'ltr' : 'rtl';
-    setSettings({ ...settings, themeDirection });
-  }, [setSettings, settings]);
 
-  const onChangeDirection = useCallback(
-    (event) => {
-      const themeDirection = event.target.value;
-      setSettings({ ...settings, themeDirection });
-    },
-    [setSettings, settings]
-  );
+  const onToggleDirection = () => {
+    setSettings({
+      ...settings,
+      themeDirection: settings.themeDirection === 'rtl' ? 'ltr' : 'rtl',
+    });
+  };
 
-  const onChangeDirectionByLang = useCallback(
-    (lang) => {
-      const themeDirection = lang === 'ar' ? 'rtl' : 'ltr';
-      setSettings({ ...settings, themeDirection });
-    },
-    [setSettings, settings]
-  );
+  const onChangeDirection = (event) => {
+    setSettings({
+      ...settings,
+      themeDirection: event.target.value,
+    });
+  };
+
+  const onChangeDirectionByLang = (lang) => {
+    setSettings({
+      ...settings,
+      themeDirection: lang === 'ar' ? 'rtl' : 'ltr',
+    });
+  };
 
   // Layout
-  const onToggleLayout = useCallback(() => {
-    const themeLayout = settings.themeLayout === 'vertical' ? 'mini' : 'vertical';
-    setSettings({ ...settings, themeLayout });
-  }, [setSettings, settings]);
 
-  const onChangeLayout = useCallback(
-    (event) => {
-      const themeLayout = event.target.value;
-      setSettings({ ...settings, themeLayout });
-    },
-    [setSettings, settings]
-  );
+  const onToggleLayout = () => {
+    setSettings({
+      ...settings,
+      themeLayout: settings.themeLayout === 'vertical' ? 'horizontal' : 'vertical',
+    });
+  };
+
+  const onChangeLayout = (event) => {
+    setSettings({
+      ...settings,
+      themeLayout: event.target.value,
+    });
+  };
 
   // Contrast
-  const onToggleContrast = useCallback(() => {
-    const themeContrast = settings.themeContrast === 'default' ? 'bold' : 'default';
-    setSettings({ ...settings, themeContrast });
-  }, [setSettings, settings]);
 
-  const onChangeContrast = useCallback(
-    (event) => {
-      const themeContrast = event.target.value;
-      setSettings({ ...settings, themeContrast });
-    },
-    [setSettings, settings]
-  );
+  const onToggleContrast = () => {
+    setSettings({
+      ...settings,
+      themeContrast: settings.themeContrast === 'default' ? 'bold' : 'default',
+    });
+  };
+
+  const onChangeContrast = (event) => {
+    setSettings({
+      ...settings,
+      themeContrast: event.target.value,
+    });
+  };
 
   // Color
-  const onChangeColorPresets = useCallback(
-    (event) => {
-      const themeColorPresets = event.target.value;
-      setSettings({ ...settings, themeColorPresets });
-    },
-    [setSettings, settings]
-  );
+
+  const onChangeColor = (event) => {
+    setSettings({
+      ...settings,
+      themeColorPresets: event.target.value,
+    });
+  };
 
   // Stretch
-  const onToggleStretch = useCallback(() => {
-    const themeStretch = !settings.themeStretch;
-    setSettings({ ...settings, themeStretch });
-  }, [setSettings, settings]);
+
+  const onToggleStretch = () => {
+    setSettings({
+      ...settings,
+      themeStretch: !settings.themeStretch,
+    });
+  };
 
   // Reset
-  const onResetSetting = useCallback(() => {
-    setSettings(defaultSettings);
-  }, [setSettings]);
 
-  const memoizedValue = useMemo(
-    () => ({
-      ...settings,
-      // Mode
-      onToggleMode,
-      onChangeMode,
-      // Direction
-      onToggleDirection,
-      onChangeDirection,
-      onChangeDirectionByLang,
-      // Layout
-      onToggleLayout,
-      onChangeLayout,
-      // Contrast
-      onChangeContrast,
-      onToggleContrast,
-      // Stretch
-      onToggleStretch,
-      // Color
-      onChangeColorPresets,
-      presetsOption,
-      presetsColor: getPresets(settings.themeColorPresets),
-      // Reset
-      onResetSetting,
-    }),
-    [
-      settings,
-      // Mode
-      onToggleMode,
-      onChangeMode,
-      // Direction
-      onToggleDirection,
-      onChangeDirection,
-      onChangeDirectionByLang,
-      // Layout
-      onToggleLayout,
-      onChangeLayout,
-      onChangeContrast,
-      // Contrast
-      onToggleContrast,
-      // Stretch
-      onToggleStretch,
-      // Color
-      onChangeColorPresets,
-      // Reset
-      onResetSetting,
-    ]
+  const onResetSetting = () => {
+    setSettings({
+      themeMode: initialState.themeMode,
+      themeLayout: initialState.themeLayout,
+      themeStretch: initialState.themeStretch,
+      themeContrast: initialState.themeContrast,
+      themeDirection: initialState.themeDirection,
+      themeColorPresets: initialState.themeColorPresets,
+    });
+  };
+
+  return (
+    <SettingsContext.Provider
+      value={{
+        ...settings, // Mode
+        onToggleMode,
+        onChangeMode,
+
+        // Direction
+        onToggleDirection,
+        onChangeDirection,
+        onChangeDirectionByLang,
+
+        // Layout
+        onToggleLayout,
+        onChangeLayout,
+
+        // Contrast
+        onChangeContrast,
+        onToggleContrast,
+
+        // Stretch
+        onToggleStretch,
+
+        // Color
+        onChangeColor,
+        setColor: getColorPresets(settings.themeColorPresets),
+        colorOption: colorPresets.map((color) => ({
+          name: color.name,
+          value: color.main,
+        })),
+
+        // Reset
+        onResetSetting,
+      }}
+    >
+      {children}
+    </SettingsContext.Provider>
   );
+};
 
-  return <SettingsContext.Provider value={memoizedValue}>{children}</SettingsContext.Provider>;
-}
+export { SettingsContext };
+
+export default SettingsProvider;

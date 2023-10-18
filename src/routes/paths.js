@@ -21,6 +21,8 @@ export const SINGLE_KEY_PATH = {
   call: 'goi-dien',
   pinned: 'muc-ghim',
   settings: 'cai-dat',
+  listUser: 'danh-sach',
+  changePass: 'doi-mat-khau',
 };
 
 // ----------------------------------------------------------------------
@@ -29,7 +31,7 @@ export const PATH_AUTH = {
   root: ROOTS_AUTH,
   login: path(ROOTS_AUTH, `/dang-nhap`),
   register: path(ROOTS_AUTH, `/dang-ky`),
-  resetPassword: path(ROOTS_AUTH, `/doi-mat-khau`),
+  resetPassword: path(ROOTS_AUTH, `/quen-mat-khau`),
   logout: path(ROOTS_AUTH, `/dang-xuat`),
 };
 
@@ -43,4 +45,6 @@ export const SSM_PATH_DASHBOARD = {
   pinned: path(ROOTS_DASHBOARD, '/muc-ghim'),
   call: path(ROOTS_DASHBOARD, '/goi-dien'),
   settings: path(ROOTS_DASHBOARD, '/cai-dat'),
+  listUser: path(ROOTS_DASHBOARD, '/danh-sach'),
+  changePass: path(ROOTS_DASHBOARD, '/doi-mat-khau'),
 };

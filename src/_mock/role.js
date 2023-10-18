@@ -1,3 +1,3 @@
 // ----------------------------------------------------------------------
 
-export const role = ['director', 'admin', 'manager', 'sales', 'transporter manager', 'driver'];
+export const role = ['admin', 'user'];
