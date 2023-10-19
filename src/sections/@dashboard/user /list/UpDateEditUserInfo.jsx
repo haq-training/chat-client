@@ -9,7 +9,7 @@ import { useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
 import { useMutation } from '@apollo/client';
 import { useEffect, useMemo } from 'react';
-import { toast } from 'react-toastify';
+// import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { FormProvider, RHFSelect, RHFTextField } from '../../../../components/hook-form';
 
@@ -32,11 +32,11 @@ export default function UpDateEditUserInfo({ row, isEdit }) {
   const navigate = useNavigate();
   const { enqueueSnackbar } = useSnackbar();
   const [updateUser] = useMutation(UPDATE_USER_INFO, {
-    onCompleted: async (res) => {
-      if (res) {
-        return res;
-      }
-      return null;
+    onCompleted: () => {
+      console.log('hello');
+      enqueueSnackbar('Cập nhật thông tin role thành công!', {
+        variant: 'success',
+      });
     },
   });
   const updateUserSchema = Yup.object().shape({
@@ -86,7 +86,6 @@ export default function UpDateEditUserInfo({ row, isEdit }) {
       });
       reset();
       enqueueSnackbar('Cập nhật thông tin role thành công!');
-      toast.success('Đây là thông báo thành công');
       navigate('/dashboard/nguoi-dung');
     } catch (error) {
       console.error(error);
