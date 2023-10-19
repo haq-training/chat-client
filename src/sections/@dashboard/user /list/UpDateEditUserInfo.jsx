@@ -83,9 +83,8 @@ export default function UpDateEditUserInfo({ row, isEdit }) {
         },
       });
       enqueueSnackbar('Cập nhật thông tin role thành công!');
-
-      console.log('dsvvberabnekjfnvdfklb ekflbd');
-      // navigate('/dashboard/nguoi-dung');
+      reset();
+      navigate('/dashboard/nguoi-dung');
     } catch (error) {
       console.error(error);
     }
