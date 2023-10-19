@@ -359,6 +359,24 @@ export const SHARED_LINKS = [
   },
 ];
 
+export const bookmarkList = [
+  {
+    id: 0,
+    name: 'Ảnh mèo',
+    msg: '14.5 MB',
+  },
+  {
+    id: 1,
+    name: 'Web',
+    msg: 'http://bgpattern.com/324123re2f34tgf4rg2354gr',
+  },
+  {
+    id: 2,
+    name: 'Tài liệu học tập',
+    msg: '10 MB',
+  },
+];
+
 export const SHARED_DOCS = [
   {
     type: 'msg',
