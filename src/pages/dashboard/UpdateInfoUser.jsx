@@ -16,7 +16,7 @@ export default function UpDateUserInfo() {
 
   const [currentUser, setCurrentUser] = useState({});
 
-  const isEdit = pathname.includes('cap-nhat');
+  const isEdit = pathname.includes('chinh-sua');
 
   console.log('isEdit', isEdit);
 

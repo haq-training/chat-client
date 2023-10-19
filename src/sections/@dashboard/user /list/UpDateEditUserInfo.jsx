@@ -16,7 +16,10 @@ import { FormProvider, RHFSelect, RHFTextField } from '../../../../components/ho
 const UPDATE_USER_INFO = loader('../../../../graphql/mutations/user/upDateUserInformation.graphql');
 // ----------------------------------------------------------------------
 
-export const ROLE_TYPE = [1, 0];
+const ROLE_TYPE = [
+  { name: 1, label: 'User' },
+  { name: 0, label: 'Admin' },
+];
 
 UpDateEditUserInfo.propTypes = {
   isEdit: PropTypes.bool,
@@ -68,22 +71,21 @@ export default function UpDateEditUserInfo({ row, isEdit }) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isEdit, row]);
 
+  console.log('isEdit', isEdit);
+
   const onSubmit = async () => {
     try {
-      if (isEdit) {
-        await updateUser({
-          variables: {
-            input: {
-              id: Number(row.id),
-            },
-          },
-        });
-      }
-      reset();
+      await updateUser({
+        variables: {
+          id: Number(row?.id),
+        },
+      });
+
       enqueueSnackbar(!isEdit ? 'Cập nhật thông tin thành công!' : 'Cập nhật thông tin role thành công!', {
         variant: 'success',
       });
       navigate('/dashboard/nguoi-dung');
+      reset();
     } catch (error) {
       enqueueSnackbar(!isEdit ? 'Cập nhật thông tin không thành công!' : 'Cập nhật thông tin role không thành công!', {
         variant: 'error',
@@ -106,19 +108,20 @@ export default function UpDateEditUserInfo({ row, isEdit }) {
               size={'small'}
               sx={{ mt: 4 }}
               onChange={(event) => {
-                setValue('productType', event.target.value, { shouldValidate: true });
+                setValue('role', event.target.value);
               }}
             >
-              {ROLE_TYPE.map((roleType, idx) => (
-                <option key={idx} value={roleType}>
-                  {roleType}
+              <option value="" />
+              {ROLE_TYPE.map((option) => (
+                <option key={option.name} value={option.name}>
+                  {option.label}
                 </option>
               ))}
             </RHFSelect>
             <Grid container justifyContent="flex-end" sx={{ mt: 4 }}>
               <Grid item sx={{ ml: 1 }}>
                 <LoadingButton type="submit" variant="contained" loading={isSubmitting}>
-                  {isEdit ? 'Lưu' : 'Lưu thay đổi'}
+                  {!isEdit ? 'Lưu' : 'Lưu thay đổi'}
                 </LoadingButton>
               </Grid>
             </Grid>
