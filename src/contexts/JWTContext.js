@@ -70,7 +70,7 @@ function AuthProvider({ children }) {
       return null;
     },
   });
-  // console.log('login',loginFn());
+
   const [fetchProfile] = useLazyQuery(PROFILE, {
     fetchPolicy: 'network-only',
     onCompleted: async (res) => {
@@ -96,12 +96,8 @@ function AuthProvider({ children }) {
               ...user,
               id: `${user?.id}`,
               role: user?.role,
-              signatureImg: user?.signatureImg,
-              displayName: user?.fullName,
-              photoURL: user?.avatarURL,
-              status: user?.isActive === true ? 'Đang hoạt động' : 'Ngừng hoạt động',
-              phone: user?.phoneNumber,
-              company: 'Công ty CP Thép Công Nghiệp HN',
+              photoURL: user?.avatarUrl,
+              status: user?.status === true ? 'Đang hoạt động' : 'Ngừng hoạt động',
             };
             dispatch({
               type: 'INITIALIZE',
