@@ -1,6 +1,17 @@
 import { useEffect, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Card, Container, Divider, Tab, Table, TableBody, TableContainer, Tabs, Tooltip } from '@mui/material';
+import {
+  Card,
+  Container,
+  Divider,
+  Tab,
+  Table,
+  TableBody,
+  CardHeader,
+  TableContainer,
+  Tabs,
+  Tooltip,
+} from '@mui/material';
 import { loader } from 'graphql.macro';
 import { useMutation, useQuery } from '@apollo/client';
 import { useSnackbar } from 'notistack';
@@ -287,6 +298,7 @@ export default function ListUser() {
         }}
       >
         <Card>
+          <CardHeader sx={{ mb: 3 }} title={'Danh sách User'} />
           <Tabs
             allowScrollButtonsMobile
             variant="scrollable"
