@@ -28,9 +28,15 @@ UpDateEditUserInfo.propTypes = {
 
 export default function UpDateEditUserInfo({ row, isEdit }) {
   const navigate = useNavigate();
-  const [updateUser] = useMutation(UPDATE_USER_INFO);
-
   const { enqueueSnackbar } = useSnackbar();
+  const [updateUser] = useMutation(UPDATE_USER_INFO, {
+    onCompleted: async (res) => {
+      if (res) {
+        return res;
+      }
+      return null;
+    },
+  });
   const updateUserSchema = Yup.object().shape({
     firstName: Yup.string().required('Bạn hãy nhập tên'),
     lastName: Yup.string().required('Bạn hãy nhập họ'),
@@ -46,8 +52,6 @@ export default function UpDateEditUserInfo({ row, isEdit }) {
     }),
     [row]
   );
-
-  console.log('defaultValues', defaultValues);
 
   const methods = useForm({
     resolver: yupResolver(updateUserSchema),
@@ -71,8 +75,6 @@ export default function UpDateEditUserInfo({ row, isEdit }) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isEdit, row]);
 
-  console.log('isEdit', isEdit);
-
   const onSubmit = async () => {
     try {
       await updateUser({
@@ -80,16 +82,12 @@ export default function UpDateEditUserInfo({ row, isEdit }) {
           id: Number(row?.id),
         },
       });
+      enqueueSnackbar('Cập nhật thông tin role thành công!');
 
-      enqueueSnackbar(!isEdit ? 'Cập nhật thông tin thành công!' : 'Cập nhật thông tin role thành công!', {
-        variant: 'success',
-      });
-      navigate('/dashboard/nguoi-dung');
-      reset();
+      console.log('dsvvberabnekjfnvdfklb ekflbd');
+      // navigate('/dashboard/nguoi-dung');
     } catch (error) {
-      enqueueSnackbar(!isEdit ? 'Cập nhật thông tin không thành công!' : 'Cập nhật thông tin role không thành công!', {
-        variant: 'error',
-      });
+      console.error(error);
     }
   };
 
@@ -98,10 +96,10 @@ export default function UpDateEditUserInfo({ row, isEdit }) {
       <Grid container spacing={4}>
         <Grid container justifyContent="center" item xs={6} sm={6} md={6}>
           <Card sx={{ p: 3 }}>
-            <RHFTextField name="firstName" label="Họ" />
-            <RHFTextField name="lastName" label="Tên" sx={{ mt: 4 }} />
-            <RHFTextField name="email" label="Email" sx={{ mt: 4 }} />
-            <RHFTextField name="location" label="Vị trí" sx={{ mt: 4 }} />
+            <RHFTextField disabled name="firstName" label="Họ" />
+            <RHFTextField disabled name="lastName" label="Tên" sx={{ mt: 4 }} />
+            <RHFTextField disabled name="email" label="Email" sx={{ mt: 4 }} />
+            <RHFTextField disabled name="location" label="Vị trí" sx={{ mt: 4 }} />
             <RHFSelect
               name="role"
               label="Chọn role"

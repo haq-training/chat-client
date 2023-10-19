@@ -18,15 +18,11 @@ export default function UpDateUserInfo() {
 
   const isEdit = pathname.includes('chinh-sua');
 
-  console.log('isEdit', isEdit);
-
   const { data: allGetUser } = useQuery(GET_USER_INFO, {
     variables: {
       id: Number(id),
     },
   });
-
-  console.log('allGetUser', allGetUser);
 
   useEffect(() => {
     if (allGetUser) {
@@ -38,9 +34,12 @@ export default function UpDateUserInfo() {
 
   return (
     <>
-      <Page title={!isEdit ? 'Người dùng: Sửa thông tin người dùng' : 'Người dùng: Sửa thông tin người dùng'}>
+      <Page
+        title={!isEdit ? 'Người dùng: Sửa thông tin người dùng' : 'Người dùng: Sửa thông tin người dùng'}
+        sx={{ ml: 70, mt: 13 }}
+      >
         <Container maxWidth={false}>
-          <Typography variant="h6" sx={{ mb: 2 }}>
+          <Typography variant="h6" sx={{ mb: 2, ml: 16 }}>
             {!isEdit ? ' Sửa thông tin người dùng' : ' Sửa thông tin người dùng'}
           </Typography>
           <UpDateEditUserInfo isEdit={isEdit} row={currentGetIdUser} />
