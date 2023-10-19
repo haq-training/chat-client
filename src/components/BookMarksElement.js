@@ -3,8 +3,8 @@ import { useTheme } from '@mui/material/styles';
 import { File } from 'phosphor-react';
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
-import Iconify from '../../../components/Iconify';
-import MenuPopover from '../../../components/MenuPopover';
+import Iconify from './Iconify';
+import MenuPopover from './MenuPopover';
 
 BookMarkElement.propTypes = {
   name: PropTypes.string,

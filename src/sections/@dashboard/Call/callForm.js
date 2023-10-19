@@ -5,8 +5,8 @@ import { useTheme } from '@mui/material/styles';
 import { Search, SearchIconWrapper, StyledInputBase } from '../../../components/Search';
 
 import { CallLogs } from '../../../_apis_/data';
-import { CallLogElement } from './CallElement';
-import StartCall from './StartCall';
+import { CallLogElement } from '../../../components/CallElement';
+import StartCall from '../StartCall';
 
 export default function CallForm() {
   const theme = useTheme();
