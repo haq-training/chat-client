@@ -1,17 +1,5 @@
 import { faker } from '@faker-js/faker';
-import {
-  ChatCircleDots,
-  Gear,
-  GearSix,
-  Phone,
-  SignOut,
-  User,
-  Users,
-  Bookmarks,
-  Image,
-  Link,
-  File,
-} from 'phosphor-react';
+import { ChatCircleDots, Gear, GearSix, Phone, SignOut, User, Users, Bookmarks, UserList } from 'phosphor-react';
 
 export const profileMenu = [
   {
@@ -28,24 +16,61 @@ export const profileMenu = [
   },
 ];
 
-export const navButtons = [
+export const navButtonsUser = [
   {
     index: 0,
     icon: <ChatCircleDots />,
+    tooltip: 'Chat',
   },
   {
     index: 1,
     icon: <Users />,
+    tooltip: 'Danh bạ',
   },
   {
     index: 2,
     icon: <Phone />,
+    tooltip: 'Cuộc gọi',
   },
   {
     index: 3,
     icon: <Bookmarks />,
+    tooltip: 'Mục ghim',
   },
 ];
+
+export const navButtonsAdmin = [
+  {
+    index: 0,
+    icon: <ChatCircleDots />,
+    tooltip: 'Chat',
+  },
+  {
+    index: 1,
+    icon: <Users />,
+    tooltip: 'Danh bạ',
+  },
+  {
+    index: 2,
+    icon: <Phone />,
+    tooltip: 'Cuộc gọi',
+  },
+  {
+    index: 3,
+    icon: <Bookmarks />,
+    tooltip: 'Mục ghim',
+  },
+  {
+    index: 4,
+    icon: <UserList />,
+    tooltip: 'Danh sách user',
+  },
+];
+
+export const Role = {
+  user: 1,
+  admin: 0,
+};
 
 export const navSetting = [
   {
@@ -90,43 +115,8 @@ export const CallLogs = [
     missed: true,
     incoming: true,
   },
-  {
-    id: 5,
-    img: faker.image.avatar(),
-    name: faker.name.firstName(),
-    missed: true,
-    incoming: false,
-  },
-
-  {
-    id: 5,
-    img: faker.image.avatar(),
-    name: faker.name.firstName(),
-    missed: false,
-    incoming: true,
-  },
 ];
 
-export const bookmarkList = [
-  {
-    id: 0,
-    Icon: <Image />,
-    name: 'Ảnh mèo',
-    msg: '14.5 MB',
-  },
-  {
-    id: 1,
-    icon: <Link />,
-    name: 'Web',
-    msg: 'http://bgpattern.com/324123re2f34tgf4rg2354gr',
-  },
-  {
-    id: 2,
-    icon: <File />,
-    name: 'Tài liệu học tập',
-    msg: '10 MB',
-  },
-];
 export const membersList = [
   {
     id: 0,
@@ -397,5 +387,23 @@ export const SHARED_DOCS = [
     message: 'Yes sure, here you go.',
     incoming: true,
     outgoing: false,
+  },
+];
+
+export const bookmarkList = [
+  {
+    id: 0,
+    name: 'Ảnh mèo',
+    msg: '14.5 MB',
+  },
+  {
+    id: 1,
+    name: 'Web',
+    msg: 'http://bgpattern.com/324123re2f34tgf4rg2354gr',
+  },
+  {
+    id: 2,
+    name: 'Tài liệu học tập',
+    msg: '10 MB',
   },
 ];
