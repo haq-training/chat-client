@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
-// import { useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { Card, Container, Divider, Tab, Table, TableBody, TableContainer, Tabs, Tooltip } from '@mui/material';
 import { loader } from 'graphql.macro';
 import { useMutation, useQuery } from '@apollo/client';
@@ -12,6 +12,7 @@ import { UserTableRow, UserTableToolbar } from '../../sections/@dashboard/user /
 import { DefaultMaxHeight, DefaultRowsPerPage, Role, RoleArr } from '../../constant';
 import useAuth from '../../hooks/useAuth';
 import CommonBackdrop from '../../components/CommonBackdrop';
+import { SSM_PATH_DASHBOARD } from '../../routes/paths';
 // import { formatRoleInput } from '../../utils/formatRole';
 
 const GET_ALL_USER = loader('../../graphql/queries/user/getAllUsers.graphql');
@@ -50,7 +51,7 @@ export default function ListUser() {
 
   const { user } = useAuth();
 
-  // const navigate = useNavigate();
+  const navigate = useNavigate();
 
   const [tableData, setTableData] = useState([]);
 
@@ -231,9 +232,9 @@ export default function ListUser() {
     });
   };
 
-  // const handleEditRow = (id) => {
-  //   navigate(SSM_PATH_DASHBOARD.user.edit(id));
-  // };
+  const handleEditRow = (id) => {
+    navigate(SSM_PATH_DASHBOARD.user.edit(id));
+  };
 
   const dataFiltered = applySortFilter({
     tableData,
@@ -362,7 +363,7 @@ export default function ListUser() {
                     selected={selected.includes(row.id)}
                     onSelectRow={() => onSelectRow(row.id)}
                     // onDeleteRow={() => handleDeleteRow(row.id)}
-                    // onEditRow={() => handleEditRow(row.id)}
+                    onEditRow={() => handleEditRow(row.id)}
                     onResetPassword={() => handleResetPassword(row.id)}
                     // onResetAccount={() => handleUpdateStatusUser(row.id)}
                     // onDeleteUserInfo={() => handleDeleteUserInfo(row.id)}

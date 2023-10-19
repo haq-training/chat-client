@@ -47,4 +47,9 @@ export const SSM_PATH_DASHBOARD = {
   settings: path(ROOTS_DASHBOARD, '/cai-dat'),
   listUser: path(ROOTS_DASHBOARD, '/danh-sach'),
   changePass: path(ROOTS_DASHBOARD, '/doi-mat-khau'),
+  user: {
+    root: path(ROOTS_DASHBOARD, `/nguoi-dung`),
+    list: path(ROOTS_DASHBOARD, `/nguoi-dung/danh-sach`),
+    edit: (id) => path(ROOTS_DASHBOARD, `/nguoi-dung/${id}/chinh-sua`),
+  },
 };

@@ -40,11 +40,6 @@ export default function UserTableRow({
   const { email, firstName, lastName, story, avatarUrl } = row;
   const [openMenu, setOpenMenuActions] = useState(null);
   // const [userInfoId, setUserInfoId] = useState(null);
-  // const [dataUserInfo, setDataUserInfo] = useState();
-  // const [isEdit, setIsEdit] = useState(false);
-
-  // const { toggle: isOpenUserInfoPopup, onOpen: onOpenUserInfoPopup, onClose: onCloseUserInfoPopup } = useToggle();
-  // const { toggle: isOpenNewUpdateInfo, onOpen: onOpenNewUpdateInfo, onClose: onCloseNewUpdateInfo } = useToggle();
 
   const handleOpenMenu = (event) => {
     setOpenMenuActions(event.currentTarget);

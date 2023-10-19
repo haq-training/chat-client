@@ -9,6 +9,7 @@ import { SINGLE_KEY_PATH } from './paths';
 import LoadingScreen from '../components/LoadingScreen';
 import { DashboardLayout } from '../layouts/dashboard';
 import Chats from '../pages/dashboard/Chat';
+import UpdateInfoUser from '../pages/dashboard/UpdateInfoUser';
 
 // ----------------------------------------------------------------------
 
@@ -63,8 +64,18 @@ export default function Router() {
         { path: 'thong-tin', element: <UserAccount /> },
         { path: 'danh-ba', element: <Contacts /> },
         { path: 'muc-ghim', element: <BookMark /> },
-        { path: 'danh-sach', element: <ListUser /> },
         { path: 'doi-mat-khau', element: <ChangePass /> },
+        {
+          path: 'nguoi-dung',
+          children: [
+            { element: <ListUser />, index: true },
+            { path: 'danh-sach', element: <ListUser /> },
+            {
+              path: ':id/chinh-sua',
+              element: <UpdateInfoUser />,
+            },
+          ],
+        },
       ],
     },
     {
