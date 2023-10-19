@@ -1,8 +1,11 @@
 import PropTypes from 'prop-types';
-import merge from 'lodash/merge';
 import { useMemo } from 'react';
+// @mui
 import { alpha, ThemeProvider, createTheme, useTheme } from '@mui/material/styles';
-import { useSettingsContext } from './SettingsContext';
+// hooks
+import useSettings from '../../hooks/useSettings';
+//
+import componentsOverride from '../../theme/overrides';
 
 // ----------------------------------------------------------------------
 
@@ -11,23 +14,28 @@ ThemeColorPresets.propTypes = {
 };
 
 export default function ThemeColorPresets({ children }) {
-  const outerTheme = useTheme();
+  const defaultTheme = useTheme();
 
-  const { presetsColor } = useSettingsContext();
+  const { setColor } = useSettings();
 
   const themeOptions = useMemo(
     () => ({
+      ...defaultTheme,
       palette: {
-        primary: presetsColor,
+        ...defaultTheme.palette,
+        primary: setColor,
       },
       customShadows: {
-        primary: `0 8px 16px 0 ${alpha(presetsColor.main, 0.24)}`,
+        ...defaultTheme.customShadows,
+        primary: `0 8px 16px 0 ${alpha(setColor.main, 0.24)}`,
       },
     }),
-    [presetsColor]
+    [setColor, defaultTheme]
   );
 
-  const theme = createTheme(merge(outerTheme, themeOptions));
+  const theme = createTheme(themeOptions);
+
+  theme.components = componentsOverride(theme);
 
   return <ThemeProvider theme={theme}>{children}</ThemeProvider>;
 }
