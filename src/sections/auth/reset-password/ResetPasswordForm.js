@@ -9,9 +9,9 @@ import { useForm } from 'react-hook-form';
 import { Stack } from '@mui/material';
 import { LoadingButton } from '@mui/lab';
 // hooks
-import useIsMountedRef from '../../../hooks/useIsMountedRef';
+
 // components
-import { FormProvider, RHFTextField } from '../../../components/hook-form';
+import { FormProvider, RHFTextField,useSnackbar } from '../../../components/hook-form';
 
 // ----------------------------------------------------------------------
 
@@ -24,7 +24,8 @@ ResetPasswordForm.propTypes = {
 };
 
 export default function ResetPasswordForm({ onSent, onGetEmail }) {
-  const isMountedRef = useIsMountedRef();
+  const { enqueueSnackbar } = useSnackbar();
+
 
   const ResetPasswordSchema = Yup.object().shape({
     email: Yup.string().email('Email phải là địa chỉ email hợp lệ').required('Email không được để trống'),
@@ -36,29 +37,34 @@ export default function ResetPasswordForm({ onSent, onGetEmail }) {
   });
 
   const {
+    watch,
     handleSubmit,
     formState: { isSubmitting },
   } = methods;
   console.log('click',isSubmitting);
 
-  const [userForgetPassword, { loading: loadingUpdate }] = useMutation(UPDATE_USER_INFO, {
-    refetchQueries: () => [
-      {
-        query: GET_USER_INFO,
-        variables: { id: user.id },
-      },
-    ],
+  const values = watch();
+
+  const [ForgotPassword, { loading: loadingResetPassword }] = useMutation(FORGOT_PASSWORD, {
+    onCompleted: () => {
+      enqueueSnackbar('Gửi yêu cầu thành công', {
+        variant: 'success',
+      });
+    },
+    onError: (error) => {
+      enqueueSnackbar(`Gửi yêu cầu không thành công. Nguyên nhân: ${error.message}`, {
+        variant: 'error',
+      });
+    },
   });
-  const onSubmit = async (data) => {
-    try {
-      await new Promise((resolve) => setTimeout(resolve, 500));
-      if (isMountedRef.current) {
-        onSent();
-        onGetEmail(data.email);
-      }
-    } catch (error) {
-      console.error(error);
-    }
+  const onSubmit = async () => {
+    await ForgotPassword({
+      variables: {
+        input: {
+          gmail: values.email,
+        },
+      },
+    });
   };
 
   return (
