@@ -2,7 +2,7 @@ import PropTypes from 'prop-types';
 import { loader } from 'graphql.macro';
 import * as Yup from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup/dist/yup';
-import { Box, Card, CardHeader, Dialog, Grid, Typography } from '@mui/material';
+import { Card, CardHeader, Dialog, Grid, Typography } from '@mui/material';
 import { LoadingButton } from '@mui/lab';
 import { useSnackbar } from 'notistack';
 import { useForm } from 'react-hook-form';
@@ -144,16 +144,6 @@ export default function UserInfoPersonalPopup({ user, isEdit, isOpen, onClose, i
         <Grid container spacing={3}>
           <Grid item xs={6} md={6}>
             <Card sx={{ p: 3 }}>
-              <Box
-                sx={{
-                  display: 'grid',
-                  columnGap: 2,
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  rowGap: 3,
-                  gridTemplateColumns: { xs: 'repeat(1, 1fr)', sm: 'repeat(2, 1fr)' },
-                }}
-              >
                 <RHFUploadAvatar
                   name="avatarUrl"
                   accept={{
@@ -171,7 +161,7 @@ export default function UserInfoPersonalPopup({ user, isEdit, isOpen, onClose, i
                     </Typography>
                   }
                 />
-              </Box>
+
             </Card>
           </Grid>
           <Grid container justifyContent="center" item xs={6} sm={6} md={6}>
