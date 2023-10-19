@@ -11,7 +11,9 @@ import { LoadingButton } from '@mui/lab';
 // hooks
 
 // components
-import { FormProvider, RHFTextField,useSnackbar } from '../../../components/hook-form';
+import { useSnackbar } from 'notistack';
+import { FormProvider, RHFTextField } from '../../../components/hook-form';
+
 
 // ----------------------------------------------------------------------
 
