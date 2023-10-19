@@ -32,8 +32,8 @@ export default function UserInfoPersonalPopup({ user, isEdit, isOpen, onClose, i
   const [uploadFile, setUploadFile] = useState(null);
   const [updateBtnEnable, setUpdateBtnEnable] = useState(false);
   const updateUserSchema = Yup.object().shape({
-    firstName: Yup.string().required('Bạn hãy nhập tên'),
-    lastName: Yup.string().required('Bạn hãy nhập họ'),
+    firstName: Yup.string().required('Bạn hãy nhập họ'),
+    lastName: Yup.string().required('Bạn hãy nhập tên'),
   });
   const defaultValues = useMemo(
     () => ({
@@ -43,6 +43,7 @@ export default function UserInfoPersonalPopup({ user, isEdit, isOpen, onClose, i
       lastName: user?.lastName || '',
       location: user?.location || '',
       avatarUrl: `${user.avatarUrl}` || '',
+      story: user?.story || '',
     }),
     [id, user]
   );
