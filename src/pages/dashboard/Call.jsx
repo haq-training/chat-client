@@ -5,7 +5,6 @@ import { useTheme } from '@mui/material/styles';
 import { Search, SearchIconWrapper, StyledInputBase } from '../../components/Search';
 import { SimpleBarStyle } from '../../components/Scrollbar';
 import { CallLogs } from '../../_apis_/data';
-import { CallLogElement } from '../../components/CallElement';
 import StartCall from '../../sections/@dashboard/StartCall';
 
 export default function GeneralApp() {
@@ -55,13 +54,7 @@ export default function GeneralApp() {
             <Divider />
             <Stack spacing={3} className="scrollbar" sx={{ flexGrow: 1, overflowY: 'scroll', height: '100%' }}>
               <SimpleBarStyle timeout={500} clickOnTrack={false}>
-                <Stack spacing={2.5}>
-                  Call Logs
-                  {CallLogs.map((el) => (
-                    <CallLogElement {...el} />
-                  ))}
-                  <CallLogElement />
-                </Stack>
+                <Stack spacing={2.5}>Call Logs</Stack>
               </SimpleBarStyle>
             </Stack>
           </Stack>

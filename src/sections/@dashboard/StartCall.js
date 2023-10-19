@@ -2,7 +2,7 @@ import { Dialog, DialogContent, DialogTitle, Slide, Stack } from '@mui/material'
 import React from 'react';
 import { MagnifyingGlass } from 'phosphor-react';
 import { Search, SearchIconWrapper, StyledInputBase } from '../../components/Search';
-import { CallElement } from '../../components/CallElement';
+
 import { membersList } from '../../_apis_/data';
 
 const Transition = React.forwardRef((props, ref) => <Slide direction="up" ref={ref} {...props} />);
@@ -30,10 +30,7 @@ const StartCall = ({ open, handleClose }) => (
           </Search>
         </Stack>
       </Stack>
-
       {/* Call List */}
-      {membersList.map((el) => (
-        <CallElement {...el} />
       ))}
     </DialogContent>
   </Dialog>

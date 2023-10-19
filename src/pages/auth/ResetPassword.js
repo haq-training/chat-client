@@ -1,7 +1,4 @@
-// import { useState } from 'react';
-// import { Link as RouterLink } from 'react-router-dom';
 // @mui
-import { LoadingButton } from '@mui/lab';
 import { styled } from '@mui/material/styles';
 import { Box, Container, Link, Typography } from '@mui/material';
 // layouts
@@ -9,15 +6,10 @@ import { Box, Container, Link, Typography } from '@mui/material';
 // routes
 import { Link as RouterLink } from 'react-router-dom';
 import { blueGrey, red } from '@mui/material/colors';
-// import background from '../../../../../../../public/static/illustrations/b2.jpg';
 import { PATH_AUTH } from '../../routes/paths';
 // components
 import Page from '../../components/Page';
-// import Logo from '../../components/Logo';
-// sections
-// import { ResetPasswordForm } from '../../sections/auth/reset-password';
-// assets
-// import { SentIcon } from '../../assets';
+import ResetPasswordForm from '../../sections/auth/reset-password/ResetPasswordForm';
 
 // ----------------------------------------------------------------------
 
@@ -71,13 +63,11 @@ export default function ResetPassword() {
         <Container>
           <ContentStyle>
             <Box sx={{ flexGrow: 1, justifyContent: 'right', mx: 'auto' }}>
-              <Typography variant="h4" gutterBottom>
-                Gửi yêu cầu để reset lại mật khẩu!
-              </Typography>
+              <Typography variant='h3' paragraph>Bạn đã quên mật khẩu??</Typography>
+              <Typography sx={{color:'text.secondary', mb:2}}>Vui lòng nhập địa chỉ email được liên kết với
+                tài khoản của bạn và chúng tôi sẽ reset lại mật khẩu cho bạn!</Typography>
             </Box>
-            <LoadingButton fullWidth size="large" type="submit" variant="contained">
-              Nhấn để gửi yêu cầu!
-            </LoadingButton>
+            <ResetPasswordForm/>
           </ContentStyle>
         </Container>
       </RootStyle>
