@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import { Box, IconButton, Stack, Typography } from '@mui/material';
 import useAuth from '../../hooks/useAuth';
 import MyAvatar from '../../components/MyAvatar';
-import UserInfoPersonalPopup from '../../components/updateUser';
+import UserInfoPersonalPopup from '../../sections/@dashboard/profile/updateUser';
 import useToggle from '../../hooks/useToggle';
 import Iconify from '../../components/Iconify';
 

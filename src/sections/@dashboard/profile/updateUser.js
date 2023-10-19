@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
-import * as Yup from 'yup';
 import { loader } from 'graphql.macro';
+import * as Yup from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup/dist/yup';
 import { Box, Card, CardHeader, Dialog, Grid, Typography } from '@mui/material';
 import { LoadingButton } from '@mui/lab';
@@ -8,13 +8,13 @@ import { useSnackbar } from 'notistack';
 import { useForm } from 'react-hook-form';
 import { useMutation, useQuery } from '@apollo/client';
 import { useCallback, useEffect, useMemo, useState } from 'react';
-import { FormProvider, RHFTextField, RHFUploadAvatar } from './hook-form';
-import { fData } from '../utils/formatNumber';
-import CommonBackdrop from './CommonBackdrop';
+import { FormProvider, RHFTextField, RHFUploadAvatar } from '../../../components/hook-form';
+import { fData } from '../../../utils/formatNumber';
+import CommonBackdrop from '../../../components/CommonBackdrop';
 
 // ----------------------------------------------------------------------
-const GET_USER_INFO = loader('../graphql/queries/user/me.graphql');
-const UPDATE_USER_INFO = loader('../graphql/mutations/updateUser.graphql');
+const GET_USER_INFO = loader('../../../graphql/queries/user/me.graphql');
+const UPDATE_USER_INFO = loader('../../../graphql/mutations/updateUser.graphql');
 // ----------------------------------------------------------------------
 
 // ----------------------------------------------------------------------
@@ -30,7 +30,6 @@ UserInfoPersonalPopup.propTypes = {
 export default function UserInfoPersonalPopup({ user, isEdit, isOpen, onClose, id }) {
   const { enqueueSnackbar } = useSnackbar();
   const [uploadFile, setUploadFile] = useState(null);
-  const [updateBtnEnable, setUpdateBtnEnable] = useState(false);
   const updateUserSchema = Yup.object().shape({
     firstName: Yup.string().required('Bạn hãy nhập họ'),
     lastName: Yup.string().required('Bạn hãy nhập tên'),
@@ -94,7 +93,7 @@ export default function UserInfoPersonalPopup({ user, isEdit, isOpen, onClose, i
         );
       }
       setUploadFile(file);
-      setUpdateBtnEnable(true);
+
     },
     [setValue]
   );
@@ -122,6 +121,9 @@ export default function UserInfoPersonalPopup({ user, isEdit, isOpen, onClose, i
           },
         },
       });
+      setTimeout(() => {
+        window.location.reload();
+      }, 1000);
 
       reset();
       onClose();
@@ -135,7 +137,7 @@ export default function UserInfoPersonalPopup({ user, isEdit, isOpen, onClose, i
   };
 
   return (
-    <Dialog fullWidth maxWidth="md" open={isOpen} onClose={onClose} onBackdropClick={handleCancel}>
+    <Dialog fullWidth maxWidth="md" open={isOpen} onClose={onClose} >
       <FormProvider methods={methods} onSubmit={handleSubmit(onSubmit)}>
         <CardHeader sx={{ mb: 3 }} title={'Sửa sơ yếu lý lịch'} />
 
@@ -185,7 +187,7 @@ export default function UserInfoPersonalPopup({ user, isEdit, isOpen, onClose, i
                   </LoadingButton>
                 </Grid>
                 <Grid item sx={{ ml: 1 }}>
-                  <LoadingButton disabled={!updateBtnEnable} type="submit" variant="contained" loading={isSubmitting}>
+                  <LoadingButton  type="submit" variant="contained" loading={isSubmitting} >
                     Lưu
                   </LoadingButton>
                 </Grid>
