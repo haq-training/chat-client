@@ -3,9 +3,11 @@ import { Button, Dialog, DialogContent, DialogTitle, Slide, Stack } from '@mui/m
 import React from 'react';
 import { useForm } from 'react-hook-form';
 import * as Yup from 'yup';
+// import PropTypes from "prop-types";
 import FormProvider from '../../components/hook-form/FormProvider';
 import { RHFTextField } from '../../components/hook-form';
 import RHFAutocomplete from '../../components/hook-form/RHFAutocomplete';
+// import EmojiPicker from "../../components/EmojiPicker";
 
 const MEMBERS = ['Name 1', 'Name 2', 'Name 3'];
 
@@ -67,11 +69,15 @@ const CreateGroupForm = ({ handleClose }) => {
   );
 };
 
+// CreateGroup.propTypes = {
+//   open: PropTypes.bool,
+//   handleClose: PropTypes.bool,
+// };
 const CreateGroup = ({ open, handleClose }) => (
-  <Dialog fullWidth maxWidth="xs" open={open} TransitionComponent={Transition} keepMounted sx={{ p: 4 }}>
+  <Dialog fullWidth maxWidth="xs" open={open} onClose={handleClose} TransitionComponent={Transition} keepMounted sx={{ p: 4 }}>
     <DialogTitle sx={{ mb: 3 }}>Create New Group</DialogTitle>
     <DialogContent>
-      <CreateGroupForm handleClose />
+      <CreateGroupForm handleClose={handleClose} />
     </DialogContent>
   </Dialog>
 );

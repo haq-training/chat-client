@@ -50,18 +50,18 @@ export default function Scrollbar({ children, sx, ...other }) {
 
   if (isMobile) {
     return (
-      <Box sx={{ overflowX: 'auto', ...sx }} {...other}>
-        {children}
-      </Box>
+        <Box sx={{ overflowX: 'auto', ...sx }} {...other}>
+          {children}
+        </Box>
     );
   }
 
   return (
-    <RootStyle>
-      <SimpleBarStyle timeout={500} clickOnTrack={false} sx={sx} {...other}>
-        {children}
-      </SimpleBarStyle>
-    </RootStyle>
+      <RootStyle>
+        <SimpleBarStyle timeout={500} clickOnTrack={false} sx={sx} {...other}>
+          {children}
+        </SimpleBarStyle>
+      </RootStyle>
   );
 }
 

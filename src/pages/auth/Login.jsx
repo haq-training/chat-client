@@ -8,7 +8,7 @@ import Logo from '../../components/Logo';
 import Image from '../../components/Image';
 import { LoginForm } from '../../sections/auth/login';
 import UnAuthorizationPage from '../../components/UnAuthorizationPage';
-
+// import { PATH_AUTH } from '../../routes/paths';
 // ----------------------------------------------------------------------
 
 const RootStyle = styled('div')(({ theme }) => ({
@@ -45,7 +45,7 @@ const ContentStyle = styled('div')(({ theme }) => ({
   maxWidth: 480,
   margin: 'auto',
   display: 'flex',
-  minHeight: '100vh',
+  minHeight: '80vh',
   flexDirection: 'column',
   justifyContent: 'center',
   padding: theme.spacing(12, 0),
@@ -57,30 +57,30 @@ export default function Login() {
   const mdUp = useResponsive('up', 'md');
 
   return (
-    <UnAuthorizationPage title="Đăng nhập">
-      <RootStyle>
-        <HeaderStyle>
-          <Logo />
-        </HeaderStyle>
-        {mdUp && (
-          <SectionStyle>
-            <Image visibleByDefault disabledEffect alt="login" src="/static/illustrations/right-financial.svg" />
-          </SectionStyle>
-        )}
+      <UnAuthorizationPage title="Đăng nhập">
+        <RootStyle>
+          <HeaderStyle>
+            <Logo />
+          </HeaderStyle>
+          {mdUp && (
+              <SectionStyle>
+                <Image visibleByDefault disabledEffect alt="login" src="/static/illustrations/right-financial.svg" />
+              </SectionStyle>
+          )}
 
-        <Container maxWidth="sm">
-          <ContentStyle>
-            <Stack direction="column" sx={{ mb: 5 }}>
-              <Box sx={{ flexGrow: 1, justifyContent: 'right', mx: 'auto' }}>
-                <Typography variant="h4" gutterBottom>
-                  Đăng nhập
-                </Typography>
-              </Box>
-            </Stack>
-            <LoginForm />
-          </ContentStyle>
-        </Container>
-      </RootStyle>
-    </UnAuthorizationPage>
+          <Container maxWidth="sm">
+            <ContentStyle>
+              <Stack direction="column" sx={{ mb: 5 }}>
+                <Box sx={{ flexGrow: 1, justifyContent: 'right', mx: 'auto' }}>
+                  <Typography variant="h4" gutterBottom>
+                    Đăng nhập
+                  </Typography>
+                </Box>
+              </Stack>
+              <LoginForm />
+            </ContentStyle>
+          </Container>
+        </RootStyle>
+      </UnAuthorizationPage>
   );
 }
