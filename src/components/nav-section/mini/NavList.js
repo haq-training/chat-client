@@ -16,7 +16,7 @@ NavList.propTypes = {
 };
 
 export default function NavList({ data, depth, hasChild }) {
-  console.log('datamini', data);
+
   const miniNavListRef = useRef(null);
 
   const { pathname } = useLocation();

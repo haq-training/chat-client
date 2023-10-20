@@ -23,7 +23,6 @@ const BoxStyle = styled(CardActionArea)(({ theme }) => ({
 
 export default function SettingDirection() {
   const { themeDirection, onChangeDirection } = useSettings();
-  console.log('hello');
 
   return (
     <RadioGroup name="themeDirection" value={themeDirection} onChange={onChangeDirection}>
