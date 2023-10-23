@@ -1,15 +1,12 @@
 // @mui
 import { styled } from '@mui/material/styles';
-import { Box, Container, Link, Typography } from '@mui/material';
-// layouts
-// import LogoOnlyLayout from '../../layouts/LogoOnlyLayout';
+import { Box, Container, Typography } from '@mui/material';
 // routes
-import { Link as RouterLink } from 'react-router-dom';
 import { blueGrey, red } from '@mui/material/colors';
-import { PATH_AUTH } from '../../routes/paths';
 // components
 import Page from '../../components/Page';
 import ResetPasswordForm from '../../sections/auth/reset-password/ResetPasswordForm';
+import Logo from '../../components/Logo';
 
 // ----------------------------------------------------------------------
 
@@ -21,7 +18,7 @@ const RootStyle = styled('div')(({ theme }) => ({
   padding: theme.spacing(12, 0),
 }));
 const ContentStyle = styled('div')(({ theme }) => ({
-  maxWidth: 480,
+  maxWidth: 450,
   margin: 'auto',
   backgroundColor: blueGrey,
   display: 'flex',
@@ -53,21 +50,21 @@ export default function ResetPassword() {
     <Page title="Reset Password">
       <RootStyle>
         <HeaderStyle>
-          <Typography sx={{ mt: { md: -2 } }}>
-            <Link variant="subtitle2" component={RouterLink} to={PATH_AUTH.login}>
-              Quay trở lại trang đăng nhập!
-            </Link>
-          </Typography>
+          <Logo />
         </HeaderStyle>
 
         <Container>
           <ContentStyle>
-            <Box sx={{ flexGrow: 1, justifyContent: 'right', mx: 'auto' }}>
-              <Typography variant='h3' paragraph>Bạn đã quên mật khẩu??</Typography>
-              <Typography sx={{color:'text.secondary', mb:2}}>Vui lòng nhập địa chỉ email được liên kết với
-                tài khoản của bạn và chúng tôi sẽ reset lại mật khẩu cho bạn!</Typography>
+            <Box>
+              <Typography variant="h3" paragraph alignItems="center" justifyContent="center" display="flex">
+                Bạn đã quên mật khẩu??
+              </Typography>
+              <Typography sx={{ color: 'text.secondary', mb: 3.5, mx: 1 }}>
+                Vui lòng nhập địa chỉ email được liên kết với tài khoản của bạn và chúng tôi sẽ reset lại mật khẩu cho
+                bạn!
+              </Typography>
             </Box>
-            <ResetPasswordForm/>
+            <ResetPasswordForm />
           </ContentStyle>
         </Container>
       </RootStyle>
