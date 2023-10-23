@@ -33,7 +33,6 @@ export default function UpDateEditUserInfo({ row, isEdit }) {
   const { enqueueSnackbar } = useSnackbar();
   const [updateUser] = useMutation(UPDATE_USER_INFO, {
     onCompleted: () => {
-      console.log('hello');
       enqueueSnackbar('Cập nhật thông tin role thành công!', {
         variant: 'success',
       });
