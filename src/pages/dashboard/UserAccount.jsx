@@ -50,14 +50,16 @@ export default function UserAccount() {
               <Iconify icon={'line-md:edit-twotone'} sx={{ mr: 1, height: 16, color: 'info.main' }} />
             </IconButton>
           </Stack>
+
           <AccountStyle>
-            <MyAvatar sx={{ width: 56, height: 56 }} />
+            <MyAvatar sx={{ width: 96, height: 96 }} />
             <Box sx={{ ml: 2 }}>
-              <Typography variant="subtitle2" sx={{ color: 'text.primary' }}>
+              <Typography variant="h6" sx={{ color: 'text.primary' ,alignItems: 'center',justifyContent:'space-between' }}>
                 {user?.firstName} {user?.lastName}
               </Typography>
             </Box>
           </AccountStyle>
+
           <Stack direction="row" alignItems="center" spacing={2} sx={{ py: 2, pr: 1, pl: 2.5 }}>
             <div>
               <RowStyle>
