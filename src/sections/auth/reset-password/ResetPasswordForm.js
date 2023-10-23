@@ -1,18 +1,16 @@
-import PropTypes from 'prop-types';
 import * as Yup from 'yup';
-import { loader } from 'graphql.macro';
-import { useMutation } from '@apollo/client';
+import {loader} from 'graphql.macro';
+import {useMutation} from '@apollo/client';
 // form
-import { yupResolver } from '@hookform/resolvers/yup';
-import { useForm } from 'react-hook-form';
+import {yupResolver} from '@hookform/resolvers/yup';
+import {useForm} from 'react-hook-form';
 // @mui
-import { Stack } from '@mui/material';
-import { LoadingButton } from '@mui/lab';
+import {Stack} from '@mui/material';
+import {LoadingButton} from '@mui/lab';
 // hooks
-
 // components
-import { useSnackbar } from 'notistack';
-import { FormProvider, RHFTextField } from '../../../components/hook-form';
+import {useSnackbar} from 'notistack';
+import {FormProvider, RHFTextField} from '../../../components/hook-form';
 
 
 // ----------------------------------------------------------------------
@@ -20,12 +18,8 @@ import { FormProvider, RHFTextField } from '../../../components/hook-form';
 const FORGOT_PASSWORD = loader('../../../graphql/mutations/user/resetPassword.graphql');
 // ----------------------------------------------------------------------
 
-ResetPasswordForm.propTypes = {
-  onSent: PropTypes.func,
-  onGetEmail: PropTypes.func,
-};
 
-export default function ResetPasswordForm({ onSent, onGetEmail }) {
+export default function ResetPasswordForm() {
   const { enqueueSnackbar } = useSnackbar();
 
 
@@ -43,11 +37,10 @@ export default function ResetPasswordForm({ onSent, onGetEmail }) {
     handleSubmit,
     formState: { isSubmitting },
   } = methods;
-  console.log('click',isSubmitting);
 
   const values = watch();
 
-  const [ForgotPassword, { loading: loadingResetPassword }] = useMutation(FORGOT_PASSWORD, {
+  const [ ForgotPassword ] = useMutation(FORGOT_PASSWORD, {
     onCompleted: () => {
       enqueueSnackbar('Gửi yêu cầu thành công', {
         variant: 'success',
@@ -71,7 +64,7 @@ export default function ResetPasswordForm({ onSent, onGetEmail }) {
 
   return (
     <FormProvider methods={methods} onSubmit={handleSubmit(onSubmit)}>
-      <Stack spacing={2}>
+      <Stack spacing={3.5}>
         <RHFTextField name="email" label="Email address" />
 
         <LoadingButton fullWidth size="large" type="submit" variant="contained" loading={isSubmitting}>

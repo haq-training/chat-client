@@ -32,6 +32,7 @@ import ScrollToTop from './components/ScrollToTop';
 import { ProgressBarStyle } from './components/ProgressBar';
 import ThemeLocalization from './components/ThemeLocalization';
 import MotionLazyContainer from './components/animate/MotionLazyContainer';
+import {SnackbarProvider} from "./components/snackbar";
 
 // ----------------------------------------------------------------------
 
@@ -49,9 +50,11 @@ export default function App() {
                     <ThemeProvider>
                       <ThemeSettings>
                         <ThemeLocalization>
-                          <ProgressBarStyle />
-                          <ChartStyle />
-                          <Router />
+                          <SnackbarProvider>
+                            <ProgressBarStyle />
+                            <ChartStyle />
+                            <Router />
+                          </SnackbarProvider>
                         </ThemeLocalization>
                       </ThemeSettings>
                     </ThemeProvider>
