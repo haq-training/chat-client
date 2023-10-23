@@ -12,7 +12,6 @@ const AccountStyle = styled('div')(({ theme }) => ({
   alignItems: 'center',
   padding: theme.spacing(2, 2.5),
   borderRadius: theme.shape.borderRadiusSm,
-  backgroundColor: theme.palette.grey[200],
 }));
 const RowStyle = styled('div')(({ theme }) => ({
   display: 'flex',
@@ -54,7 +53,10 @@ export default function UserAccount() {
           <AccountStyle>
             <MyAvatar sx={{ width: 96, height: 96 }} />
             <Box sx={{ ml: 2 }}>
-              <Typography variant="h6" sx={{ color: 'text.primary' ,alignItems: 'center',justifyContent:'space-between' }}>
+              <Typography
+                variant="h6"
+                sx={{ color: 'text.primary', alignItems: 'center', justifyContent: 'space-between' }}
+              >
                 {user?.firstName} {user?.lastName}
               </Typography>
             </Box>
