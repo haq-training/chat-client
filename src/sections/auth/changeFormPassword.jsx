@@ -20,6 +20,7 @@ const CHANGE_PASSWORD = loader('../../graphql/mutations/user/changePass.graphql'
 
 export default function ChangeFormPassword() {
   const { user } = useAuth();
+  console.log('user',user)
   const navigate = useNavigate();
   const { enqueueSnackbar } = useSnackbar();
   const [changePasswordFn] = useMutation(CHANGE_PASSWORD, {
@@ -31,9 +32,24 @@ export default function ChangeFormPassword() {
     },
   });
 
+  const regex = {
+    number: /^(?=.*[0-9]).+$/,
+    lowerCase: /^(?=.*[a-z]).+$/,
+    upperCase: /^(?=.*[A-Z]).+$/,
+    specialCharacter: /^(?=.*[$&+,:;=?@#|'`~<>_{}.^*()%!]).+$/,
+  };
+
   const ChangePasswordSchema = Yup.object().shape({
-    new_passWord: Yup.string().required('Bạn phải nhập mật khẩu mới'),
-    old_passWord: Yup.string().required('Bạn phải nhập mật khẩu cũ'),
+    new_passWord:Yup.string()
+      .required('Mật khẩu không được để trống')
+      .min(6, 'Mật khẩu phải có ít nhất 6 ký tự hoặc hơn')
+      .matches(regex.number, 'Có ít nhất 1 số.')
+      .matches(regex.lowerCase, 'Có ít nhất 1 ký tự viết thường.')
+      .matches(regex.upperCase, 'Có ít nhất 1 ký tự in hoa.')
+      .matches(regex.specialCharacter, 'Có ít nhất 1 ký tự đặc biệt.'),
+    old_passWord: Yup.string()
+      .required('Mật khẩu không được để trống')
+      .min(6, 'Mật khẩu phải có ít nhất 6 ký tự hoặc hơn'),
   });
 
   const defaultValues = {
@@ -67,7 +83,9 @@ export default function ChangeFormPassword() {
       enqueueSnackbar('Cập nhật mật khẩu thành công!');
       navigate('/auth/dang-nhap');
     } catch (error) {
-      console.error(error);
+      enqueueSnackbar(`Cập nhật mật khẩu không thành công. Nguyên nhân: ${error.message}`, {
+        variant: 'error',
+      });
     }
   };
 
