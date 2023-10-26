@@ -1,13 +1,12 @@
 import { useEffect, useRef, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
 import {
   Card,
+  CardHeader,
   Container,
   Divider,
   Tab,
   Table,
   TableBody,
-  CardHeader,
   TableContainer,
   Tabs,
   Tooltip,
@@ -23,11 +22,10 @@ import { UserTableRow, UserTableToolbar } from '../../sections/@dashboard/user /
 import { DefaultMaxHeight, DefaultRowsPerPage, Role, RoleArr } from '../../constant';
 import useAuth from '../../hooks/useAuth';
 import CommonBackdrop from '../../components/CommonBackdrop';
-import { SSM_PATH_DASHBOARD } from '../../routes/paths';
-// import { formatRoleInput } from '../../utils/formatRole';
 
 const GET_ALL_USER = loader('../../graphql/queries/user/getAllUsers.graphql');
 const RESET_PASSWORD = loader('../../graphql/mutations/user/resetPassword.graphql');
+const UPDATE_USER_INFO = loader('../../graphql/mutations/user/upDateUserInformation.graphql');
 
 const STATUS_OPTIONS = ['Tất cả', 'Yêu cầu refresh pass', 'Ngừng hoạt động'];
 
@@ -36,6 +34,7 @@ const TABLE_HEAD = [
   { id: 'firstName', label: 'Họ người dùng', align: 'left' },
   { id: 'lastName', label: 'Tên người dùng', align: 'left' },
   { id: 'email', label: 'Tên tài khoản', align: 'left' },
+  { id: 'role', label: 'Chức vụ', align: 'left' },
   { id: 'story', label: 'Tiểu sử', align: 'left' },
   { id: '' },
 ];
@@ -61,8 +60,6 @@ export default function ListUser() {
   });
 
   const { user } = useAuth();
-
-  const navigate = useNavigate();
 
   const [tableData, setTableData] = useState([]);
 
@@ -138,6 +135,20 @@ export default function ListUser() {
         variant: 'error',
       });
     },
+  });
+
+  const [updateUser] = useMutation(UPDATE_USER_INFO, {
+    onCompleted: async (res) => {
+      if (res) {
+        return res;
+      }
+      return null;
+    },
+    refetchQueries: () => [
+      {
+        query: GET_ALL_USER,
+      },
+    ],
   });
 
   // const updateQuery = (previousResult, { fetchMoreResult }) => {
@@ -243,8 +254,18 @@ export default function ListUser() {
     });
   };
 
-  const handleEditRow = (id) => {
-    navigate(SSM_PATH_DASHBOARD.user.edit(id));
+  const handleEditRow = async (id) => {
+    try {
+      await updateUser({
+        variables: {
+          id: Number(id),
+        },
+      });
+      enqueueSnackbar('Cập nhật thông tin role thành công!');
+      // navigate('/dashboard/nguoi-dung');
+    } catch (error) {
+      console.error(error);
+    }
   };
 
   const dataFiltered = applySortFilter({
@@ -298,7 +319,7 @@ export default function ListUser() {
         }}
       >
         <Card>
-          <CardHeader sx={{ mb: 3 }} title={'Danh sách User'} />
+          <CardHeader sx={{ mb: 3, fontSize: '28px' }} title={'Danh sách User'} />
           <Tabs
             allowScrollButtonsMobile
             variant="scrollable"
@@ -374,11 +395,8 @@ export default function ListUser() {
                     idx={idx}
                     selected={selected.includes(row.id)}
                     onSelectRow={() => onSelectRow(row.id)}
-                    // onDeleteRow={() => handleDeleteRow(row.id)}
                     onEditRow={() => handleEditRow(row.id)}
                     onResetPassword={() => handleResetPassword(row.id)}
-                    // onResetAccount={() => handleUpdateStatusUser(row.id)}
-                    // onDeleteUserInfo={() => handleDeleteUserInfo(row.id)}
                   />
                 ))}
                 <TableEmptyRows height={denseHeight} emptyRows={tableEmptyRows(page, rowsPerPage, users.length)} />
