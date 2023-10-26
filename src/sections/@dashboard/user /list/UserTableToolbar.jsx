@@ -65,16 +65,6 @@ export default function UserTableToolbar({ filterName, filterRole, onFilterName,
           ),
         }}
       />
-      <Box sx={{ display: 'flex', justifyContent: 'left', mb: 2 }}>
-        <Button
-          size={'small'}
-          variant="contained"
-          sx={{ minWidth: '130px' }}
-          startIcon={<Iconify icon={'eva:plus-fill'} />}
-        >
-          Tạo mới
-        </Button>
-      </Box>
     </Stack>
   );
 }
