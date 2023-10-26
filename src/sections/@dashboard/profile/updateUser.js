@@ -31,9 +31,10 @@ export default function UserInfoPersonalPopup({ user, isEdit, isOpen, onClose, i
   const { enqueueSnackbar } = useSnackbar();
   const [uploadFile, setUploadFile] = useState(null);
   const updateUserSchema = Yup.object().shape({
-    firstName: Yup.string().required('Bạn hãy nhập họ'),
-    lastName: Yup.string().required('Bạn hãy nhập tên'),
+    firstName: Yup.string().required('Bạn hãy nhập họ!'),
+    lastName: Yup.string().required('Bạn hãy nhập tên!'),
     story: Yup.string().max(250, 'Tối đa 250 ký tự!'),
+    location: Yup.string().required('Bạn hãy nhập địa chỉ!'),
   });
   const defaultValues = useMemo(
     () => ({

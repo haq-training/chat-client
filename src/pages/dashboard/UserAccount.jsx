@@ -44,9 +44,9 @@ export default function UserAccount() {
       >
         <Stack p={3} spacing={2}>
           <Stack direction="row" alignItems="center" justifyContent="space-between">
-            <Typography variant="h5">My Profile</Typography>
+            <Typography variant="h4">My Profile</Typography>
             <IconButton onClick={onOpenUserInfoPopup}>
-              <Iconify icon={'line-md:edit-twotone'} sx={{ mr: 1, height: 16, color: 'info.main' }} />
+              <Iconify icon={'line-md:edit-twotone'} sx={{ mr: 1, height: 20, color: 'info.main' }} />
             </IconButton>
           </Stack>
 
@@ -59,7 +59,7 @@ export default function UserAccount() {
                   alignItems: 'center',
                   display: 'flex',
                   justifyContent: 'center',
-                  fontSize: 18,
+                  fontSize: 20,
                   fontWeight: 'bold',
                 }}
               >
