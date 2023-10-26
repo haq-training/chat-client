@@ -33,6 +33,7 @@ export default function UserInfoPersonalPopup({ user, isEdit, isOpen, onClose, i
   const updateUserSchema = Yup.object().shape({
     firstName: Yup.string().required('Bạn hãy nhập họ'),
     lastName: Yup.string().required('Bạn hãy nhập tên'),
+    story: Yup.string().max(250, 'Tối đa 250 ký tự!'),
   });
   const defaultValues = useMemo(
     () => ({
@@ -93,7 +94,6 @@ export default function UserInfoPersonalPopup({ user, isEdit, isOpen, onClose, i
         );
       }
       setUploadFile(file);
-
     },
     [setValue]
   );
@@ -137,31 +137,30 @@ export default function UserInfoPersonalPopup({ user, isEdit, isOpen, onClose, i
   };
 
   return (
-    <Dialog fullWidth maxWidth="md" open={isOpen} onClose={onClose} >
+    <Dialog fullWidth maxWidth="md" open={isOpen} onClose={onClose}>
       <FormProvider methods={methods} onSubmit={handleSubmit(onSubmit)}>
         <CardHeader sx={{ mb: 3 }} title={'Sửa sơ yếu lý lịch'} />
 
         <Grid container spacing={3}>
           <Grid item xs={6} md={6}>
             <Card sx={{ p: 3 }}>
-                <RHFUploadAvatar
-                  name="avatarUrl"
-                  accept={{
-                    'image/*': ['.png'],
-                    'image/jpeg': ['.jpg', '.jpeg'],
-                  }}
-                  maxSize={31457280}
-                  onDrop={handleDrop}
-                  helperText={
-                    <Typography
-                      variant="caption"
-                      sx={{ mt: 2, mx: 'auto', display: 'block', textAlign: 'center', color: 'text.secondary' }}
-                    >
-                      Định dạng ảnh *.jpeg, *.jpg, *.png <br /> Dung lượng tối đa {fData(31457280)}
-                    </Typography>
-                  }
-                />
-
+              <RHFUploadAvatar
+                name="avatarUrl"
+                accept={{
+                  'image/*': ['.png'],
+                  'image/jpeg': ['.jpg', '.jpeg'],
+                }}
+                maxSize={31457280}
+                onDrop={handleDrop}
+                helperText={
+                  <Typography
+                    variant="caption"
+                    sx={{ mt: 2, mx: 'auto', display: 'block', textAlign: 'center', color: 'text.secondary' }}
+                  >
+                    Định dạng ảnh *.jpeg, *.jpg, *.png <br /> Dung lượng tối đa {fData(31457280)}
+                  </Typography>
+                }
+              />
             </Card>
           </Grid>
           <Grid container justifyContent="center" item xs={6} sm={6} md={6}>
@@ -177,7 +176,7 @@ export default function UserInfoPersonalPopup({ user, isEdit, isOpen, onClose, i
                   </LoadingButton>
                 </Grid>
                 <Grid item sx={{ ml: 1 }}>
-                  <LoadingButton  type="submit" variant="contained" loading={isSubmitting} >
+                  <LoadingButton type="submit" variant="contained" loading={isSubmitting}>
                     Lưu
                   </LoadingButton>
                 </Grid>
