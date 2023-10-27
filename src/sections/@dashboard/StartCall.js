@@ -6,7 +6,7 @@ import { Search, SearchIconWrapper, StyledInputBase } from '../../components/Sea
 import { CallElement } from '../../components/CallElement';
 import { membersList } from '../../_apis_/data';
 
-const Transition = React.forwardRef((props, ref) => <Slide direction="up" ref={ref} {...props} />);
+const Transition = React.forwardRef((props, ref) => <Slide direction="up" children={null} ref={ref} {...props} />);
 
 StartCall.propTypes = {
   open: PropTypes.bool,
@@ -37,7 +37,7 @@ function StartCall({ open, handleClose }) {
           </Stack>
         </Stack>
 
-        {membersList.map((el,idx) => (
+        {membersList.map((el, idx) => (
           <CallElement key={idx} {...el} />
         ))}
       </DialogContent>

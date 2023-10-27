@@ -10,8 +10,9 @@ import {
   Typography,
 } from '@mui/material';
 import React from 'react';
+import PropTypes from 'prop-types';
 
-const Transition = React.forwardRef((props, ref) => <Slide direction="up" ref={ref} {...props} />);
+const Transition = React.forwardRef((props, ref) => <Slide direction="up" children={null} ref={ref} {...props} />);
 
 const list = [
   {
@@ -101,51 +102,57 @@ const list = [
   },
 ];
 
-const Shortcuts = ({ open, handleClose }) => (
-  <>
-    <Dialog
-      fullWidth
-      maxWidth="md"
-      open={open}
-      keepMounted
-      onClose={handleClose}
-      sx={{ p: 4 }}
-      TransitionComponent={Transition}
-    >
-      <DialogTitle>Keyboard Shortcuts</DialogTitle>
-      <DialogContent sx={{ mt: 4 }}>
-        <Grid container spacing={3}>
-          {list.map(({ key, title, combination }) => (
-            <Grid key={key} container item xs={6}>
-              <Stack
-                sx={{ width: '100%' }}
-                justifyContent="space-between"
-                spacing={3}
-                direction="row"
-                alignItems="center"
-              >
-                <Typography variant="caption" sx={{ fontSize: 14 }}>
-                  {title}
-                </Typography>
-                <Stack spacing={2} direction="row">
-                  {combination.map((el) => (
-                    <Button disabled variant="contained" sx={{ color: '#212121' }}>
-                      {el}
-                    </Button>
-                  ))}
+Shortcuts.propTypes = {
+  open: PropTypes.bool,
+  handleClose: PropTypes.bool,
+};
+function Shortcuts({ open, handleClose }) {
+  return (
+    <>
+      <Dialog
+        fullWidth
+        maxWidth="md"
+        open={open}
+        keepMounted
+        onClose={handleClose}
+        sx={{ p: 4 }}
+        TransitionComponent={Transition}
+      >
+        <DialogTitle>Keyboard Shortcuts</DialogTitle>
+        <DialogContent sx={{ mt: 4 }}>
+          <Grid container spacing={3}>
+            {list.map(({ key, title, combination }) => (
+              <Grid key={key} container item xs={6}>
+                <Stack
+                  sx={{ width: '100%' }}
+                  justifyContent="space-between"
+                  spacing={3}
+                  direction="row"
+                  alignItems="center"
+                >
+                  <Typography variant="caption" sx={{ fontSize: 14 }}>
+                    {title}
+                  </Typography>
+                  <Stack spacing={2} direction="row">
+                    {combination.map((el) => (
+                      <Button disabled variant="contained" sx={{ color: '#212121' }}>
+                        {el}
+                      </Button>
+                    ))}
+                  </Stack>
                 </Stack>
-              </Stack>
-            </Grid>
-          ))}
-        </Grid>
-      </DialogContent>
-      <DialogActions>
-        <Button variant="contained" onClick={handleClose}>
-          Ok
-        </Button>
-      </DialogActions>
-    </Dialog>
-  </>
-);
+              </Grid>
+            ))}
+          </Grid>
+        </DialogContent>
+        <DialogActions>
+          <Button variant="contained" onClick={handleClose}>
+            Ok
+          </Button>
+        </DialogActions>
+      </Dialog>
+    </>
+  );
+}
 
 export default Shortcuts;

@@ -1,8 +1,17 @@
+import PropTypes from 'prop-types';
 import { Avatar, Badge, Box, Stack, Typography } from '@mui/material';
 import { useTheme } from '@mui/material/styles';
 import StyledBadge from './StyledBadge';
 
-const ChatElement = ({ id, name, img, msg, time, online, unread }) => {
+ChatElement.propTypes = {
+  name: PropTypes.string,
+  img: PropTypes.string,
+  msg: PropTypes.string,
+  time: PropTypes.string,
+  online: PropTypes.bool,
+  unread: PropTypes.number,
+};
+function ChatElement({ name, img, msg, time, online, unread }) {
   const theme = useTheme();
   return (
     <Box
@@ -37,6 +46,6 @@ const ChatElement = ({ id, name, img, msg, time, online, unread }) => {
       </Stack>
     </Box>
   );
-};
+}
 
 export default ChatElement;

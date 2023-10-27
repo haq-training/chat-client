@@ -2,9 +2,14 @@ import { Box, Divider, IconButton, Link, Stack, Typography, Menu, MenuItem } fro
 import { useTheme } from '@mui/material/styles';
 import { DotsThreeVertical, DownloadSimple, Image } from 'phosphor-react';
 import React from 'react';
+import PropTypes from 'prop-types';
 import { messageOptions } from '../../_apis_/data';
 
-const DocMsg = ({ el, menu }) => {
+DocMsg.propTypes = {
+  el: PropTypes.string,
+  menu: PropTypes.string,
+};
+function DocMsg({ el, menu }) {
   const theme = useTheme();
   return (
     <Stack direction="row" justifyContent={el.incoming ? 'start' : 'end'}>
@@ -38,9 +43,13 @@ const DocMsg = ({ el, menu }) => {
       {menu && <MessageOptions />}
     </Stack>
   );
-};
+}
 
-const LinkMsg = ({ el, menu }) => {
+LinkMsg.propTypes = {
+  el: PropTypes.string,
+  menu: PropTypes.string,
+};
+function LinkMsg({ el, menu }) {
   const theme = useTheme();
   return (
     <Stack direction="row" justifyContent={el.incoming ? 'start' : 'end'}>
@@ -80,9 +89,13 @@ const LinkMsg = ({ el, menu }) => {
       {menu && <MessageOptions />}
     </Stack>
   );
-};
+}
 
-const ReplyMsg = ({ el, menu }) => {
+ReplyMsg.propTypes = {
+  el: PropTypes.string,
+  menu: PropTypes.string,
+};
+function ReplyMsg({ el, menu }) {
   const theme = useTheme();
   return (
     <Stack direction="row" justifyContent={el.incoming ? 'start' : 'end'}>
@@ -114,9 +127,13 @@ const ReplyMsg = ({ el, menu }) => {
       {menu && <MessageOptions />}
     </Stack>
   );
-};
+}
 
-const MediaMsg = ({ el, menu }) => {
+MediaMsg.propTypes = {
+  el: PropTypes.string,
+  menu: PropTypes.string,
+};
+function MediaMsg({ el, menu }) {
   const theme = useTheme();
   return (
     <Stack direction="row" justifyContent={el.incoming ? 'start' : 'end'}>
@@ -138,9 +155,13 @@ const MediaMsg = ({ el, menu }) => {
       {menu && <MessageOptions />}
     </Stack>
   );
-};
+}
 
-const TextMsg = ({ el, menu }) => {
+TextMsg.propTypes = {
+  el: PropTypes.string,
+  menu: PropTypes.string,
+};
+function TextMsg({ el, menu }) {
   const theme = useTheme();
   return (
     <Stack direction="row" justifyContent={el.incoming ? 'start' : 'end'}>
@@ -159,9 +180,12 @@ const TextMsg = ({ el, menu }) => {
       {menu && <MessageOptions />}
     </Stack>
   );
-};
+}
 
-const TimeLine = ({ el }) => {
+TimeLine.propTypes = {
+  el: PropTypes.string,
+};
+function TimeLine({ el }) {
   const theme = useTheme();
   return (
     <Stack direction="row" alignItems="center" justifyContent="space-between">
@@ -172,7 +196,7 @@ const TimeLine = ({ el }) => {
       <Divider width="46%" />
     </Stack>
   );
-};
+}
 
 const MessageOptions = () => {
   const [anchorEl, setAnchorEl] = React.useState(null);

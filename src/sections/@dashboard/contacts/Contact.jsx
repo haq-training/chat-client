@@ -13,6 +13,7 @@ import {
   Stack,
   Typography,
 } from '@mui/material';
+import PropTypes from 'prop-types';
 import React, { useState } from 'react';
 import { useTheme } from '@mui/material/styles';
 import { Bell, CaretRight, Phone, Prohibit, Star, Trash, VideoCamera, X } from 'phosphor-react';
@@ -22,49 +23,61 @@ import Scrollbar from 'react-scrollbar';
 import { ToggleSidebar, UpdateSidebarType } from '../../../redux/slices/app';
 import AntSwitch from '../../../components/AntSwitch';
 
-const Transition = React.forwardRef((props, ref) => <Slide direction="up" ref={ref} {...props} />);
+const Transition = React.forwardRef((props, ref) => <Slide direction="up" children={null} ref={ref} {...props} />);
 
-const BlockDialog = ({ open, handleClose }) => (
-  <Dialog
-    open={open}
-    TransitionComponent={Transition}
-    keepMounted
-    onClose={handleClose}
-    aria-describedby="alert-dialog-slide-description"
-  >
-    <DialogTitle>Block this contact</DialogTitle>
-    <DialogContent>
-      <DialogContentText id="alert-dialog-slide-description">
-        Are you sure you want to block this contact?
-      </DialogContentText>
-    </DialogContent>
-    <DialogActions>
-      <Button onClick={handleClose}>Cancel</Button>
-      <Button onClick={handleClose}>Yes</Button>
-    </DialogActions>
-  </Dialog>
-);
+BlockDialog.propTypes = {
+  open: PropTypes.bool,
+  handleClose: PropTypes.bool,
+};
+function BlockDialog({ open, handleClose }) {
+  return (
+    <Dialog
+      open={open}
+      TransitionComponent={Transition}
+      keepMounted
+      onClose={handleClose}
+      aria-describedby="alert-dialog-slide-description"
+    >
+      <DialogTitle>Block this contact</DialogTitle>
+      <DialogContent>
+        <DialogContentText id="alert-dialog-slide-description">
+          Are you sure you want to block this contact?
+        </DialogContentText>
+      </DialogContent>
+      <DialogActions>
+        <Button onClick={handleClose}>Cancel</Button>
+        <Button onClick={handleClose}>Yes</Button>
+      </DialogActions>
+    </Dialog>
+  );
+}
 
-const DeleteDialog = ({ open, handleClose }) => (
-  <Dialog
-    open={open}
-    TransitionComponent={Transition}
-    keepMounted
-    onClose={handleClose}
-    aria-describedby="alert-dialog-slide-description"
-  >
-    <DialogTitle>Delete this chat</DialogTitle>
-    <DialogContent>
-      <DialogContentText id="alert-dialog-slide-description">
-        Are you sure you want to delete this chat?
-      </DialogContentText>
-    </DialogContent>
-    <DialogActions>
-      <Button onClick={handleClose}>Cancel</Button>
-      <Button onClick={handleClose}>Yes</Button>
-    </DialogActions>
-  </Dialog>
-);
+DeleteDialog.propTypes = {
+  open: PropTypes.bool,
+  handleClose: PropTypes.bool,
+};
+function DeleteDialog({ open, handleClose }) {
+  return (
+    <Dialog
+      open={open}
+      TransitionComponent={Transition}
+      keepMounted
+      onClose={handleClose}
+      aria-describedby="alert-dialog-slide-description"
+    >
+      <DialogTitle>Delete this chat</DialogTitle>
+      <DialogContent>
+        <DialogContentText id="alert-dialog-slide-description">
+          Are you sure you want to delete this chat?
+        </DialogContentText>
+      </DialogContent>
+      <DialogActions>
+        <Button onClick={handleClose}>Cancel</Button>
+        <Button onClick={handleClose}>Yes</Button>
+      </DialogActions>
+    </Dialog>
+  );
+}
 
 export default function Contact() {
   const theme = useTheme();
@@ -182,7 +195,7 @@ export default function Contact() {
               </Button>
             </Stack>
             <Stack direction="row" spacing={2} alignItems={'center'}>
-              {[1, 2, 3].map((el) => (
+              {[1, 2, 3].map(() => (
                 <Box>
                   <img src={faker.image.food()} alt={faker.name.fullName()} />
                 </Box>
