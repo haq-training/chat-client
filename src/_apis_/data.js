@@ -115,8 +115,40 @@ export const CallLogs = [
     missed: true,
     incoming: true,
   },
+  {
+    id: 5,
+    img: faker.image.avatar(),
+    name: faker.name.firstName(),
+    missed: true,
+    incoming: false,
+  },
+
+  {
+    id: 5,
+    img: faker.image.avatar(),
+    name: faker.name.firstName(),
+    missed: false,
+    incoming: true,
+  },
 ];
 
+export const bookmarkList = [
+  {
+    id: 0,
+    name: 'Ảnh mèo',
+    msg: '14.5 MB',
+  },
+  {
+    id: 1,
+    name: 'Web',
+    msg: 'http://bgpattern.com/',
+  },
+  {
+    id: 2,
+    name : 'Tài liệu học tập',
+    msg: '10 MB',
+  }
+];
 export const membersList = [
   {
     id: 0,

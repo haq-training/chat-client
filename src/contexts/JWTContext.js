@@ -90,17 +90,14 @@ function AuthProvider({ children }) {
           setSession(accessToken);
           const fetchedData = await fetchProfile();
           const user = fetchedData.me ?? fetchedData?.data?.me;
+
           if (user) {
             const currentUser = {
               ...user,
               id: `${user?.id}`,
               role: user?.role,
-              signatureImg: user?.signatureImg,
-              displayName: user?.fullName,
-              photoURL: user?.avatarURL,
-              status: user?.isActive === true ? 'Đang hoạt động' : 'Ngừng hoạt động',
-              phone: user?.phoneNumber,
-              company: 'Công ty CP Thép Công Nghiệp HN',
+              photoURL: user?.avatarUrl,
+              status: user?.status === true ? 'Đang hoạt động' : 'Ngừng hoạt động',
             };
             dispatch({
               type: 'INITIALIZE',
