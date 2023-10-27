@@ -43,7 +43,6 @@ export const navButtonsAdmin = [
   {
     index: 0,
     icon: <ChatCircleDots />,
-    tooltip: 'Chat',
   },
   {
     index: 1,
@@ -147,7 +146,7 @@ export const bookmarkList = [
     id: 2,
     name : 'Tài liệu học tập',
     msg: '10 MB',
-  }
+  },
 ];
 export const membersList = [
   {
@@ -181,6 +180,7 @@ export const membersList = [
     online: true,
   },
 ];
+
 
 export const chatList = [
   {
