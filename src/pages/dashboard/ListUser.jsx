@@ -26,6 +26,7 @@ import CommonBackdrop from '../../components/CommonBackdrop';
 const GET_ALL_USER = loader('../../graphql/queries/user/getAllUsers.graphql');
 const RESET_PASSWORD = loader('../../graphql/mutations/user/resetPassword.graphql');
 const UPDATE_USER_INFO = loader('../../graphql/mutations/user/upDateUserInformation.graphql');
+const DELETE_USER = loader('../../graphql/mutations/user/deleteUser.graphql');
 
 const STATUS_OPTIONS = ['Tất cả', 'Yêu cầu refresh pass', 'Ngừng hoạt động'];
 
@@ -93,20 +94,33 @@ export default function ListUser() {
   //     });
   //   },
   // });
-  // const [deleteUserInfo, { loading: loadingDeleteInfoUser }] = useMutation(DELETE_USER_INFO, {
-  //   onCompleted: () => {
-  //     enqueueSnackbar('Xóa thông tin người dùng thành công', {
-  //       variant: 'success',
-  //     });
-  //   },
-  //
-  //   onError: (error) => {
-  //     enqueueSnackbar(`Xóa thông tin người dùng không thành công. Nguyên nhân: ${error.message}`, {
-  //       variant: 'error',
-  //     });
-  //   },
-  // });
+  const [deleteUser] = useMutation(DELETE_USER, {
+    onCompleted: async (res) => {
+      if (res) {
+        return res;
+      }
+      return null;
+    },
+    refetchQueries: () => [
+      {
+        query: GET_ALL_USER,
+      },
+    ],
+  });
 
+  const [updateUser] = useMutation(UPDATE_USER_INFO, {
+    onCompleted: async (res) => {
+      if (res) {
+        return res;
+      }
+      return null;
+    },
+    refetchQueries: () => [
+      {
+        query: GET_ALL_USER,
+      },
+    ],
+  });
   // const [updateUserStatus, { loading: loadingUpdateUserStatus }] = useMutation(UPDATE_USER, {
   //   onCompleted: () => {
   //     enqueueSnackbar('Khôi phục tài khoản thành công!', {
@@ -124,6 +138,7 @@ export default function ListUser() {
   //     });
   //   },
   // });
+
   const [resetPassword, { loading: loadingResetPassword }] = useMutation(RESET_PASSWORD, {
     onCompleted: () => {
       enqueueSnackbar('Mật khẩu đã được cài lại', {
@@ -135,20 +150,6 @@ export default function ListUser() {
         variant: 'error',
       });
     },
-  });
-
-  const [updateUser] = useMutation(UPDATE_USER_INFO, {
-    onCompleted: async (res) => {
-      if (res) {
-        return res;
-      }
-      return null;
-    },
-    refetchQueries: () => [
-      {
-        query: GET_ALL_USER,
-      },
-    ],
   });
 
   // const updateQuery = (previousResult, { fetchMoreResult }) => {
@@ -198,17 +199,6 @@ export default function ListUser() {
     setPage(1);
   };
 
-  // const handleDeleteRow = async (id) => {
-  //   await deleteUser({
-  //     variables: {
-  //       input: {
-  //         usersId: id,
-  //       },
-  //     },
-  //   });
-  //   setSelected([]);
-  //   await refetch();
-  // };
   // const handleDeleteUserInfo = async (id) => {
   //   await deleteUserInfo({
   //     variables: {
@@ -253,7 +243,6 @@ export default function ListUser() {
       },
     });
   };
-
   const handleEditRow = async (id) => {
     try {
       await updateUser({
@@ -266,6 +255,15 @@ export default function ListUser() {
     } catch (error) {
       console.error(error);
     }
+  };
+
+  const handleDeleteRow = async (id) => {
+    await deleteUser({
+      variables: {
+        id: Number(id),
+      },
+    });
+    enqueueSnackbar('Xóa User thành công!');
   };
 
   const dataFiltered = applySortFilter({
@@ -395,6 +393,7 @@ export default function ListUser() {
                     idx={idx}
                     selected={selected.includes(row.id)}
                     onSelectRow={() => onSelectRow(row.id)}
+                    onDeleteRow={() => handleDeleteRow(row.id)}
                     onEditRow={() => handleEditRow(row.id)}
                     onResetPassword={() => handleResetPassword(row.id)}
                   />
