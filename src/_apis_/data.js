@@ -1,20 +1,5 @@
-import { faker } from '@faker-js/faker';
-import { ChatCircleDots, Gear, GearSix, Phone, SignOut, User, Users, Bookmarks, UserList } from 'phosphor-react';
-
-export const profileMenu = [
-  {
-    title: 'Profile',
-    icon: <User />,
-  },
-  {
-    title: 'Settings',
-    icon: <Gear />,
-  },
-  {
-    title: 'Logout',
-    icon: <SignOut />,
-  },
-];
+import {faker} from '@faker-js/faker';
+import {Bookmarks, ChatCircleDots, Phone, UserList, Users} from 'phosphor-react';
 
 export const navButtonsUser = [
   {
@@ -72,12 +57,6 @@ export const Role = {
   admin: 0,
 };
 
-export const navSetting = [
-  {
-    index: 3,
-    icon: <GearSix />,
-  },
-];
 
 export const CallLogs = [
   {

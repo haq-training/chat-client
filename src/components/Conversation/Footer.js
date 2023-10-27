@@ -55,13 +55,13 @@ const ChatInput = () => {
         startAdornment: (
           <Stack sx={{ width: 'max-content' }}>
             <Stack sx={{ position: 'relative', display: openAction ? 'inline-block' : 'none' }}>
-              {Actions.map((el) => (
-                <Tooltip placement="right" key={el.index} title={el.title}>
+              {Actions.map((el, index) => (
+                <Tooltip placement="right" key={index} title={el.title}>
                   <Fab sx={{ position: 'absolute', top: -el.y, backgroundColor: el.color }}>{el.icon}</Fab>
                 </Tooltip>
               ))}
             </Stack>
-            <InputAdornment>
+            <InputAdornment position="start">
               <IconButton
                 onClick={() => {
                   setOpenAction((prev) => !prev);
@@ -73,11 +73,12 @@ const ChatInput = () => {
           </Stack>
         ),
         endAdornment: (
-          <InputAdornment>
+          <InputAdornment position="end">
             <IconButton>
               <Smiley />
             </IconButton>
           </InputAdornment>
+
         ),
       }}
     />
