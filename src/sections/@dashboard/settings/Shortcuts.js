@@ -135,7 +135,7 @@ function Shortcuts({ open, handleClose }) {
                   </Typography>
                   <Stack spacing={2} direction="row">
                     {combination.map((el) => (
-                      <Button disabled variant="contained" sx={{ color: '#212121' }}>
+                      <Button key={el} disabled variant="contained" sx={{ color: '#212121' }}>
                         {el}
                       </Button>
                     ))}
