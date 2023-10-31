@@ -1,8 +1,10 @@
+import PropTypes from 'prop-types';
 import { Box, Divider, IconButton, Link, Stack, Typography, Menu, MenuItem } from '@mui/material';
 import { useTheme } from '@mui/material/styles';
 import { DotsThreeVertical, DownloadSimple, Image } from 'phosphor-react';
 import React from 'react';
 import { messageOptions } from '../../_apis_/data';
+//-------------------------------------------------------
 
 const DocMsg = ({ el, menu }) => {
   const theme = useTheme();
