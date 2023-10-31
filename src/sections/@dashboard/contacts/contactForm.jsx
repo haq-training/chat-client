@@ -1,16 +1,36 @@
 import { Box, Stack, Typography, Link, IconButton, Divider } from '@mui/material';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { MagnifyingGlass, Plus } from 'phosphor-react';
 import { useTheme } from '@mui/material/styles';
+import { loader } from 'graphql.macro';
+import { useQuery } from '@apollo/client';
+import PropTypes from 'prop-types';
 import { Search, SearchIconWrapper, StyledInputBase } from '../../../components/Search';
 import { chatList } from '../../../_apis_/data';
 import ChatElement from '../../../components/ChatElement';
-import CreateGroup from '../CreateGroup';
+import AddFriends from './AddFriends';
+import useAuth from '../../../hooks/useAuth';
+
+// ----------------------------------------------------------------------
+
+const LIST_FRIENDS = loader('../../../graphql/queries/user/listFriends.graphql');
+
+// ----------------------------------------------------------------------
 
 export default function ContactForm() {
   const theme = useTheme();
   const [openDialog, setOpenDialog] = useState(false);
+  const { user } = useAuth();
+  const [friends, setFriends] = useState([]);
+  const { data: listFriends } = useQuery(LIST_FRIENDS);
 
+  useEffect(() => {
+    if (listFriends && listFriends.listFriend) {
+      setFriends(listFriends.listFriend);
+    }
+  }, [listFriends]);
+  console.log('fr', friends);
+  console.log('user', user);
   const handleCloseDialog = () => {
     setOpenDialog(false);
   };
@@ -39,7 +59,7 @@ export default function ContactForm() {
           </Stack>
           <Stack direction={'row'} alignItems={'center'} justifyContent={'space-between'}>
             <Typography variant="subtitle2" component={Link}>
-              Create New Contacts
+              Thêm liên lạc mới!
             </Typography>
             <IconButton
               onClick={() => {
@@ -57,25 +77,14 @@ export default function ContactForm() {
               </Typography>
               {chatList
                 .filter((el) => el.pinned)
-                .map((el) => (
-                  <ChatElement key={el.id} {...el} />
-                ))}
-            </Stack>
-
-            <Stack spacing={2.4}>
-              <Typography variant="subtitle2" sx={{ color: '#676767' }}>
-                All Contacts
-              </Typography>
-              {chatList
-                .filter((el) => !el.pinned)
-                .map((el) => (
-                  <ChatElement key={el.id} {...el} />
+                .map((el, row) => (
+                  <ChatElement key={el.id} {...el} row={row} />
                 ))}
             </Stack>
           </Stack>
         </Stack>
       </Box>
-      {openDialog && <CreateGroup open={openDialog} handleClose={handleCloseDialog} />}
+      {openDialog && <AddFriends open={openDialog} handleClose={handleCloseDialog} />}
     </>
   );
 }

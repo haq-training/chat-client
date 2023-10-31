@@ -1,6 +1,7 @@
 import PropTypes from 'prop-types';
 import { Avatar, Badge, Box, Stack, Typography } from '@mui/material';
 import { useTheme } from '@mui/material/styles';
+import { loader } from 'graphql.macro';
 import StyledBadge from './StyledBadge';
 
 ChatElement.propTypes = {

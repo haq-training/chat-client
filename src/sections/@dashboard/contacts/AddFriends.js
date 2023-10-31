@@ -2,35 +2,38 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import { Button, Dialog, DialogContent, DialogTitle, Slide, Stack } from '@mui/material';
 import React from 'react';
 import { useForm } from 'react-hook-form';
+import { loader } from 'graphql.macro';
 import * as Yup from 'yup';
 import PropTypes from 'prop-types';
-import FormProvider from '../../components/hook-form/FormProvider';
-import { RHFTextField } from '../../components/hook-form';
-import RHFAutocomplete from '../../components/hook-form/RHFAutocomplete';
-import useIsMountedRef from '../../hooks/useIsMountedRef';
-// import EmojiPicker from "../../components/EmojiPicker";
+import FormProvider from '../../../components/hook-form/FormProvider';
+import { RHFTextField } from '../../../components/hook-form';
+import useIsMountedRef from '../../../hooks/useIsMountedRef';
 
-const MEMBERS = ['Name 1', 'Name 2', 'Name 3'];
+// ----------------------------------------------------------------------
+
+const ADD_FRIENDS = loader('../../../graphql/mutations/updateUser.graphql');
+
+// ----------------------------------------------------------------------
 
 const Transition = React.forwardRef((props, ref) => <Slide direction="up" children={null} ref={ref} {...props} />);
 
-CreateGroupForm.propTypes = {
+AddFriendsForm.propTypes = {
   handleClose: PropTypes.bool,
 };
-function CreateGroupForm({ handleClose }) {
+function AddFriendsForm({ handleClose }) {
   const isMountedRef = useIsMountedRef();
-  const NewGroupSchema = Yup.object().shape({
-    title: Yup.string().required('Tên nhóm không được để trống!'),
-    members: Yup.array().min(2, 'Phải có ít nhất 2 thành viên!'),
+  const AddFriendsSchema = Yup.object().shape({
+    email: Yup.string().required('Email Không được để trống!'),
+    note: Yup.array().max(180, 'Không quá 180 ký tự!'),
   });
 
   const defaultValues = {
-    title: '',
-    members: [],
+    email: '',
+    note: '',
   };
 
   const methods = useForm({
-    resolver: yupResolver(NewGroupSchema),
+    resolver: yupResolver(AddFriendsSchema),
     defaultValues,
   });
 
@@ -57,17 +60,12 @@ function CreateGroupForm({ handleClose }) {
   return (
     <FormProvider methods={methods} onSubmit={handleSubmit(onSubmit)}>
       <Stack spacing={3}>
-        <RHFTextField name="title" label="Title" />
-        <RHFAutocomplete
-          name="members"
-          label="Members"
-          multiple
-          freeSolo
-          options={MEMBERS.map((option) => option)}
-          ChipProps={{ size: 'medium' }}
-        />
-        <Stack spacing={2} direction="row" alignItems="center" justifyContent="end">
-          <Button onClick={handleClose}>Cancel</Button>
+        <RHFTextField name="email" label="Email" />
+        <RHFTextField name="note" label="Ghi chú" />
+        <Stack spacing={2} direction="row" alignItems="center" justifyContent="end" sx={{ mb: 1 }}>
+          <Button variant="contained" onClick={handleClose}>
+            Cancel
+          </Button>
           <Button type="submit" variant="contained" loading={isSubmitting}>
             Create
           </Button>
@@ -77,7 +75,7 @@ function CreateGroupForm({ handleClose }) {
   );
 }
 
-const CreateGroup = ({ open, handleClose }) => (
+const AddFriends = ({ open, handleClose }) => (
   <Dialog
     fullWidth
     maxWidth="xs"
@@ -87,14 +85,14 @@ const CreateGroup = ({ open, handleClose }) => (
     keepMounted
     sx={{ p: 4 }}
   >
-    <DialogTitle sx={{ mb: 3 }}>Create New Group</DialogTitle>
+    <DialogTitle sx={{ mb: 2 }}>Gửi yêu cầu kết bạn</DialogTitle>
     <DialogContent>
-      <CreateGroupForm handleClose={handleClose} />
+      <AddFriendsForm handleClose={handleClose} />
     </DialogContent>
   </Dialog>
 );
-CreateGroup.propTypes = {
+AddFriends.propTypes = {
   open: PropTypes.bool,
   handleClose: PropTypes.bool,
 };
-export default CreateGroup;
+export default AddFriends;
