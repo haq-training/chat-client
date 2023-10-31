@@ -2,9 +2,8 @@ import { Box, Stack, Typography, Link, IconButton, Divider } from '@mui/material
 import React, { useEffect, useState } from 'react';
 import { MagnifyingGlass, Plus } from 'phosphor-react';
 import { useTheme } from '@mui/material/styles';
-import { loader } from 'graphql.macro';
 import { useQuery } from '@apollo/client';
-import PropTypes from 'prop-types';
+import { loader } from 'graphql.macro';
 import { Search, SearchIconWrapper, StyledInputBase } from '../../../components/Search';
 import { chatList } from '../../../_apis_/data';
 import ChatElement from '../../../components/ChatElement';
@@ -20,8 +19,9 @@ const LIST_FRIENDS = loader('../../../graphql/queries/user/listFriends.graphql')
 export default function ContactForm() {
   const theme = useTheme();
   const [openDialog, setOpenDialog] = useState(false);
-  const { user } = useAuth();
+
   const [friends, setFriends] = useState([]);
+
   const { data: listFriends } = useQuery(LIST_FRIENDS);
 
   useEffect(() => {
@@ -30,7 +30,6 @@ export default function ContactForm() {
     }
   }, [listFriends]);
   console.log('fr', friends);
-  console.log('user', user);
   const handleCloseDialog = () => {
     setOpenDialog(false);
   };
@@ -75,11 +74,9 @@ export default function ContactForm() {
               <Typography variant="subtitle2" sx={{ color: '#676767' }}>
                 Pinned
               </Typography>
-              {chatList
-                .filter((el) => el.pinned)
-                .map((el, row) => (
-                  <ChatElement key={el.id} {...el} row={row} />
-                ))}
+              {friends.map((el, row) => (
+                <ChatElement key={el.id} {...el} row={row} />
+              ))}
             </Stack>
           </Stack>
         </Stack>
