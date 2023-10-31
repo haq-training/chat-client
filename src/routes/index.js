@@ -98,7 +98,7 @@ export default function Router() {
 const Login = Loadable(lazy(() => import('../pages/auth/Login')));
 const Register = Loadable(lazy(() => import('../pages/auth/Register')));
 const ResetPassword = Loadable(lazy(() => import('../pages/auth/ResetPassword')));
-const ChangePass = Loadable(lazy(() => import('../pages/dashboard/ChangePass')));
+const ChangePass = Loadable(lazy(() => import('../pages/dashboard/ChangePassword')));
 // main router
 const UserAccount = Loadable(lazy(() => import('../pages/dashboard/UserAccount')));
 const Contacts = Loadable(lazy(() => import('../pages/dashboard/Contacts')));
