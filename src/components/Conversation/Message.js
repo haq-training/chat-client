@@ -1,5 +1,5 @@
-import PropTypes from 'prop-types';
 import { Box, Stack } from '@mui/material';
+import PropTypes from 'prop-types';
 import React from 'react';
 import { chatHistory } from '../../_apis_/data';
 import { DocMsg, LinkMsg, MediaMsg, ReplyMsg, TextMsg, TimeLine } from './MsgTypes';

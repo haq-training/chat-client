@@ -1,4 +1,3 @@
-import PropTypes from 'prop-types';
 import { Box, Divider, IconButton, Link, Stack, Typography, Menu, MenuItem } from '@mui/material';
 import { useTheme } from '@mui/material/styles';
 import { DotsThreeVertical, DownloadSimple, Image } from 'phosphor-react';

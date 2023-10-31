@@ -32,7 +32,6 @@ import ScrollToTop from './components/ScrollToTop';
 import { ProgressBarStyle } from './components/ProgressBar';
 import ThemeLocalization from './components/ThemeLocalization';
 import MotionLazyContainer from './components/animate/MotionLazyContainer';
-import { SnackbarProvider } from './components/snackbar';
 
 // ----------------------------------------------------------------------
 

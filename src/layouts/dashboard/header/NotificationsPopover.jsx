@@ -13,32 +13,20 @@ import {
   ListSubheader,
   Typography,
 } from '@mui/material';
-// import { useMutation, useQuery, useSubscription } from '@apollo/client';
-// import { loader } from 'graphql.macro';
-import { useSnackbar } from 'notistack';
+
 import Iconify from '../../../components/Iconify';
 import Scrollbar from '../../../components/Scrollbar';
 import MenuPopover from '../../../components/MenuPopover';
 import { IconButtonAnimate } from '../../../components/animate';
-// import useAuth from '../../../hooks/useAuth';
 import NotificationDialog from '../../../sections/@dashboard/notification/NotificationDialog';
 import useToggle from '../../../hooks/useToggle';
 
 // ----------------------------------------------------------------------
-// const SUBSCRIPTION = loader('../../../graphql/subscription/subscribeNotifications.graphql');
-// const NOTIFICATION = loader('../../../graphql/queries/userNotification/listUserNotification.graphql');
-// const NOTIFICATION_UPDATE = loader('../../../graphql/mutations/userNotification/updateStatusUserNotification.graphql');
-// ----------------------------------------------------------------------
 
-NotificationsPopover.propTypes = {
-  setMessageIncome: PropTypes.func.isRequired,
-};
-export default function NotificationsPopover({ setMessageIncome }) {
-  const { enqueueSnackbar } = useSnackbar();
-
-  const [getListUserNotification, setGetListUserNotification] = useState([]);
-  const [newOderNotifications, setNewOderNotifications] = useState([]);
-  const [otherNotifications, setOtherNotifications] = useState([]);
+export default function NotificationsPopover() {
+  const [getListUserNotification] = useState([]);
+  const [newOderNotifications] = useState([]);
+  const [otherNotifications] = useState([]);
 
   // const { data, loading } = useSubscription(SUBSCRIPTION, {
   //   variables: { input: { userId: Number(user.id) } },

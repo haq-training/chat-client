@@ -10,13 +10,14 @@ import Iconify from '../../components/Iconify';
 const AccountStyle = styled('div')(({ theme }) => ({
   display: 'flex',
   alignItems: 'center',
-  padding: theme.spacing(2, 2.5),
-  borderRadius: theme.shape.borderRadiusSm,
-  backgroundColor: theme.palette.grey[200],
+  flexDirection: 'column',
+  justifyContent: 'center',
+  padding: theme.spacing(2, 2, 2, 2),
 }));
 const RowStyle = styled('div')(({ theme }) => ({
   display: 'flex',
-  marginTop: theme.spacing(1.5),
+  marginTop: theme.spacing(2),
+  marginBottom: theme.spacing(5),
 }));
 
 export default function UserAccount() {
@@ -24,12 +25,10 @@ export default function UserAccount() {
   const theme = useTheme();
 
   const [setDataUserInfo] = useState();
-  const [setIsEdit] = useState(false);
 
   const { toggle: isOpenUserInfoPopup, onOpen: onOpenUserInfoPopup, onClose: onCloseUserInfoPopup } = useToggle();
   const handleUpdateUserInformation = (dataInfo) => {
     setDataUserInfo(dataInfo);
-    setIsEdit(true);
     onCloseUserInfoPopup();
   };
 
@@ -45,41 +44,59 @@ export default function UserAccount() {
       >
         <Stack p={3} spacing={2}>
           <Stack direction="row" alignItems="center" justifyContent="space-between">
-            <Typography variant="h5">My Profile</Typography>
+            <Typography variant="h4">My Profile</Typography>
             <IconButton onClick={onOpenUserInfoPopup}>
-              <Iconify icon={'line-md:edit-twotone'} sx={{ mr: 1, height: 16, color: 'info.main' }} />
+              <Iconify icon={'line-md:edit-twotone'} sx={{ mr: 1, height: 20, color: 'info.main' }} />
             </IconButton>
           </Stack>
+
           <AccountStyle>
-            <MyAvatar sx={{ width: 56, height: 56 }} />
+            <MyAvatar sx={{ width: 132, height: 132, mb: 1 }} />
             <Box sx={{ ml: 2 }}>
-              <Typography variant="subtitle2" sx={{ color: 'text.primary' }}>
+              <Typography
+                sx={{
+                  color: 'text.primary',
+                  alignItems: 'center',
+                  display: 'flex',
+                  justifyContent: 'center',
+                  fontSize: 20,
+                  fontWeight: 'bold',
+                }}
+              >
                 {user?.firstName} {user?.lastName}
               </Typography>
             </Box>
           </AccountStyle>
-          <Stack direction="row" alignItems="center" spacing={2} sx={{ py: 2, pr: 1, pl: 2.5 }}>
-            <div>
+
+          <Stack direction="row" alignItems="center">
+            <Box>
               <RowStyle>
-                <Typography variant="h6" sx={{ color: 'text.primary' }}>
+                <Typography variant="body2" sx={{ color: 'text.primary', fontSize: 18, fontWeight: 'medium' }}>
                   {user?.story}
                 </Typography>
               </RowStyle>
+
               <RowStyle>
-                <Iconify icon={'tdesign:assignment-user'} sx={{ mr: 1, height: 16, color: 'info.main' }} />
-                <Typography variant={'body2'}>
+                <Iconify icon={'tdesign:assignment-user'} sx={{ mr: 1, height: 36, width: 36, color: 'info.main' }} />
+                <Typography variant={'body2'} sx={{ fontSize: 18 }}>
                   Name: {user?.firstName} {user?.lastName}
                 </Typography>
               </RowStyle>
+
               <RowStyle>
-                <Iconify icon={'line-md:email-twotone'} sx={{ mr: 1, height: 16, color: 'info.main' }} />
-                <Typography variant="body2">Email: {user?.email}</Typography>
+                <Iconify icon={'line-md:email-twotone'} sx={{ mr: 1, height: 36, width: 36, color: 'info.main' }} />
+                <Typography variant={'body2'} sx={{ fontSize: 18 }}>
+                  Email: {user?.email}
+                </Typography>
               </RowStyle>
+
               <RowStyle>
-                <Iconify icon={'carbon:location-filled'} sx={{ mr: 1, height: 16, color: 'info.main' }} />
-                <Typography variant="body2">Quê quán: {user?.location}</Typography>
+                <Iconify icon={'carbon:location-filled'} sx={{ mr: 1, height: 36, width: 36, color: 'info.main' }} />
+                <Typography variant={'body2'} sx={{ fontSize: 18 }}>
+                  Quê quán: {user?.location}
+                </Typography>
               </RowStyle>
-            </div>
+            </Box>
             <Stack>
               <UserInfoPersonalPopup
                 isOpen={isOpenUserInfoPopup}
