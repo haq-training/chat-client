@@ -78,7 +78,7 @@ export default function UserInfoPersonalPopup({ user, isEdit, isOpen, onClose, i
 
   const { refetch } = useQuery(GET_USER_INFO, {
     variables: {
-      id,
+      id: user.id,
     },
   });
 
