@@ -1,4 +1,3 @@
-mutation ChangePassword($input: changePasswordInput!) {
-    ChangePassword(input: $input)
-
+mutation addFriend($email: String!) {
+    addFriend(email: $email)
 }

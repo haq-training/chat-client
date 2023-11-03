@@ -5,10 +5,8 @@ import { useTheme } from '@mui/material/styles';
 import { useQuery } from '@apollo/client';
 import { loader } from 'graphql.macro';
 import { Search, SearchIconWrapper, StyledInputBase } from '../../../components/Search';
-import { chatList } from '../../../_apis_/data';
 import ChatElement from '../../../components/ChatElement';
 import AddFriends from './AddFriends';
-import useAuth from '../../../hooks/useAuth';
 
 // ----------------------------------------------------------------------
 

@@ -5,13 +5,14 @@ import { useForm } from 'react-hook-form';
 import { loader } from 'graphql.macro';
 import * as Yup from 'yup';
 import PropTypes from 'prop-types';
+import { useSnackbar } from 'notistack';
+import { useMutation } from '@apollo/client';
 import FormProvider from '../../../components/hook-form/FormProvider';
 import { RHFTextField } from '../../../components/hook-form';
-import useIsMountedRef from '../../../hooks/useIsMountedRef';
 
 // ----------------------------------------------------------------------
 
-const ADD_FRIENDS = loader('../../../graphql/mutations/updateUser.graphql');
+const ADD_FRIENDS = loader('../../../graphql/mutations/user/addFriends.graphql');
 
 // ----------------------------------------------------------------------
 
@@ -21,15 +22,15 @@ AddFriendsForm.propTypes = {
   handleClose: PropTypes.bool,
 };
 function AddFriendsForm({ handleClose }) {
-  const isMountedRef = useIsMountedRef();
+  const { enqueueSnackbar } = useSnackbar();
+
   const AddFriendsSchema = Yup.object().shape({
     email: Yup.string().required('Email Không được để trống!'),
-    note: Yup.array().max(180, 'Không quá 180 ký tự!'),
   });
 
   const defaultValues = {
     email: '',
-    note: '',
+    note: 'Chào bạn,tôi là...',
   };
 
   const methods = useForm({
@@ -38,23 +39,28 @@ function AddFriendsForm({ handleClose }) {
   });
 
   const {
-    reset,
-    setError,
     handleSubmit,
     formState: { isSubmitting },
   } = methods;
 
-  const onSubmit = async (data) => {
-    try {
-      // api call
-      console.log('Data', data);
-    } catch (error) {
-      console.log(error);
-      reset();
-      if (isMountedRef.current) {
-        setError('afterSubmit', { ...error, message: error.message });
-      }
-    }
+  const [AddFriends] = useMutation(ADD_FRIENDS, {
+    onCompleted: () => {
+      enqueueSnackbar('Gửi yêu cầu thành công', {
+        variant: 'success',
+      });
+    },
+    onError: (error) => {
+      enqueueSnackbar(`Gửi yêu cầu không thành công. Nguyên nhân: ${error.message}`, {
+        variant: 'error',
+      });
+    },
+  });
+  const onSubmit = async (values) => {
+    await AddFriends({
+      variables: {
+        email: values.email,
+      },
+    });
   };
 
   return (
@@ -64,10 +70,10 @@ function AddFriendsForm({ handleClose }) {
         <RHFTextField name="note" label="Ghi chú" />
         <Stack spacing={2} direction="row" alignItems="center" justifyContent="end" sx={{ mb: 1 }}>
           <Button variant="contained" onClick={handleClose}>
-            Cancel
+            Thoát
           </Button>
           <Button type="submit" variant="contained" loading={isSubmitting}>
-            Create
+            Gửi
           </Button>
         </Stack>
       </Stack>
