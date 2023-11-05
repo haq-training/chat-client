@@ -5,8 +5,8 @@ import { useTheme } from '@mui/material/styles';
 import { useQuery } from '@apollo/client';
 import { loader } from 'graphql.macro';
 import { Search, SearchIconWrapper, StyledInputBase } from '../../../components/Search';
-import ChatElement from '../../../components/ChatElement';
 import AddFriends from './AddFriends';
+import ContactElement from '../../../components/ContacElement';
 
 // ----------------------------------------------------------------------
 
@@ -73,7 +73,7 @@ export default function ContactForm() {
                 Pinned
               </Typography>
               {friends.map((el, row) => (
-                <ChatElement key={el.id} {...el} row={row} />
+                <ContactElement key={el.id} {...el} row={row} />
               ))}
             </Stack>
           </Stack>

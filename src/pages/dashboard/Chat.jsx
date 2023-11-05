@@ -2,10 +2,10 @@ import { Box, Divider, IconButton, Stack, Typography } from '@mui/material';
 import { ArchiveBox, CircleDashed, MagnifyingGlass, Plus } from 'phosphor-react';
 import { useTheme } from '@mui/material/styles';
 import React, { useState } from 'react';
-import { chatList } from '../../_apis_/data';
 import { Search, SearchIconWrapper, StyledInputBase } from '../../components/Search';
 import ChatElement from '../../components/ChatElement';
 import CreateGroup from '../../sections/@dashboard/CreateGroup';
+import { chatList } from '../../_apis_/data';
 
 export default function Chats() {
   const theme = useTheme();
