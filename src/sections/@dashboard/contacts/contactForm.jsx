@@ -69,8 +69,8 @@ export default function ContactForm() {
           <Divider />
           <Stack spacing={2} direction="column" sx={{ flexGrow: 1, overflow: 'scroll', height: '100%' }}>
             <Stack spacing={2.4}>
-              <Typography variant="subtitle2" sx={{ color: '#676767' }}>
-                Pinned
+              <Typography variant="h6" sx={{ color: '#676767' }}>
+                Danh bạ
               </Typography>
               {friends.map((el, row) => (
                 <ContactElement key={el.id} {...el} row={row} />
