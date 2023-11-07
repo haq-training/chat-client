@@ -3,12 +3,17 @@ import { Avatar, Box, IconButton, MenuItem, Stack, Typography } from '@mui/mater
 import { useTheme } from '@mui/material/styles';
 import { loader } from 'graphql.macro';
 import React, { useEffect, useState } from 'react';
-import { useQuery } from '@apollo/client';
+import { useMutation, useQuery } from '@apollo/client';
+import { useSnackbar } from 'notistack';
 import StyledBadge from './StyledBadge';
 import MenuPopover from './MenuPopover';
 import Iconify from './Iconify';
+import CommonBackdrop from './CommonBackdrop';
 
+//----------------------------------------------------------------------------------
 const LIST_FRIENDS = loader('../graphql/queries/user/listFriends.graphql');
+const UNFRIEND = loader('../graphql/mutations/user/unFriend.graphql');
+//----------------------------------------------------------------------------------
 
 ContactElement.propTypes = {
   firstName: PropTypes.string,
@@ -17,6 +22,7 @@ ContactElement.propTypes = {
   online: PropTypes.bool,
 };
 function ContactElement({ firstName, avatarUrl, lastName, online }) {
+  const { enqueueSnackbar } = useSnackbar();
   const theme = useTheme();
   const ICON = {
     mr: 2,
@@ -26,20 +32,42 @@ function ContactElement({ firstName, avatarUrl, lastName, online }) {
   const [open, setOpen] = useState(null);
   const [friends, setFriends] = useState([]);
 
-  const { data: listFriends } = useQuery(LIST_FRIENDS);
-
+  const { data: listFriends, refetch } = useQuery(LIST_FRIENDS);
   useEffect(() => {
-    if (listFriends && listFriends.listFriend) {
-      setFriends(listFriends.listFriend);
+    if (listFriends && listFriends.friends) {
+      setFriends(listFriends.friends);
     }
   }, [listFriends]);
   console.log('fasdasdr', friends);
+
+  const [Unfriend, { loading: loadingDeleteUser }] = useMutation(UNFRIEND, {
+    onCompleted: () => {
+      enqueueSnackbar('Hủy kết bạn thành công', {
+        variant: 'success',
+      });
+    },
+
+    onError: (error) => {
+      enqueueSnackbar(`Hủy kết bạn  không thành công. Nguyên nhân: ${error.message}`, {
+        variant: 'error',
+      });
+    },
+  });
   const handleOpen = (event) => {
     setOpen(event.currentTarget);
   };
 
   const handleClose = () => {
     setOpen(null);
+  };
+
+  const handleUnfriend = async (id) => {
+    await Unfriend({
+      variables: {
+        Id: Number(id),
+      },
+    });
+    await refetch(listFriends);
   };
   return (
     <Box
@@ -101,9 +129,9 @@ function ContactElement({ firstName, avatarUrl, lastName, online }) {
               <Iconify icon={'eva:edit-fill'} sx={{ ...ICON }} />
               Chỉnh sửa
             </MenuItem>
-            <MenuItem onClick={handleClose} sx={{ color: 'error.main' }}>
+            <MenuItem onClick={handleUnfriend} sx={{ color: 'error.main' }}>
               <Iconify icon={'eva:trash-2-outline'} sx={{ ...ICON }} />
-              Xoá
+              Hủy kết bạn
             </MenuItem>
           </MenuPopover>
         </Stack>
@@ -111,6 +139,7 @@ function ContactElement({ firstName, avatarUrl, lastName, online }) {
           <Iconify icon={'eva:more-vertical-fill'} width={20} height={20} />
         </IconButton>
       </Stack>
+      <CommonBackdrop loading={loadingDeleteUser} />
     </Box>
   );
 }
