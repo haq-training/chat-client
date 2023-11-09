@@ -12,7 +12,8 @@ import CommonBackdrop from './CommonBackdrop';
 
 //----------------------------------------------------------------------------------
 const LIST_FRIENDS = loader('../graphql/queries/user/listFriends.graphql');
-const UNFRIEND = loader('../graphql/mutations/user/Unfriend.graphql');
+const UNFRIEND = loader('../graphql/mutations/user/unFriend.graphql');
+const BLOCK_USER = loader('../graphql/mutations/user/blockUser.graphql');
 //----------------------------------------------------------------------------------
 
 ContactElement.propTypes = {
@@ -38,11 +39,24 @@ function ContactElement({ firstName, avatarUrl, lastName, online }) {
       setFriends(listFriends.friends);
     }
   }, [listFriends]);
-  console.log('fasdasdr', friends);
 
-  const [Unfriend, { loading: loadingDeleteUser }] = useMutation(UNFRIEND, {
+  const [blockUser] = useMutation(BLOCK_USER, {
     onCompleted: () => {
-      enqueueSnackbar('Hủy kết bạn thành công', {
+      enqueueSnackbar('Đã chặn đối phương!', {
+        variant: 'success',
+      });
+    },
+
+    onError: (error) => {
+      enqueueSnackbar(`Không thể chặn đối tượng này. Nguyên nhân: ${error.message}`, {
+        variant: 'error',
+      });
+    },
+  });
+
+  const [unFriend, { loading: loadingDeleteUser }] = useMutation(UNFRIEND, {
+    onCompleted: () => {
+      enqueueSnackbar('Hủy kết bạn thành công!', {
         variant: 'success',
       });
     },
@@ -61,10 +75,17 @@ function ContactElement({ firstName, avatarUrl, lastName, online }) {
     setOpen(null);
   };
 
-  const handleUnfriend = async (id) => {
-    await Unfriend({
+  const handleBlockUser = async (id) => {
+    await blockUser({
       variables: {
-        Id: Number(id),
+        id: Number(id),
+      },
+    });
+  };
+  const handleUnfriend = async (id) => {
+    await unFriend({
+      variables: {
+        id: Number(id),
       },
     });
     await refetch(listFriends);
@@ -117,15 +138,11 @@ function ContactElement({ firstName, avatarUrl, lastName, online }) {
               '& .MuiMenuItem-root': { px: 1, typography: 'body2', borderRadius: 0.75 },
             }}
           >
-            <MenuItem onClick={handleClose}>
+            <MenuItem onClick={handleClose} sx={{ color: 'info.main' }}>
               <Iconify icon={'basil:chat-solid'} sx={{ ...ICON }} />
               Nhắn tin
             </MenuItem>
-            <MenuItem
-              onClick={() => {
-                handleClose();
-              }}
-            >
+            <MenuItem onClick={handleBlockUser}>
               <Iconify icon={'solar:user-block-bold'} sx={{ ...ICON }} />
               Chặn
             </MenuItem>

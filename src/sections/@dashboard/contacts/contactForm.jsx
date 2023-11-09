@@ -1,6 +1,6 @@
-import { Box, Stack, Typography, Link, IconButton, Divider } from '@mui/material';
+import { Box, Divider, IconButton, Stack, Typography } from '@mui/material';
 import React, { useEffect, useState } from 'react';
-import { MagnifyingGlass, Plus } from 'phosphor-react';
+import { MagnifyingGlass, UserPlus } from 'phosphor-react';
 import { useTheme } from '@mui/material/styles';
 import { useQuery } from '@apollo/client';
 import { loader } from 'graphql.macro';
@@ -57,15 +57,13 @@ export default function ContactForm() {
           </Stack>
 
           <Stack direction={'row'} alignItems={'center'} justifyContent={'space-between'}>
-            <Typography variant="subtitle2" component={Link}>
-              Thêm liên lạc mới!
-            </Typography>
+            <Typography variant="h6">Thêm liên lạc mới!</Typography>
             <IconButton
               onClick={() => {
                 setOpenDialog(true);
               }}
             >
-              <Plus style={{ color: theme.palette.primary.main }} />
+              <UserPlus style={{ color: theme.palette.primary.main }} />
             </IconButton>
           </Stack>
 

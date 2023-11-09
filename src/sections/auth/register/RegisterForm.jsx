@@ -28,7 +28,7 @@ import { FormProvider, RHFTextField } from '../../../components/hook-form';
 // ----------------------------------------------------------------------
 const REGISTER = loader('../../../graphql/mutations/user/register.graphql');
 // ----------------------------------------------------------------------
-const Transition = forwardRef((props, ref) => <Slide direction="up" ref={ref} {...props} />);
+const Transition = forwardRef((props, ref) => <Slide children={null} direction="up" ref={ref} {...props} />);
 // -----------------------------------------------------------------
 
 export default function RegisterForm() {

@@ -137,14 +137,12 @@ export default function NotificationsPopover() {
               Bạn có {totalUnRead} tin nhắn chưa đọc
             </Typography>
           </Box>
-
           {/* {totalUnRead > 0 && ( */}
-          {/*  <Tooltip title="Đánh dấu đã đọc tất cả thông báo"> */}
-          {/*    <IconButtonAnimate color="primary" onClick={handleMarkAllAsRead}> */}
-          {/*      <Iconify icon="eva:done-all-fill" width={20} height={20} /> */}
-          {/*    </IconButtonAnimate> */}
-          {/*  </Tooltip> */}
-          {/* )} */}
+          <Tooltip title="Đánh dấu đã đọc tất cả thông báo">
+            <IconButtonAnimate color="primary">
+              <Iconify icon="eva:done-all-fill" width={20} height={20} />
+            </IconButtonAnimate>
+          </Tooltip>
         </Box>
 
         <Divider sx={{ borderStyle: 'dashed' }} />
@@ -154,7 +152,7 @@ export default function NotificationsPopover() {
             disablePadding
             subheader={
               <ListSubheader disableSticky sx={{ py: 1, px: 2.5, typography: 'overline' }}>
-                Thông báo đơn hàng
+                Yêu cầu kết bạn
               </ListSubheader>
             }
           >

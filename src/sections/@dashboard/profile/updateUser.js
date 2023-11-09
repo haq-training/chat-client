@@ -17,8 +17,6 @@ const GET_USER_INFO = loader('../../../graphql/queries/user/me.graphql');
 const UPDATE_USER_INFO = loader('../../../graphql/mutations/updateUser.graphql');
 // ----------------------------------------------------------------------
 
-// ----------------------------------------------------------------------
-
 UserInfoPersonalPopup.propTypes = {
   isOpen: PropTypes.bool,
   onClose: PropTypes.func,
@@ -76,11 +74,7 @@ export default function UserInfoPersonalPopup({ user, isEdit, isOpen, onClose, i
     onClose();
   };
 
-  const { refetch } = useQuery(GET_USER_INFO, {
-    variables: {
-      id: user.id,
-    },
-  });
+  const { refetch } = useQuery(GET_USER_INFO);
 
   const handleDrop = useCallback(
     (acceptedFiles) => {
@@ -102,7 +96,6 @@ export default function UserInfoPersonalPopup({ user, isEdit, isOpen, onClose, i
     refetchQueries: () => [
       {
         query: GET_USER_INFO,
-        variables: { id: user.id },
       },
     ],
   });

@@ -1,5 +1,5 @@
 import { yupResolver } from '@hookform/resolvers/yup';
-import { Button, Dialog, DialogContent, DialogTitle, Slide, Stack } from '@mui/material';
+import { Box, Button, Dialog, DialogContent, DialogTitle, Slide, Stack } from '@mui/material';
 import React from 'react';
 import { useForm } from 'react-hook-form';
 import * as Yup from 'yup';
@@ -56,8 +56,8 @@ function CreateGroupForm({ handleClose }) {
 
   return (
     <FormProvider methods={methods} onSubmit={handleSubmit(onSubmit)}>
-      <Stack spacing={3}>
-        <RHFTextField name="title" label="Title" />
+      <Box>
+        <RHFTextField sx={{ mt: 1.5 }} name="title" label="Title" />
         <RHFAutocomplete
           name="members"
           label="Members"
@@ -65,14 +65,15 @@ function CreateGroupForm({ handleClose }) {
           freeSolo
           options={MEMBERS.map((option) => option)}
           ChipProps={{ size: 'medium' }}
+          sx={{ mt: 4 }}
         />
-        <Stack spacing={2} direction="row" alignItems="center" justifyContent="end">
+        <Stack spacing={2} direction="row" alignItems="center" justifyContent="end" sx={{ mt: 2, mb: 2 }}>
           <Button onClick={handleClose}>Cancel</Button>
           <Button type="submit" variant="contained" loading={isSubmitting}>
             Create
           </Button>
         </Stack>
-      </Stack>
+      </Box>
     </FormProvider>
   );
 }
@@ -87,7 +88,7 @@ const CreateGroup = ({ open, handleClose }) => (
     keepMounted
     sx={{ p: 4 }}
   >
-    <DialogTitle sx={{ mb: 3 }}>Create New Group</DialogTitle>
+    <DialogTitle>Tạo nhóm mới </DialogTitle>
     <DialogContent>
       <CreateGroupForm handleClose={handleClose} />
     </DialogContent>

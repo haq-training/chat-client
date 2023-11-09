@@ -1,5 +1,5 @@
 import { yupResolver } from '@hookform/resolvers/yup';
-import { Button, Dialog, DialogContent, DialogTitle, Slide, Stack } from '@mui/material';
+import { Box, Button, Dialog, DialogContent, DialogTitle, Slide, Stack } from '@mui/material';
 import React from 'react';
 import { useForm } from 'react-hook-form';
 import { loader } from 'graphql.macro';
@@ -65,10 +65,10 @@ function AddFriendsForm({ handleClose }) {
 
   return (
     <FormProvider methods={methods} onSubmit={handleSubmit(onSubmit)}>
-      <Stack spacing={3}>
-        <RHFTextField name="email" label="Email" />
-        <RHFTextField name="note" label="Ghi chú" />
-        <Stack spacing={2} direction="row" alignItems="center" justifyContent="end" sx={{ mb: 1 }}>
+      <Box>
+        <RHFTextField sx={{ mt: 1.5 }} name="email" label="Email" />
+        <RHFTextField sx={{ mt: 4 }} name="note" label="Ghi chú" />
+        <Stack spacing={2} direction="row" alignItems="center" justifyContent="end" sx={{ mt: 2, mb: 2 }}>
           <Button variant="contained" onClick={handleClose}>
             Thoát
           </Button>
@@ -76,7 +76,7 @@ function AddFriendsForm({ handleClose }) {
             Gửi
           </Button>
         </Stack>
-      </Stack>
+      </Box>
     </FormProvider>
   );
 }
@@ -91,7 +91,7 @@ const AddFriends = ({ open, handleClose }) => (
     keepMounted
     sx={{ p: 4 }}
   >
-    <DialogTitle sx={{ mb: 2 }}>Gửi yêu cầu kết bạn</DialogTitle>
+    <DialogTitle>Gửi yêu cầu kết bạn</DialogTitle>
     <DialogContent>
       <AddFriendsForm handleClose={handleClose} />
     </DialogContent>
