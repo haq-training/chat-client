@@ -27,7 +27,7 @@ export default function ContactForm() {
       setFriends(listFriends.listFriend);
     }
   }, [listFriends]);
-  console.log('fr', friends);
+
   const handleCloseDialog = () => {
     setOpenDialog(false);
   };
@@ -43,9 +43,10 @@ export default function ContactForm() {
         }}
       >
         <Stack p={3} spacing={2} sx={{ height: '100vh' }}>
-          <Stack>
+          <Stack direction="row" alignItems="center" justifyContent="space-between">
             <Typography variant="h5">Contacts</Typography>
           </Stack>
+
           <Stack sx={{ width: '100%' }}>
             <Search>
               <SearchIconWrapper>
@@ -54,6 +55,7 @@ export default function ContactForm() {
               <StyledInputBase placeholder="Search..." inputProps={{ 'aria-label': 'search' }} />
             </Search>
           </Stack>
+
           <Stack direction={'row'} alignItems={'center'} justifyContent={'space-between'}>
             <Typography variant="subtitle2" component={Link}>
               Thêm liên lạc mới!
@@ -66,7 +68,9 @@ export default function ContactForm() {
               <Plus style={{ color: theme.palette.primary.main }} />
             </IconButton>
           </Stack>
+
           <Divider />
+
           <Stack spacing={2} direction="column" sx={{ flexGrow: 1, overflow: 'scroll', height: '100%' }}>
             <Stack spacing={2.4}>
               <Typography variant="h6" sx={{ color: '#676767' }}>

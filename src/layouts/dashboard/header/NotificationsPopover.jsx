@@ -11,9 +11,12 @@ import {
   ListItemButton,
   ListItemText,
   ListSubheader,
+  Tooltip,
   Typography,
 } from '@mui/material';
-
+// import { loader } from 'graphql.macro';
+// import { useMutation } from '@apollo/client';
+import useAuth from '../../../hooks/useAuth';
 import Iconify from '../../../components/Iconify';
 import Scrollbar from '../../../components/Scrollbar';
 import MenuPopover from '../../../components/MenuPopover';
@@ -22,11 +25,16 @@ import NotificationDialog from '../../../sections/@dashboard/notification/Notifi
 import useToggle from '../../../hooks/useToggle';
 
 // ----------------------------------------------------------------------
+// const LIST_FRIENDS = loader('../../../graphql/queries/user/listFriends.graphql');
+// ----------------------------------------------------------------------
 
 export default function NotificationsPopover() {
+  const { user } = useAuth();
   const [getListUserNotification] = useState([]);
   const [newOderNotifications] = useState([]);
   const [otherNotifications] = useState([]);
+  // const [notifications, setNotifications] = useState([]);
+  // const [markAsReadAllNotifications] = useMutation(LIST_FRIENDS);
 
   // const { data, loading } = useSubscription(SUBSCRIPTION, {
   //   variables: { input: { userId: Number(user.id) } },
@@ -98,6 +106,15 @@ export default function NotificationsPopover() {
   //   });
   //   // handleClose();
   // };
+  // const handleMarkAllAsRead = async () => {
+  //   await markAsReadAllNotifications({ variables: { userId: user.id } });
+  //   setNotifications(
+  //     notifications.map((notification) => ({
+  //       ...notification,
+  //       is_read: true,
+  //     }))
+  //   );
+  // };
 
   return (
     <>
@@ -111,7 +128,7 @@ export default function NotificationsPopover() {
         open={Boolean(open)}
         anchorEl={open}
         onClose={handleClose}
-        sx={{ width: 360, p: 0, mt: 1.5, ml: 0.75 }}
+        sx={{ width: 360, p: 0, mt: 1.5, ml: 0.75, height: 480 }}
       >
         <Box sx={{ display: 'flex', alignItems: 'center', py: 2, px: 2.5 }}>
           <Box sx={{ flexGrow: 1 }}>

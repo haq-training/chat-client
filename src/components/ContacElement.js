@@ -12,7 +12,7 @@ import CommonBackdrop from './CommonBackdrop';
 
 //----------------------------------------------------------------------------------
 const LIST_FRIENDS = loader('../graphql/queries/user/listFriends.graphql');
-const UNFRIEND = loader('../graphql/mutations/user/unFriend.graphql');
+const UNFRIEND = loader('../graphql/mutations/user/Unfriend.graphql');
 //----------------------------------------------------------------------------------
 
 ContactElement.propTypes = {
@@ -126,8 +126,8 @@ function ContactElement({ firstName, avatarUrl, lastName, online }) {
                 handleClose();
               }}
             >
-              <Iconify icon={'eva:edit-fill'} sx={{ ...ICON }} />
-              Chỉnh sửa
+              <Iconify icon={'solar:user-block-bold'} sx={{ ...ICON }} />
+              Chặn
             </MenuItem>
             <MenuItem onClick={handleUnfriend} sx={{ color: 'error.main' }}>
               <Iconify icon={'eva:trash-2-outline'} sx={{ ...ICON }} />

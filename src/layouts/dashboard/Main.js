@@ -3,10 +3,12 @@ import { Box, Divider, IconButton, Stack, Tooltip } from '@mui/material';
 import { useTheme } from '@mui/material/styles';
 import { Gear } from 'phosphor-react';
 import { useNavigate } from 'react-router-dom';
+import PropTypes from 'prop-types';
 import { navButtonsUser, navButtonsAdmin, Role } from '../../_apis_/data';
 import Logo from '../../components/Logo';
 import useAuth from '../../hooks/useAuth';
 import AccountPopover from './header/AccountPopover';
+import NotificationsPopover from './header/NotificationsPopover';
 
 // eslint-disable-next-line consistent-return
 const getPathUser = (index) => {
@@ -196,6 +198,7 @@ const SideBar = () => {
         </Stack>
 
         <Stack spacing={4}>
+          <NotificationsPopover />
           <AccountPopover />
         </Stack>
       </Stack>
