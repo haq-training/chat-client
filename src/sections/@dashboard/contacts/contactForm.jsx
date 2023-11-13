@@ -17,7 +17,6 @@ const LIST_FRIENDS = loader('../../../graphql/queries/user/listFriends.graphql')
 export default function ContactForm() {
   const theme = useTheme();
   const [openDialog, setOpenDialog] = useState(false);
-
   const [friends, setFriends] = useState([]);
 
   const { data: listFriends } = useQuery(LIST_FRIENDS);
@@ -74,7 +73,7 @@ export default function ContactForm() {
               <Typography variant="h6" sx={{ color: '#676767' }}>
                 Danh bạ
               </Typography>
-              {friends.map((el, row) => (
+              {friends.friend?.map((el, row) => (
                 <ContactElement key={el.id} {...el} row={row} />
               ))}
             </Stack>
