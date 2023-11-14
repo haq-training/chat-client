@@ -7,6 +7,7 @@ import { loader } from 'graphql.macro';
 import { Search, SearchIconWrapper, StyledInputBase } from '../../../components/Search';
 import AddFriends from './AddFriends';
 import ContactElement from '../../../components/ContacElement';
+import BlockElement from './blockElement';
 
 // ----------------------------------------------------------------------
 
@@ -26,6 +27,8 @@ export default function ContactForm() {
       setFriends(listFriends.listFriend);
     }
   }, [listFriends]);
+  console.log('fr', friends);
+  console.log('cvb', listFriends);
 
   const handleCloseDialog = () => {
     setOpenDialog(false);
@@ -34,6 +37,7 @@ export default function ContactForm() {
   return (
     <>
       <Box
+        key={friends}
         sx={{
           position: 'relative',
           width: 320,
@@ -41,7 +45,7 @@ export default function ContactForm() {
           boxShadow: '0px 0px 2px rgba(0,0,0,0.25)',
         }}
       >
-        <Stack p={3} spacing={2} sx={{ height: '100vh' }}>
+        <Stack key={friends} p={3} spacing={2} sx={{ height: '100vh' }}>
           <Stack direction="row" alignItems="center" justifyContent="space-between">
             <Typography variant="h5">Contacts</Typography>
           </Stack>
@@ -68,13 +72,21 @@ export default function ContactForm() {
 
           <Divider />
 
-          <Stack spacing={2} direction="column" sx={{ flexGrow: 1, overflow: 'scroll', height: '100%' }}>
+          <Stack key={friends} spacing={2} direction="column" sx={{ flexGrow: 1, overflow: 'scroll', height: '100%' }}>
             <Stack spacing={2.4}>
               <Typography variant="h6" sx={{ color: '#676767' }}>
                 Danh bạ
               </Typography>
               {friends.friend?.map((el, row) => (
                 <ContactElement key={el.id} {...el} row={row} />
+              ))}
+            </Stack>
+            <Stack spacing={2.4}>
+              <Typography variant="h6" sx={{ color: '#676767' }}>
+                Đã chặn
+              </Typography>
+              {friends.block?.map((el, row) => (
+                <BlockElement key={el.id} {...el} row={row} />
               ))}
             </Stack>
           </Stack>

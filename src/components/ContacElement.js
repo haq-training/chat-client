@@ -8,7 +8,6 @@ import { useSnackbar } from 'notistack';
 import StyledBadge from './StyledBadge';
 import MenuPopover from './MenuPopover';
 import Iconify from './Iconify';
-import CommonBackdrop from './CommonBackdrop';
 
 //----------------------------------------------------------------------------------
 const LIST_FRIENDS = loader('../graphql/queries/user/listFriends.graphql');
@@ -19,31 +18,38 @@ const BLOCK_USER = loader('../graphql/mutations/user/blockUser.graphql');
 ContactElement.propTypes = {
   firstName: PropTypes.string,
   avatarUrl: PropTypes.string,
-  lastName: PropTypes.string,
+  id: PropTypes.number,
   online: PropTypes.bool,
 };
-function ContactElement({ firstName, avatarUrl, lastName, online }) {
+function ContactElement({ firstName, avatarUrl, id, online }) {
   const { enqueueSnackbar } = useSnackbar();
+
   const theme = useTheme();
+
   const ICON = {
     mr: 2,
     width: 20,
     height: 20,
   };
+
   const [open, setOpen] = useState(null);
+
   const [friends, setFriends] = useState([]);
 
-  const { data: listFriends, refetch } = useQuery(LIST_FRIENDS);
+  const { data: listFriends } = useQuery(LIST_FRIENDS);
+
   useEffect(() => {
-    if (listFriends && listFriends.friends) {
-      setFriends(listFriends.friends);
+    if (listFriends && listFriends.listFriend) {
+      setFriends(listFriends.listFriend);
     }
   }, [listFriends]);
-
+  console.log('asd', listFriends);
+  console.log('avcvxvsd', friends);
   const [blockUser] = useMutation(BLOCK_USER, {
     onCompleted: () => {
       enqueueSnackbar('Đã chặn đối phương!', {
         variant: 'success',
+        enqueueSnackbar,
       });
     },
 
@@ -54,12 +60,17 @@ function ContactElement({ firstName, avatarUrl, lastName, online }) {
     },
   });
 
-  const [unFriend, { loading: loadingDeleteUser }] = useMutation(UNFRIEND, {
+  const [unFriend] = useMutation(UNFRIEND, {
     onCompleted: () => {
       enqueueSnackbar('Hủy kết bạn thành công!', {
         variant: 'success',
       });
     },
+    refetchQueries: () => [
+      {
+        query: LIST_FRIENDS,
+      },
+    ],
 
     onError: (error) => {
       enqueueSnackbar(`Hủy kết bạn  không thành công. Nguyên nhân: ${error.message}`, {
@@ -73,6 +84,10 @@ function ContactElement({ firstName, avatarUrl, lastName, online }) {
 
   const handleClose = () => {
     setOpen(null);
+  };
+  const handleClick = (e) => {
+    e.preventDefault();
+    console.log('You clicked submit.');
   };
 
   const handleBlockUser = async (id) => {
@@ -88,7 +103,6 @@ function ContactElement({ firstName, avatarUrl, lastName, online }) {
         id: Number(id),
       },
     });
-    await refetch(listFriends);
   };
   return (
     <Box
@@ -100,7 +114,7 @@ function ContactElement({ firstName, avatarUrl, lastName, online }) {
       }}
       p={2}
     >
-      <Stack direction="row" display="flex" justifyContent="space-between">
+      <Stack key={friends} direction="row" display="flex" justifyContent="space-between">
         <Stack
           alignItems="center"
           direction="row"
@@ -121,11 +135,12 @@ function ContactElement({ firstName, avatarUrl, lastName, online }) {
 
           <Stack spacing={0.3} textOverflow="ellipsis" overflow="hidden">
             <Typography variant="subtitle2" sx={{ ml: 2, fontSize: 16 }}>
-              {firstName} {lastName}
+              {firstName} {id}
             </Typography>
           </Stack>
 
           <MenuPopover
+            key={friends}
             open={Boolean(open)}
             anchorEl={open}
             onClose={handleClose}
@@ -138,7 +153,7 @@ function ContactElement({ firstName, avatarUrl, lastName, online }) {
               '& .MuiMenuItem-root': { px: 1, typography: 'body2', borderRadius: 0.75 },
             }}
           >
-            <MenuItem onClick={handleClose} sx={{ color: 'info.main' }}>
+            <MenuItem onSubmit={handleClick} sx={{ color: 'info.main' }}>
               <Iconify icon={'basil:chat-solid'} sx={{ ...ICON }} />
               Nhắn tin
             </MenuItem>
@@ -146,7 +161,8 @@ function ContactElement({ firstName, avatarUrl, lastName, online }) {
               <Iconify icon={'solar:user-block-bold'} sx={{ ...ICON }} />
               Chặn
             </MenuItem>
-            <MenuItem onClick={handleUnfriend} sx={{ color: 'error.main' }}>
+
+            <MenuItem key={friends} onClick={(friends) => console.log('as', friends)} sx={{ color: 'error.main' }}>
               <Iconify icon={'eva:trash-2-outline'} sx={{ ...ICON }} />
               Hủy kết bạn
             </MenuItem>
@@ -156,7 +172,6 @@ function ContactElement({ firstName, avatarUrl, lastName, online }) {
           <Iconify icon={'eva:more-vertical-fill'} width={20} height={20} />
         </IconButton>
       </Stack>
-      <CommonBackdrop loading={loadingDeleteUser} />
     </Box>
   );
 }
