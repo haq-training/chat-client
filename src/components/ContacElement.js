@@ -18,10 +18,10 @@ const BLOCK_USER = loader('../graphql/mutations/user/blockUser.graphql');
 ContactElement.propTypes = {
   firstName: PropTypes.string,
   avatarUrl: PropTypes.string,
-  id: PropTypes.number,
+  lastName: PropTypes.string,
   online: PropTypes.bool,
 };
-function ContactElement({ firstName, avatarUrl, id, online }) {
+function ContactElement({ firstName, avatarUrl, lastName, online }) {
   const { enqueueSnackbar } = useSnackbar();
 
   const theme = useTheme();
@@ -43,8 +43,9 @@ function ContactElement({ firstName, avatarUrl, id, online }) {
       setFriends(listFriends.listFriend);
     }
   }, [listFriends]);
-  console.log('asd', listFriends);
-  console.log('avcvxvsd', friends);
+
+  // console.log('avcvxvsd', friends.block);
+
   const [blockUser] = useMutation(BLOCK_USER, {
     onCompleted: () => {
       enqueueSnackbar('Đã chặn đối phương!', {
@@ -135,7 +136,7 @@ function ContactElement({ firstName, avatarUrl, id, online }) {
 
           <Stack spacing={0.3} textOverflow="ellipsis" overflow="hidden">
             <Typography variant="subtitle2" sx={{ ml: 2, fontSize: 16 }}>
-              {firstName} {id}
+              {firstName} {lastName}
             </Typography>
           </Stack>
 
@@ -162,7 +163,11 @@ function ContactElement({ firstName, avatarUrl, id, online }) {
               Chặn
             </MenuItem>
 
-            <MenuItem key={friends} onClick={(friends) => console.log('as', friends)} sx={{ color: 'error.main' }}>
+            <MenuItem
+              key={friends.friend[0]?.id}
+              onClick={() => console.log('asdas', friends.friend[0]?.id)}
+              sx={{ color: 'error.main' }}
+            >
               <Iconify icon={'eva:trash-2-outline'} sx={{ ...ICON }} />
               Hủy kết bạn
             </MenuItem>

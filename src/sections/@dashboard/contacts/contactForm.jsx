@@ -27,8 +27,8 @@ export default function ContactForm() {
       setFriends(listFriends.listFriend);
     }
   }, [listFriends]);
-  console.log('fr', friends);
-  console.log('cvb', listFriends);
+  // console.log('fr', friends);
+  // console.log('cvb', listFriends);
 
   const handleCloseDialog = () => {
     setOpenDialog(false);

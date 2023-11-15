@@ -34,13 +34,15 @@ function BlockElement({ firstName, avatarUrl, lastName, online }) {
 
   const [friends, setFriends] = useState([]);
 
-  const { data: listFriends, refetch } = useQuery(LIST_FRIENDS);
+  const { data: listFriends } = useQuery(LIST_FRIENDS);
+
   useEffect(() => {
     if (listFriends && listFriends.listFriend) {
       setFriends(listFriends.listFriend);
     }
   }, [listFriends]);
-  console.log('asdasd', friends);
+
+  console.log('asdasff', friends.friend.block[0]?.id);
   const [blockUser] = useMutation(UN_BLOCK_USER, {
     onCompleted: () => {
       enqueueSnackbar('Đã Bỏ chặn đối phương!', {
@@ -89,7 +91,6 @@ function BlockElement({ firstName, avatarUrl, lastName, online }) {
         id: Number(id),
       },
     });
-    await refetch(listFriends);
   };
   return (
     <>
@@ -148,7 +149,11 @@ function BlockElement({ firstName, avatarUrl, lastName, online }) {
                 <Iconify icon={'ant-design:unlock-twotone'} sx={{ ...ICON }} />
                 Bỏ Chặn
               </MenuItem>
-              <MenuItem onClick={() => handleUnfriend(5)} sx={{ color: 'error.main' }}>
+              <MenuItem
+                key={friends.block[0]?.id}
+                onClick={() => console.log('assdads', friends.block[0]?.id)}
+                sx={{ color: 'error.main' }}
+              >
                 <Iconify icon={'eva:trash-2-outline'} sx={{ ...ICON }} />
                 Hủy kết bạn
               </MenuItem>
