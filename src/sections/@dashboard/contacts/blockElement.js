@@ -41,9 +41,8 @@ function BlockElement({ firstName, avatarUrl, lastName, online }) {
       setFriends(listFriends.listFriend);
     }
   }, [listFriends]);
-
-  console.log('asdasff', friends.friend.block[0]?.id);
-  const [blockUser] = useMutation(UN_BLOCK_USER, {
+  const block = friends.block[0]?.id;
+  const [unBlockUser] = useMutation(UN_BLOCK_USER, {
     onCompleted: () => {
       enqueueSnackbar('Đã Bỏ chặn đối phương!', {
         variant: 'success',
@@ -56,7 +55,6 @@ function BlockElement({ firstName, avatarUrl, lastName, online }) {
       });
     },
   });
-
   const [unFriend, { loading: loadingDeleteUser }] = useMutation(UNFRIEND, {
     onCompleted: () => {
       enqueueSnackbar('Hủy kết bạn thành công!', {
@@ -78,8 +76,8 @@ function BlockElement({ firstName, avatarUrl, lastName, online }) {
     setOpen(null);
   };
 
-  const handleBlockUser = async (id) => {
-    await blockUser({
+  const handleUnBlockUser = async (id) => {
+    await unBlockUser({
       variables: {
         id: Number(id),
       },
@@ -145,15 +143,12 @@ function BlockElement({ firstName, avatarUrl, lastName, online }) {
                 <Iconify icon={'basil:chat-solid'} sx={{ ...ICON }} />
                 Nhắn tin
               </MenuItem>
-              <MenuItem onClick={handleBlockUser}>
+
+              <MenuItem onClick={() => handleUnBlockUser()}>
                 <Iconify icon={'ant-design:unlock-twotone'} sx={{ ...ICON }} />
                 Bỏ Chặn
               </MenuItem>
-              <MenuItem
-                key={friends.block[0]?.id}
-                onClick={() => console.log('assdads', friends.block[0]?.id)}
-                sx={{ color: 'error.main' }}
-              >
+              <MenuItem key={block} onClick={() => handleUnfriend(block)} sx={{ color: 'error.main' }}>
                 <Iconify icon={'eva:trash-2-outline'} sx={{ ...ICON }} />
                 Hủy kết bạn
               </MenuItem>

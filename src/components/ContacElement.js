@@ -44,7 +44,7 @@ function ContactElement({ firstName, avatarUrl, lastName, online }) {
     }
   }, [listFriends]);
 
-  // console.log('avcvxvsd', friends.block);
+  const friend = friends.friend[0]?.id;
 
   const [blockUser] = useMutation(BLOCK_USER, {
     onCompleted: () => {
@@ -158,16 +158,13 @@ function ContactElement({ firstName, avatarUrl, lastName, online }) {
               <Iconify icon={'basil:chat-solid'} sx={{ ...ICON }} />
               Nhắn tin
             </MenuItem>
-            <MenuItem onClick={handleBlockUser}>
+
+            <MenuItem onClick={() => handleBlockUser()}>
               <Iconify icon={'solar:user-block-bold'} sx={{ ...ICON }} />
               Chặn
             </MenuItem>
 
-            <MenuItem
-              key={friends.friend[0]?.id}
-              onClick={() => console.log('asdas', friends.friend[0]?.id)}
-              sx={{ color: 'error.main' }}
-            >
+            <MenuItem key={friend} onClick={() => handleUnfriend(friend)} sx={{ color: 'error.main' }}>
               <Iconify icon={'eva:trash-2-outline'} sx={{ ...ICON }} />
               Hủy kết bạn
             </MenuItem>
