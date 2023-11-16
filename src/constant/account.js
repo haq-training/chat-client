@@ -1,38 +1,5 @@
 import { Role, VietnameseRoleName } from './role';
 
-export const AdminAccount = {
-  id: 'admin-01',
-  email: 'admin-demo@tcn.com.vn',
-  password: 'demo1234',
-  displayName: 'Admin',
-  address: 'Hà Nội',
-  photoURL: '/static/mock-images/avatars/avatar_default.jpg',
-  status: 'Đang hoạt động',
-  role: Role.admin,
-};
-
-export const DirectorAccount = {
-  id: 'director-01',
-  email: 'giamdoc-demo@tcn.com.vn',
-  password: 'demo1234',
-  displayName: 'Giám đốc',
-  address: 'Hà Nội',
-  photoURL: '/static/mock-images/avatars/avatar_default.jpg',
-  status: 'Đang hoạt động',
-  role: Role.director,
-};
-
-export const ManagerAccount = {
-  id: 'manager-01',
-  email: 'quanly-demo@tcn.com.vn',
-  password: 'demo1234',
-  displayName: 'Quản lý',
-  address: 'Hà Nội',
-  photoURL: '/static/mock-images/avatars/avatar_default.jpg',
-  status: 'Đang hoạt động',
-  role: Role.manager,
-};
-
 export const Sale1Account = {
   id: '4',
   email: 'kinhdoanh1-demo@tcn.com.vn',

@@ -9,7 +9,6 @@ import { SINGLE_KEY_PATH } from './paths';
 import LoadingScreen from '../components/LoadingScreen';
 import { DashboardLayout } from '../layouts/dashboard';
 import Chats from '../pages/dashboard/Chat';
-import UpdateInfoUser from '../pages/dashboard/UpdateInfoUser';
 
 // ----------------------------------------------------------------------
 
@@ -57,6 +56,7 @@ export default function Router() {
         </AuthGuard>
       ),
       children: [
+        { element: <Navigate to={PATH_AFTER_LOGIN} replace />, index: true },
         { path: 'app', element: <GeneralApp /> },
         { path: 'chat', element: <Chats /> },
         { path: 'cai-dat', element: <Settings /> },
@@ -65,17 +65,7 @@ export default function Router() {
         { path: 'danh-ba', element: <Contacts /> },
         { path: 'muc-ghim', element: <BookMark /> },
         { path: 'doi-mat-khau', element: <ChangePass /> },
-        {
-          path: 'nguoi-dung',
-          children: [
-            { element: <ListUser />, index: true },
-            { path: 'danh-sach', element: <ListUser /> },
-            {
-              path: ':id/chinh-sua',
-              element: <UpdateInfoUser />,
-            },
-          ],
-        },
+        { path: 'danh-sach', element: <ListUser /> },
       ],
     },
     {
