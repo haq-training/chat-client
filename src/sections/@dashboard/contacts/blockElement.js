@@ -11,8 +11,10 @@ import Iconify from '../../../components/Iconify';
 import CommonBackdrop from '../../../components/CommonBackdrop';
 
 //----------------------------------------------------------------------------------
+
 const LIST_FRIENDS = loader('../../../graphql/queries/user/listFriends.graphql');
 const UN_BLOCK_USER = loader('../../../graphql/mutations/user/unBlockUser.graphql');
+
 //----------------------------------------------------------------------------------
 
 BlockElement.propTypes = {
