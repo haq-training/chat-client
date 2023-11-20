@@ -43,8 +43,8 @@ function ContactElement({ firstName, avatarUrl, lastName, online }) {
       setFriends(listFriends.listFriend);
     }
   }, [listFriends]);
-
-  const friend = friends.friend[0]?.id;
+  const friend = friends.friend?.[0].id;
+  console.log('ab', friend);
 
   const [blockUser] = useMutation(BLOCK_USER, {
     onCompleted: () => {
@@ -53,6 +53,11 @@ function ContactElement({ firstName, avatarUrl, lastName, online }) {
         enqueueSnackbar,
       });
     },
+    refetchQueries: () => [
+      {
+        query: LIST_FRIENDS,
+      },
+    ],
 
     onError: (error) => {
       enqueueSnackbar(`Không thể chặn đối tượng này. Nguyên nhân: ${error.message}`, {
@@ -107,7 +112,6 @@ function ContactElement({ firstName, avatarUrl, lastName, online }) {
   };
   return (
     <Box
-      key={friends}
       sx={{
         width: '100%',
         borderRadius: 1,
@@ -115,7 +119,7 @@ function ContactElement({ firstName, avatarUrl, lastName, online }) {
       }}
       p={2}
     >
-      <Stack key={friends} direction="row" display="flex" justifyContent="space-between">
+      <Stack direction="row" display="flex" justifyContent="space-between">
         <Stack
           alignItems="center"
           direction="row"
@@ -141,7 +145,6 @@ function ContactElement({ firstName, avatarUrl, lastName, online }) {
           </Stack>
 
           <MenuPopover
-            key={friends}
             open={Boolean(open)}
             anchorEl={open}
             onClose={handleClose}
@@ -159,12 +162,12 @@ function ContactElement({ firstName, avatarUrl, lastName, online }) {
               Nhắn tin
             </MenuItem>
 
-            <MenuItem onClick={() => handleBlockUser()}>
+            <MenuItem key={friend} onClick={() => handleBlockUser(friend)}>
               <Iconify icon={'solar:user-block-bold'} sx={{ ...ICON }} />
               Chặn
             </MenuItem>
 
-            <MenuItem key={friend} onClick={() => handleUnfriend(friend)} sx={{ color: 'error.main' }}>
+            <MenuItem onClick={() => handleUnfriend()} sx={{ color: 'error.main' }}>
               <Iconify icon={'eva:trash-2-outline'} sx={{ ...ICON }} />
               Hủy kết bạn
             </MenuItem>
