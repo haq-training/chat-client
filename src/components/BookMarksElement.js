@@ -45,12 +45,9 @@ function BookMarkElement({ name, img, msg }) {
             width: '100%',
           }}
         >
-          {
-            <Box overlap="circular" anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }} variant="dot">
+            <Box overlap="circular" variant="dot">
               <File src={img} size={32} />
             </Box>
-          }
-
           <Stack spacing={0.3} textOverflow="ellipsis" overflow="hidden">
             <Typography variant="subtitle2" fontSize="h6.fontSize">
               {name}
