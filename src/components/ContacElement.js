@@ -44,7 +44,6 @@ function ContactElement({ firstName, avatarUrl, lastName, online }) {
     }
   }, [listFriends]);
   const friend = friends.friend?.[0].id;
-  console.log('ab', friend);
 
   const [blockUser] = useMutation(BLOCK_USER, {
     onCompleted: () => {

@@ -12,7 +12,6 @@ import CommonBackdrop from '../../../components/CommonBackdrop';
 
 //----------------------------------------------------------------------------------
 const LIST_FRIENDS = loader('../../../graphql/queries/user/listFriends.graphql');
-const UNFRIEND = loader('../../../graphql/mutations/user/unFriend.graphql');
 const UN_BLOCK_USER = loader('../../../graphql/mutations/user/unBlockUser.graphql');
 //----------------------------------------------------------------------------------
 
@@ -44,7 +43,7 @@ function BlockElement({ firstName, avatarUrl, lastName, online }) {
 
   const block = friends.block?.[0].id;
 
-  const [unBlockUser] = useMutation(UN_BLOCK_USER, {
+  const [unBlockUser, { loading: loadingDeleteUser }] = useMutation(UN_BLOCK_USER, {
     onCompleted: () => {
       enqueueSnackbar('Đã Bỏ chặn đối phương!', {
         variant: 'success',
@@ -57,19 +56,7 @@ function BlockElement({ firstName, avatarUrl, lastName, online }) {
       });
     },
   });
-  const [unFriend, { loading: loadingDeleteUser }] = useMutation(UNFRIEND, {
-    onCompleted: () => {
-      enqueueSnackbar('Hủy kết bạn thành công!', {
-        variant: 'success',
-      });
-    },
 
-    onError: (error) => {
-      enqueueSnackbar(`Hủy kết bạn  không thành công. Nguyên nhân: ${error.message}`, {
-        variant: 'error',
-      });
-    },
-  });
   const handleOpen = (event) => {
     setOpen(event.currentTarget);
   };
@@ -80,13 +67,6 @@ function BlockElement({ firstName, avatarUrl, lastName, online }) {
 
   const handleUnBlockUser = async (id) => {
     await unBlockUser({
-      variables: {
-        id: Number(id),
-      },
-    });
-  };
-  const handleUnfriend = async (id) => {
-    await unFriend({
       variables: {
         id: Number(id),
       },
@@ -148,11 +128,6 @@ function BlockElement({ firstName, avatarUrl, lastName, online }) {
               <MenuItem key={block} onClick={() => handleUnBlockUser(block)}>
                 <Iconify icon={'ant-design:unlock-twotone'} sx={{ ...ICON }} />
                 Bỏ Chặn
-              </MenuItem>
-
-              <MenuItem onClick={() => handleUnfriend()} sx={{ color: 'error.main' }}>
-                <Iconify icon={'eva:trash-2-outline'} sx={{ ...ICON }} />
-                Hủy kết bạn
               </MenuItem>
             </MenuPopover>
           </Stack>
