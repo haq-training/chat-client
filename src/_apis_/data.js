@@ -43,6 +43,7 @@ export const navButtonsAdmin = [
   {
     index: 0,
     icon: <ChatCircleDots />,
+    tooltip: 'Chat',
   },
   {
     index: 1,
@@ -114,40 +115,8 @@ export const CallLogs = [
     missed: true,
     incoming: true,
   },
-  {
-    id: 5,
-    img: faker.image.avatar(),
-    name: faker.name.firstName(),
-    missed: true,
-    incoming: false,
-  },
-
-  {
-    id: 5,
-    img: faker.image.avatar(),
-    name: faker.name.firstName(),
-    missed: false,
-    incoming: true,
-  },
 ];
 
-export const bookmarkList = [
-  {
-    id: 0,
-    name: 'Ảnh mèo',
-    msg: '14.5 MB',
-  },
-  {
-    id: 1,
-    name: 'Web',
-    msg: 'http://bgpattern.com/',
-  },
-  {
-    id: 2,
-    name : 'Tài liệu học tập',
-    msg: '10 MB',
-  },
-];
 export const membersList = [
   {
     id: 0,
@@ -180,7 +149,6 @@ export const membersList = [
     online: true,
   },
 ];
-
 
 export const chatList = [
   {
@@ -419,5 +387,22 @@ export const SHARED_DOCS = [
     message: 'Yes sure, here you go.',
     incoming: true,
     outgoing: false,
+  },
+];
+export const bookmarkList = [
+  {
+    id: 0,
+    name: 'Ảnh mèo',
+    msg: '14.5 MB',
+  },
+  {
+    id: 1,
+    name: 'Web',
+    msg: 'http://bgpattern.com/324123re2f34tgf4rg2354gr',
+  },
+  {
+    id: 2,
+    name: 'Tài liệu học tập',
+    msg: '10 MB',
   },
 ];

@@ -1,22 +1,14 @@
 import React from 'react';
-import { Box, Grid, IconButton, Stack, Tab, Tabs, Typography } from '@mui/material';
+import { Box, IconButton, Stack, Typography } from '@mui/material';
 import { useTheme } from '@mui/material/styles';
 import { useDispatch } from 'react-redux';
 import { CaretLeft } from 'phosphor-react';
-import { faker } from '@faker-js/faker';
 import { UpdateSidebarType } from '../redux/slices/app';
-import { SHARED_DOCS, SHARED_LINKS } from '../_apis_/data';
-import { DocMsg, LinkMsg } from './Conversation/MsgTypes';
+import Message from './Conversation/Message';
 
-const SharedMessages = () => {
+const StarredMessages = () => {
   const theme = useTheme();
   const dispatch = useDispatch();
-
-  const [value, setValue] = React.useState(0);
-
-  const handleChange = (event, newValue) => {
-    setValue(newValue);
-  };
 
   return (
     <Box sx={{ width: 320, height: '100vh' }}>
@@ -37,51 +29,22 @@ const SharedMessages = () => {
             >
               <CaretLeft />
             </IconButton>
-            <Typography variant="subtitle2">Shared Messages</Typography>
+            <Typography variant="subtitle2">Starred Messages</Typography>
           </Stack>
         </Box>
-
-        <Tabs sx={{ px: 2, pt: 2 }} value={value} onChange={handleChange} centered>
-          <Tab label="Media" />
-          <Tab label="Link" />
-          <Tab label="Docs" />
-        </Tabs>
 
         {/* Body */}
         <Stack
           className="scrollbar"
           sx={{ height: '100%', position: 'relative', flexGrow: 1, overflowY: 'scroll' }}
           p={3}
-          spacing={value === 1 ? 1 : 3}
+          spacing={3}
         >
-          {(() => {
-            switch (value) {
-              case 0:
-                // Images
-                return (
-                  <Grid container spacing={2}>
-                    {[0, 1, 2, 3, 4, 5, 6].map((el) => (
-                      <Grid item xs={4}>
-                        <img src={faker.image.avatar()} alt={faker.name.fullName} />
-                      </Grid>
-                    ))}
-                  </Grid>
-                );
-
-              case 1:
-                return SHARED_LINKS.map((el) => <LinkMsg el={el} />);
-
-              case 2:
-                return SHARED_DOCS.map((el) => <DocMsg el={el} />);
-
-              default:
-                break;
-            }
-          })()}
+          <Message />
         </Stack>
       </Stack>
     </Box>
   );
 };
 
-export default SharedMessages;
+export default StarredMessages;

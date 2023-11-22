@@ -81,6 +81,7 @@ function AuthProvider({ children }) {
     },
   });
 
+
   useEffect(() => {
     const initialize = async () => {
       try {
@@ -96,7 +97,7 @@ function AuthProvider({ children }) {
               ...user,
               id: `${user?.id}`,
               role: user?.role,
-              photoURL: user?.avatarUrl,
+              avatarUrl: user?.avatarUrl,
               status: user?.status === true ? 'Đang hoạt động' : 'Ngừng hoạt động',
             };
             dispatch({
@@ -154,16 +155,18 @@ function AuthProvider({ children }) {
     });
     if (!response.error && response.data.login) {
       const { token, user } = response.data.login;
+      console.log('user',user);
       const currentUser = {
         ...user,
         id: `${user?.id}`,
         role: user?.role,
-        signatureImg: user?.signatureImg,
-        displayName: user?.fullName,
-        photoURL: user?.avatarURL,
+        email: user?.email,
+        firstName: user?.firstName,
+        lastName: user?.lastName,
+        avatarUrl: user?.avatarUrl,
         status: user?.isActive === true ? 'Đang hoạt động' : 'Ngừng hoạt động',
-        phone: user?.phoneNumber,
-        company: 'Công ty CP Thép Công Nghiệp HN',
+        story: user?.story,
+        location: user?.location,
       };
       setSession(token);
       dispatch({

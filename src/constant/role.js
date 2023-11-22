@@ -1,13 +1,7 @@
 export const RoleArr = [
   'Tất cả',
-  'Giám đốc',
   'Admin',
-  'Quản lý',
-  'Kế toán',
-  'Bán hàng',
-  'Quản lý phương tiện',
-  'Lái xe',
-  'Phụ xe',
+  'User',
 ];
 
 export const Role = {

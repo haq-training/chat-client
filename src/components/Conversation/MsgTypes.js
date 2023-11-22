@@ -1,15 +1,12 @@
+import PropTypes from 'prop-types';
 import { Box, Divider, IconButton, Link, Stack, Typography, Menu, MenuItem } from '@mui/material';
 import { useTheme } from '@mui/material/styles';
 import { DotsThreeVertical, DownloadSimple, Image } from 'phosphor-react';
 import React from 'react';
-import PropTypes from 'prop-types';
 import { messageOptions } from '../../_apis_/data';
+//-------------------------------------------------------
 
-DocMsg.propTypes = {
-  el: PropTypes.string,
-  menu: PropTypes.string,
-};
-function DocMsg({ el, menu }) {
+const DocMsg = ({ el, menu }) => {
   const theme = useTheme();
   return (
     <Stack direction="row" justifyContent={el.incoming ? 'start' : 'end'}>
@@ -43,13 +40,14 @@ function DocMsg({ el, menu }) {
       {menu && <MessageOptions />}
     </Stack>
   );
-}
-
-LinkMsg.propTypes = {
-  el: PropTypes.string,
-  menu: PropTypes.string,
 };
-function LinkMsg({ el, menu }) {
+
+DocMsg.propTypes = {
+  el: PropTypes.object,
+  menu: PropTypes.bool,
+};
+
+const LinkMsg = ({ el, menu }) => {
   const theme = useTheme();
   return (
     <Stack direction="row" justifyContent={el.incoming ? 'start' : 'end'}>
@@ -89,13 +87,14 @@ function LinkMsg({ el, menu }) {
       {menu && <MessageOptions />}
     </Stack>
   );
-}
-
-ReplyMsg.propTypes = {
-  el: PropTypes.string,
-  menu: PropTypes.string,
 };
-function ReplyMsg({ el, menu }) {
+
+LinkMsg.propTypes = {
+  el: PropTypes.object,
+  menu: PropTypes.bool,
+};
+
+const ReplyMsg = ({ el, menu }) => {
   const theme = useTheme();
   return (
     <Stack direction="row" justifyContent={el.incoming ? 'start' : 'end'}>
@@ -127,13 +126,14 @@ function ReplyMsg({ el, menu }) {
       {menu && <MessageOptions />}
     </Stack>
   );
-}
-
-MediaMsg.propTypes = {
-  el: PropTypes.string,
-  menu: PropTypes.string,
 };
-function MediaMsg({ el, menu }) {
+
+ReplyMsg.propTypes = {
+  el: PropTypes.object,
+  menu: PropTypes.bool,
+};
+
+const MediaMsg = ({ el, menu }) => {
   const theme = useTheme();
   return (
     <Stack direction="row" justifyContent={el.incoming ? 'start' : 'end'}>
@@ -155,13 +155,14 @@ function MediaMsg({ el, menu }) {
       {menu && <MessageOptions />}
     </Stack>
   );
-}
-
-TextMsg.propTypes = {
-  el: PropTypes.string,
-  menu: PropTypes.string,
 };
-function TextMsg({ el, menu }) {
+
+MediaMsg.propTypes = {
+  el: PropTypes.object,
+  menu: PropTypes.bool,
+};
+
+const TextMsg = ({ el, menu }) => {
   const theme = useTheme();
   return (
     <Stack direction="row" justifyContent={el.incoming ? 'start' : 'end'}>
@@ -180,12 +181,14 @@ function TextMsg({ el, menu }) {
       {menu && <MessageOptions />}
     </Stack>
   );
-}
-
-TimeLine.propTypes = {
-  el: PropTypes.string,
 };
-function TimeLine({ el }) {
+
+TextMsg.propTypes = {
+  el: PropTypes.object,
+  menu: PropTypes.bool,
+};
+
+const TimeLine = ({ el }) => {
   const theme = useTheme();
   return (
     <Stack direction="row" alignItems="center" justifyContent="space-between">
@@ -196,7 +199,13 @@ function TimeLine({ el }) {
       <Divider width="46%" />
     </Stack>
   );
-}
+};
+
+TimeLine.propTypes = {
+  el: PropTypes.shape({
+    text: PropTypes.string.isRequired,
+  }).isRequired,
+};
 
 const MessageOptions = () => {
   const [anchorEl, setAnchorEl] = React.useState(null);
@@ -228,8 +237,8 @@ const MessageOptions = () => {
         }}
       >
         <Stack spacing={1} px={1}>
-          {messageOptions.map((el) => (
-            <MenuItem key={el} onClick={handleClick}>
+          {messageOptions.map((el, index) => (
+            <MenuItem key={index} onClick={handleClick}>
               {el.title}
             </MenuItem>
           ))}

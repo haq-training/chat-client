@@ -20,9 +20,6 @@ UserTableRow.propTypes = {
   onEditRow: PropTypes.func,
   // onSelectRow: PropTypes.func,
   onDeleteRow: PropTypes.func,
-  onResetPassword: PropTypes.func,
-  onResetAccount: PropTypes.func,
-  onDeleteUserInfo: PropTypes.func,
 };
 
 export default function UserTableRow({
@@ -32,19 +29,11 @@ export default function UserTableRow({
   idx,
   // onSelectRow,
   onDeleteRow,
-  onResetPassword,
-  onResetAccount,
-  onDeleteUserInfo,
 }) {
   // const theme = useTheme();
-  const { email, firstName, lastName, story, avatarUrl } = row;
+  const { email, firstName, lastName, role,story, avatarUrl } = row;
   const [openMenu, setOpenMenuActions] = useState(null);
   // const [userInfoId, setUserInfoId] = useState(null);
-  // const [dataUserInfo, setDataUserInfo] = useState();
-  // const [isEdit, setIsEdit] = useState(false);
-
-  // const { toggle: isOpenUserInfoPopup, onOpen: onOpenUserInfoPopup, onClose: onCloseUserInfoPopup } = useToggle();
-  // const { toggle: isOpenNewUpdateInfo, onOpen: onOpenNewUpdateInfo, onClose: onCloseNewUpdateInfo } = useToggle();
 
   const handleOpenMenu = (event) => {
     setOpenMenuActions(event.currentTarget);
@@ -92,6 +81,8 @@ export default function UserTableRow({
 
       <TableCell align="left">{email}</TableCell>
 
+      <TableCell align="left">{role === 1 ? 'User' : 'Admin'}</TableCell>
+
       <TableCell align="left" sx={{ textTransform: 'capitalize' }}>
         {story}
       </TableCell>
@@ -105,57 +96,22 @@ export default function UserTableRow({
             <>
               <MenuItem
                 onClick={() => {
-                  onDeleteUserInfo();
+                  onDeleteRow();
                   handleCloseMenu();
                 }}
                 sx={{ color: 'error.main' }}
               >
                 <Iconify icon={'eva:trash-2-outline'} />
-                Xóa TTCN
+                Xóa
               </MenuItem>
-              {row?.isActive === true && (
-                <MenuItem
-                  onClick={() => {
-                    onDeleteRow();
-                    handleCloseMenu();
-                  }}
-                  sx={{ color: 'error.main' }}
-                >
-                  <Iconify icon={'eva:trash-2-outline'} />
-                  Xóa
-                </MenuItem>
-              )}
-              {row?.isActive === false && (
-                <MenuItem
-                  onClick={() => {
-                    onResetAccount();
-                    handleCloseMenu();
-                  }}
-                  sx={{ color: '#1877F2' }}
-                >
-                  <Iconify icon={'system-uicons:reset'} />
-                  Khôi phục
-                </MenuItem>
-              )}
               <MenuItem
-                sx={{ minWidth: 170 }}
                 onClick={() => {
                   onEditRow();
                   handleCloseMenu();
                 }}
               >
                 <Iconify icon={'eva:edit-fill'} />
-                Sửa thông tin
-              </MenuItem>
-
-              <MenuItem
-                sx={{ minWidth: 170 }}
-                onClick={() => {
-                  onResetPassword();
-                  handleCloseMenu();
-                }}
-              >
-                <Iconify icon={'material-symbols:lock-reset-rounded'} /> Cài lại mật khẩu
+                Sửa Role
               </MenuItem>
             </>
           }

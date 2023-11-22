@@ -1,7 +1,7 @@
 // noinspection JSValidateTypes
 
 import PropTypes from 'prop-types';
-import { Box, Button, InputAdornment, MenuItem, Stack, TextField } from '@mui/material';
+import { InputAdornment, MenuItem, Stack, TextField } from '@mui/material';
 // components
 import Iconify from '../../../../components/Iconify';
 
@@ -65,16 +65,6 @@ export default function UserTableToolbar({ filterName, filterRole, onFilterName,
           ),
         }}
       />
-      <Box sx={{ display: 'flex', justifyContent: 'left', mb: 2 }}>
-        <Button
-          size={'small'}
-          variant="contained"
-          sx={{ minWidth: '130px' }}
-          startIcon={<Iconify icon={'eva:plus-fill'} />}
-        >
-          Tạo mới
-        </Button>
-      </Box>
     </Stack>
   );
 }

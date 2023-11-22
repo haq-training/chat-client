@@ -9,6 +9,7 @@ import { SINGLE_KEY_PATH } from './paths';
 import LoadingScreen from '../components/LoadingScreen';
 import { DashboardLayout } from '../layouts/dashboard';
 import Chats from '../pages/dashboard/Chat';
+import UpdateInfoUser from '../pages/dashboard/UpdateInfoUser';
 
 // ----------------------------------------------------------------------
 
@@ -63,8 +64,18 @@ export default function Router() {
         { path: 'thong-tin', element: <UserAccount /> },
         { path: 'danh-ba', element: <Contacts /> },
         { path: 'muc-ghim', element: <BookMark /> },
-        { path: 'danh-sach', element: <ListUser /> },
         { path: 'doi-mat-khau', element: <ChangePass /> },
+        {
+          path: 'nguoi-dung',
+          children: [
+            { element: <ListUser />, index: true },
+            { path: 'danh-sach', element: <ListUser /> },
+            {
+              path: ':id/chinh-sua',
+              element: <UpdateInfoUser />,
+            },
+          ],
+        },
       ],
     },
     {
@@ -87,7 +98,7 @@ export default function Router() {
 const Login = Loadable(lazy(() => import('../pages/auth/Login')));
 const Register = Loadable(lazy(() => import('../pages/auth/Register')));
 const ResetPassword = Loadable(lazy(() => import('../pages/auth/ResetPassword')));
-const ChangePass = Loadable(lazy(() => import('../pages/dashboard/ChangePass')));
+const ChangePass = Loadable(lazy(() => import('../pages/dashboard/ChangePassword')));
 // main router
 const UserAccount = Loadable(lazy(() => import('../pages/dashboard/UserAccount')));
 const Contacts = Loadable(lazy(() => import('../pages/dashboard/Contacts')));
