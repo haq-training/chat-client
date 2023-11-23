@@ -20,5 +20,15 @@ query {
             location
             story
         }
+        follower {
+            id
+            email
+            firstName
+            lastName
+            avatarUrl
+            status
+            location
+            story
+        }
     }
 }

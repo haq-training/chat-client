@@ -8,6 +8,7 @@ import Logo from '../../components/Logo';
 import useAuth from '../../hooks/useAuth';
 import AccountPopover from './header/AccountPopover';
 import NotificationsPopover from './header/NotificationsPopover';
+import NotificationsAddFriendPopover from './header/NotificationsAddFriends';
 
 // eslint-disable-next-line consistent-return
 const getPathUser = (index) => {
@@ -197,6 +198,7 @@ const SideBar = () => {
         </Stack>
 
         <Stack spacing={4}>
+          <NotificationsAddFriendPopover />
           <NotificationsPopover />
           <AccountPopover />
         </Stack>

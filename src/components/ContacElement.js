@@ -43,6 +43,7 @@ function ContactElement({ firstName, avatarUrl, lastName, online }) {
       setFriends(listFriends.listFriend);
     }
   }, [listFriends]);
+
   const friend = friends.friend?.[0].id;
 
   const [blockUser] = useMutation(BLOCK_USER, {
