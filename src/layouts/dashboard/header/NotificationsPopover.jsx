@@ -16,7 +16,6 @@ import {
 } from '@mui/material';
 // import { loader } from 'graphql.macro';
 // import { useMutation } from '@apollo/client';
-import useAuth from '../../../hooks/useAuth';
 import Iconify from '../../../components/Iconify';
 import Scrollbar from '../../../components/Scrollbar';
 import MenuPopover from '../../../components/MenuPopover';
@@ -29,7 +28,6 @@ import useToggle from '../../../hooks/useToggle';
 // ----------------------------------------------------------------------
 
 export default function NotificationsPopover() {
-  const { user } = useAuth();
   const [getListUserNotification] = useState([]);
   const [newOderNotifications] = useState([]);
   const [otherNotifications] = useState([]);

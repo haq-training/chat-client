@@ -155,7 +155,7 @@ function AuthProvider({ children }) {
     });
     if (!response.error && response.data.login) {
       const { token, user } = response.data.login;
-      console.log('user',user);
+
       const currentUser = {
         ...user,
         id: `${user?.id}`,

@@ -3,6 +3,12 @@
 schema {
     query: Query
     mutation: Mutation
+    subscription: Subscription
+}
+
+type FriendRequest {
+    message: String
+    senderId: Int!
 }
 
 type Mutation {
@@ -31,6 +37,11 @@ type Query {
     users: [User]
 }
 
+type Subscription {
+    friendRequestReceived(userId: Int!): FriendRequest
+    onlineTracker(userId: Int!): UserOnline!
+}
+
 type User {
     avatarUrl: String
     createdAt: Date
@@ -50,6 +61,11 @@ type UserLoginResponse {
     user: User!
 }
 
+type UserOnline {
+    body: String
+    id: Int
+}
+
 type list_Friend {
     avatarUrl: String
     email: String!
@@ -63,6 +79,7 @@ type list_Friend {
 
 type list_all_friend {
     block: [list_Friend]
+    follower: [list_Friend]
     friend: [list_Friend]
 }
 
