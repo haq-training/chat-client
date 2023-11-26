@@ -1,7 +1,7 @@
 // noinspection JSUnresolvedReference
 
 import PropTypes from 'prop-types';
-import { useState } from 'react';
+import {useEffect, useState} from 'react';
 import {
   Badge,
   Box,
@@ -14,17 +14,22 @@ import {
   Tooltip,
   Typography,
 } from '@mui/material';
+import {useQuery} from "@apollo/client";
+import { loader } from 'graphql.macro';
 // import { loader } from 'graphql.macro';
 // import { useMutation } from '@apollo/client';
 import Iconify from '../../../components/Iconify';
 import Scrollbar from '../../../components/Scrollbar';
 import MenuPopover from '../../../components/MenuPopover';
+
 import { IconButtonAnimate } from '../../../components/animate';
+
 import NotificationDialog from '../../../sections/@dashboard/notification/NotificationDialog';
 import useToggle from '../../../hooks/useToggle';
 
+
 // ----------------------------------------------------------------------
-// const LIST_FRIENDS = loader('../../../graphql/queries/user/listFriends.graphql');
+const USER_FOLLOWER = loader('../../../graphql/queries/user/listFriends.graphql');
 // ----------------------------------------------------------------------
 
 export default function NotificationsPopover() {
@@ -75,6 +80,19 @@ export default function NotificationsPopover() {
   //     });
   //   },
   // });
+    const [followers, setFriends] = useState([]);
+
+    const { data: listFollower } = useQuery(USER_FOLLOWER);
+
+    useEffect(() => {
+        if (listFollower && listFollower.listFriend) {
+            setFriends(listFollower.listFriend);
+        }
+    }, [listFollower]);
+
+    const userFollower = followers.follower;
+    console.log('follower',userFollower);
+
 
   const totalUnRead = getListUserNotification.filter((item) => item.isRead === false).length;
 

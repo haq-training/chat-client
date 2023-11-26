@@ -45,6 +45,8 @@ function ContactElement({ firstName, avatarUrl, lastName, online }) {
   }, [listFriends]);
   const friend = friends.friend?.[0].id;
 
+  console.log('fr',friends.follower);
+
   const [blockUser] = useMutation(BLOCK_USER, {
     onCompleted: () => {
       enqueueSnackbar('Đã chặn đối phương!', {
