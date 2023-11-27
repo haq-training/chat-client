@@ -19,7 +19,7 @@ const ADD_FRIENDS = loader('../../../graphql/mutations/user/addFriends.graphql')
 const Transition = React.forwardRef((props, ref) => <Slide direction="up" children={null} ref={ref} {...props} />);
 
 AddFriendsForm.propTypes = {
-  handleClose: PropTypes.bool,
+  handleClose: PropTypes.func,
 };
 function AddFriendsForm({ handleClose }) {
   const { enqueueSnackbar } = useSnackbar();
@@ -72,7 +72,7 @@ function AddFriendsForm({ handleClose }) {
           <Button variant="contained" onClick={handleClose}>
             Thoát
           </Button>
-          <Button type="submit" variant="contained" loading={isSubmitting}>
+          <Button type="submit" variant="contained" loading={isSubmitting ? true : undefined}>
             Gửi
           </Button>
         </Stack>
@@ -99,6 +99,6 @@ const AddFriends = ({ open, handleClose }) => (
 );
 AddFriends.propTypes = {
   open: PropTypes.bool,
-  handleClose: PropTypes.bool,
+  handleClose: PropTypes.func,
 };
 export default AddFriends;
