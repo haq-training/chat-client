@@ -104,7 +104,7 @@ const list = [
 
 Shortcuts.propTypes = {
   open: PropTypes.bool,
-  handleClose: PropTypes.bool,
+  handleClose: PropTypes.func,
 };
 function Shortcuts({ open, handleClose }) {
   return (

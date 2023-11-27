@@ -15,7 +15,7 @@ const MEMBERS = ['Name 1', 'Name 2', 'Name 3'];
 const Transition = React.forwardRef((props, ref) => <Slide direction="up" children={null} ref={ref} {...props} />);
 
 CreateGroupForm.propTypes = {
-  handleClose: PropTypes.bool,
+  handleClose: PropTypes.func,
 };
 function CreateGroupForm({ handleClose }) {
   const isMountedRef = useIsMountedRef();
@@ -96,6 +96,6 @@ const CreateGroup = ({ open, handleClose }) => (
 );
 CreateGroup.propTypes = {
   open: PropTypes.bool,
-  handleClose: PropTypes.bool,
+  handleClose: PropTypes.func,
 };
 export default CreateGroup;

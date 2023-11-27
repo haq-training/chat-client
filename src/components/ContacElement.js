@@ -167,7 +167,7 @@ function ContactElement({ firstName, avatarUrl, lastName, online }) {
               Chặn
             </MenuItem>
 
-            <MenuItem onClick={() => handleUnfriend()} sx={{ color: 'error.main' }}>
+            <MenuItem key={friend} onClick={() => handleUnfriend(friend)} sx={{ color: 'error.main' }}>
               <Iconify icon={'eva:trash-2-outline'} sx={{ ...ICON }} />
               Hủy kết bạn
             </MenuItem>

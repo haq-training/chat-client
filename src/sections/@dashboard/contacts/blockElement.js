@@ -51,6 +51,11 @@ function BlockElement({ firstName, avatarUrl, lastName, online }) {
         variant: 'success',
       });
     },
+    refetchQueries: () => [
+      {
+        query: LIST_FRIENDS,
+      },
+    ],
 
     onError: (error) => {
       enqueueSnackbar(`Không thể bỏ chặn đối tượng này. Nguyên nhân: ${error.message}`, {
