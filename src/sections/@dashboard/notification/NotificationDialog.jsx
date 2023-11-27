@@ -1,10 +1,5 @@
 import PropTypes from 'prop-types';
 import { Dialog, DialogContent, Stack, Typography } from '@mui/material';
-// import { Link as RouterLink } from 'react-router-dom';
-// import { SSM_PATH_DASHBOARD } from '../../../../../sm-client/src/routes/paths';
-// import Iconify from '../../../../../sm-client/src/components/Iconify';
-// import { fddMMYYYYWithSlash } from '../../../../../sm-client/src/utils/formatTime';
-
 // ----------------------------------------------------------------------
 
 NotificationDialog.propTypes = {

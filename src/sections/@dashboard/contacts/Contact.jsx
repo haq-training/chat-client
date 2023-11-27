@@ -27,7 +27,7 @@ const Transition = React.forwardRef((props, ref) => <Slide direction="up" childr
 
 BlockDialog.propTypes = {
   open: PropTypes.bool,
-  handleClose: PropTypes.bool,
+  handleClose: PropTypes.func,
 };
 function BlockDialog({ open, handleClose }) {
   return (
@@ -54,7 +54,7 @@ function BlockDialog({ open, handleClose }) {
 
 DeleteDialog.propTypes = {
   open: PropTypes.bool,
-  handleClose: PropTypes.bool,
+  handleClose: PropTypes.func,
 };
 function DeleteDialog({ open, handleClose }) {
   return (

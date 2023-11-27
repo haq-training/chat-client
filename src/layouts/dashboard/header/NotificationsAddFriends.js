@@ -1,35 +1,48 @@
 // noinspection JSUnresolvedReference
 
 import PropTypes from 'prop-types';
-import { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
+  Avatar,
   Badge,
   Box,
   Button,
   Divider,
+  Grid,
+  IconButton,
   List,
   ListItemButton,
   ListItemText,
   ListSubheader,
+  MenuItem,
+  Stack,
   Tooltip,
   Typography,
 } from '@mui/material';
-// import { loader } from 'graphql.macro';
-// import { useMutation } from '@apollo/client';
-import useAuth from '../../../hooks/useAuth';
+import SimpleBarReact from 'simplebar-react';
+import { useMutation, useQuery } from '@apollo/client';
+import { loader } from 'graphql.macro';
+import { useTheme } from '@mui/material/styles';
+import { useSnackbar } from 'notistack';
+import { LoadingButton } from '@mui/lab';
 import Iconify from '../../../components/Iconify';
-import Scrollbar from '../../../components/Scrollbar';
 import MenuPopover from '../../../components/MenuPopover';
 import { IconButtonAnimate } from '../../../components/animate';
 import NotificationDialog from '../../../sections/@dashboard/notification/NotificationDialog';
 import useToggle from '../../../hooks/useToggle';
+import CommonBackdrop from '../../../components/CommonBackdrop';
 
+// ----------------------------------------------------------------------
+const LIST_FRIENDS = loader('../../../graphql/queries/user/listFriends.graphql');
+const ACCEPT_FRIEND = loader('../../../graphql/mutations/user/acceptFriend.graphql');
 // ----------------------------------------------------------------------
 
 export default function NotificationsPopover() {
   const [getListUserNotification] = useState([]);
-  const [newOderNotifications] = useState([]);
-  const [otherNotifications] = useState([]);
+  // const [newOderNotifications] = useState([]);
+  // const [otherNotifications] = useState([]);
+  // const [notifications, setNotifications] = useState([]);
+  // const [markAsReadAllNotifications] = useMutation(LIST_FRIENDS);
 
   // const { data, loading } = useSubscription(SUBSCRIPTION, {
   //   variables: { input: { userId: Number(user.id) } },
@@ -84,6 +97,17 @@ export default function NotificationsPopover() {
   const handleClose = () => {
     setOpen(null);
   };
+  const [friends, setFriends] = useState([]);
+
+  const { data: listFriends } = useQuery(LIST_FRIENDS);
+
+  useEffect(() => {
+    if (listFriends && listFriends.listFriend) {
+      setFriends(listFriends.listFriend);
+    }
+  }, [listFriends]);
+
+  console.log('fr', friends);
 
   // useEffect(() => {
   //   if (!loading && data) {
@@ -101,6 +125,15 @@ export default function NotificationsPopover() {
   //   });
   //   // handleClose();
   // };
+  // const handleMarkAllAsRead = async () => {
+  //   await markAsReadAllNotifications({ variables: { userId: user.id } });
+  //   setNotifications(
+  //     notifications.map((notification) => ({
+  //       ...notification,
+  //       is_read: true,
+  //     }))
+  //   );
+  // };
 
   return (
     <>
@@ -114,7 +147,7 @@ export default function NotificationsPopover() {
         open={Boolean(open)}
         anchorEl={open}
         onClose={handleClose}
-        sx={{ width: 360, p: 0, mt: 1.5, ml: 0.75 }}
+        sx={{ width: 300, p: 0, mt: 1.5, ml: 0.75 }}
       >
         <Box sx={{ display: 'flex', alignItems: 'center', py: 2, px: 2.5 }}>
           <Box sx={{ flexGrow: 1 }}>
@@ -123,53 +156,26 @@ export default function NotificationsPopover() {
               Bạn có {totalUnRead} tin nhắn chưa đọc
             </Typography>
           </Box>
-
           {/* {totalUnRead > 0 && ( */}
-          {/*  <Tooltip title="Đánh dấu đã đọc tất cả thông báo"> */}
-          {/*    <IconButtonAnimate color="primary" onClick={handleMarkAllAsRead}> */}
-          {/*      <Iconify icon="eva:done-all-fill" width={20} height={20} /> */}
-          {/*    </IconButtonAnimate> */}
-          {/*  </Tooltip> */}
-          {/* )} */}
+          <Tooltip title="Đánh dấu đã đọc tất cả thông báo">
+            <IconButtonAnimate color="primary">
+              <Iconify icon="eva:done-all-fill" width={20} height={20} />
+            </IconButtonAnimate>
+          </Tooltip>
         </Box>
 
         <Divider sx={{ borderStyle: 'dashed' }} />
 
-        <Scrollbar sx={{ height: { xs: 340, sm: 'auto' } }}>
-          <List
-            disablePadding
-            subheader={
-              <ListSubheader disableSticky sx={{ py: 1, px: 2.5, typography: 'overline' }}>
-                Thông báo đơn hàng
-              </ListSubheader>
-            }
-          >
-            {newOderNotifications.slice(0, 3).map((notification) => (
-              <NotificationItem
-                key={notification.notification.id}
-                notifications={notification}
-                // onUpdate={() => handleUpdate(notification.idUserNotification, true)}
-              />
+        <Stack key={friends} spacing={2} direction="column" sx={{ flexGrow: 1, overflow: 'scroll', height: '100%' }}>
+          <Stack spacing={2.4}>
+            <Typography variant="h6" sx={{ color: '#676767' }}>
+              Danh bạ
+            </Typography>
+            {friends.follower?.map((el, row) => (
+              <NotificationItem key={el.id} {...el} row={row} />
             ))}
-          </List>
-
-          <List
-            disablePadding
-            subheader={
-              <ListSubheader disableSticky sx={{ py: 1, px: 2.5, typography: 'overline' }}>
-                Thông báo khác
-              </ListSubheader>
-            }
-          >
-            {otherNotifications.slice(0, 3).map((notification) => (
-              <NotificationItem
-                key={notification.notification.id}
-                notifications={notification}
-                // onUpdate={() => handleUpdate(notification.idUserNotification, true)}
-              />
-            ))}
-          </List>
-        </Scrollbar>
+          </Stack>
+        </Stack>
 
         <Divider sx={{ borderStyle: 'dashed' }} />
 
@@ -186,55 +192,109 @@ export default function NotificationsPopover() {
 // ----------------------------------------------------------------------
 
 NotificationItem.propTypes = {
-  notifications: PropTypes.shape({
-    notification: PropTypes.object,
-    isRead: PropTypes.bool,
-    content: PropTypes.string,
-  }),
-  onUpdate: PropTypes.func,
+  firstName: PropTypes.string,
+  avatarUrl: PropTypes.string,
+  lastName: PropTypes.string,
 };
 
-function NotificationItem({ notifications, onUpdate }) {
-  const { notification, isRead } = notifications;
+function NotificationItem({ firstName, avatarUrl, lastName }) {
+  const theme = useTheme();
+  const { enqueueSnackbar } = useSnackbar();
+
   const { toggle: openFrom, onOpen: onOpenFrom, onClose: onCloseFrom } = useToggle();
+  const [friends, setFriends] = useState([]);
+  const { data: listFriends } = useQuery(LIST_FRIENDS);
+
+  useEffect(() => {
+    if (listFriends && listFriends.listFriend) {
+      setFriends(listFriends.listFriend);
+    }
+  }, [listFriends]);
+
+  const follower = friends.follower?.[0].id;
+
+  const [acceptFriend] = useMutation(ACCEPT_FRIEND, {
+    onCompleted: () => {
+      enqueueSnackbar('Đã kết bạn đối phương!', {
+        variant: 'success',
+        enqueueSnackbar,
+      });
+    },
+    refetchQueries: () => [
+      {
+        query: LIST_FRIENDS,
+      },
+    ],
+
+    onError: (error) => {
+      enqueueSnackbar(`Không thể kết đối tượng này. Nguyên nhân: ${error.message}`, {
+        variant: 'error',
+      });
+    },
+  });
+
+  const handleAccpetFriend = async (id) => {
+    await acceptFriend({
+      variables: {
+        id: Number(id),
+      },
+    });
+  };
+
+  console.log('fo', follower);
+
+  console.log('fl', friends.follower);
+
   return (
     <>
-      <ListItemButton
+      <Box
         sx={{
-          py: 1.5,
-          px: 2.5,
-          mt: '1px',
-          ...(!isRead && {
-            bgcolor: 'action.selected',
-          }),
+          width: '100%',
+          borderRadius: 1,
+          backgroundColor: theme.palette.mode === 'light' ? '#fff' : theme.palette.background.default,
         }}
-        onClick={() => {
-          onUpdate();
-          onOpenFrom();
-        }}
+        p={2}
       >
-        <ListItemText
-          primary={notification?.content}
-          secondary={
-            <Typography
-              variant="body2"
-              sx={{
-                mt: 0.5,
-                display: 'flex',
-                alignItems: 'center',
-                color: 'text.disabled',
-              }}
-            >
-              <Iconify icon="eva:clock-outline" sx={{ mr: 0.5, width: 16, height: 16 }} />
-            </Typography>
-          }
-        />
-      </ListItemButton>
-      <NotificationDialog open={openFrom} onClose={onCloseFrom} notification={notification} />
+        <Stack direction="row" display="flex" justifyContent="space-between">
+          <Stack
+            alignItems="center"
+            direction="row"
+            spacing={2}
+            sx={{
+              textOverflow: 'clip',
+              overflow: 'hidden',
+              width: '100%',
+            }}
+          >
+            <Avatar alt={firstName} src={avatarUrl} />
+
+            <Stack spacing={0.3} textOverflow="ellipsis" overflow="hidden">
+              <Stack>
+                <Typography variant="subtitle2" sx={{ ml: 2, fontSize: 20 }}>
+                  {firstName} {lastName}
+                </Typography>
+              </Stack>
+              <Grid container justifyContent="flex-end" sx={{ mt: 4 }}>
+                <Grid item>
+                  <LoadingButton variant="contained" onClick={handleAccpetFriend}>
+                    Xác nhận
+                  </LoadingButton>
+                </Grid>
+                <Grid item sx={{ ml: 1 }}>
+                  <LoadingButton type="submit" variant="contained">
+                    Từ chối
+                  </LoadingButton>
+                </Grid>
+                <CommonBackdrop />
+              </Grid>
+            </Stack>
+          </Stack>
+        </Stack>
+      </Box>
+      <NotificationDialog open={openFrom} onClose={onCloseFrom} />
     </>
   );
 }
-
 // ----------------------------------------------------------------------
 //
 // function renderContent(notification) {
