@@ -15,8 +15,9 @@ const MEMBERS = ['Name 1', 'Name 2', 'Name 3'];
 const Transition = React.forwardRef((props, ref) => <Slide direction="up" children={null} ref={ref} {...props} />);
 
 CreateGroupForm.propTypes = {
-  handleClose: PropTypes.bool,
+  handleClose: PropTypes.func,
 };
+
 function CreateGroupForm({ handleClose }) {
   const isMountedRef = useIsMountedRef();
   const NewGroupSchema = Yup.object().shape({
@@ -68,7 +69,7 @@ function CreateGroupForm({ handleClose }) {
         />
         <Stack spacing={2} direction="row" alignItems="center" justifyContent="end">
           <Button onClick={handleClose}>Cancel</Button>
-          <Button type="submit" variant="contained" loading={isSubmitting}>
+          <Button type="submit" variant="contained" loading={isSubmitting ? true : undefined}>
             Create
           </Button>
         </Stack>
@@ -95,6 +96,6 @@ const CreateGroup = ({ open, handleClose }) => (
 );
 CreateGroup.propTypes = {
   open: PropTypes.bool,
-  handleClose: PropTypes.bool,
+  handleClose: PropTypes.func,
 };
 export default CreateGroup;
