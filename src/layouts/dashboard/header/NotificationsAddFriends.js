@@ -2,58 +2,47 @@
 
 import PropTypes from 'prop-types';
 import React, { useEffect, useState } from 'react';
-import { Avatar, Badge, Box, Button, Divider, List, ListSubheader, Stack, Typography } from '@mui/material';
-
-import { loader } from 'graphql.macro';
+import {
+  Avatar,
+  Badge,
+  Box,
+  Button,
+  Divider,
+  Grid,
+  IconButton,
+  List,
+  ListItemButton,
+  ListItemText,
+  ListSubheader,
+  MenuItem,
+  Stack,
+  Tooltip,
+  Typography,
+} from '@mui/material';
+import SimpleBarReact from 'simplebar-react';
 import { useMutation, useQuery } from '@apollo/client';
+import { loader } from 'graphql.macro';
 import { useTheme } from '@mui/material/styles';
 import { useSnackbar } from 'notistack';
+import { LoadingButton } from '@mui/lab';
 import Iconify from '../../../components/Iconify';
-import Scrollbar from '../../../components/Scrollbar';
 import MenuPopover from '../../../components/MenuPopover';
 import { IconButtonAnimate } from '../../../components/animate';
 import NotificationDialog from '../../../sections/@dashboard/notification/NotificationDialog';
 import useToggle from '../../../hooks/useToggle';
+import CommonBackdrop from '../../../components/CommonBackdrop';
 
 // ----------------------------------------------------------------------
 const LIST_FRIENDS = loader('../../../graphql/queries/user/listFriends.graphql');
-const ACCEPT_FRIENDS = loader('../../../graphql/mutations/user/acceptFriend.graphql');
+const ACCEPT_FRIEND = loader('../../../graphql/mutations/user/acceptFriend.graphql');
 // ----------------------------------------------------------------------
 
-export default function NotificationsAddFriendPopover() {
+export default function NotificationsPopover() {
   const [getListUserNotification] = useState([]);
-  const [newOderNotifications] = useState([]);
-  const [otherNotifications] = useState([]);
-  const { enqueueSnackbar } = useSnackbar();
-  const [friends, setFriends] = useState([]);
-
-  const { data: listFriends } = useQuery(LIST_FRIENDS);
-
-  useEffect(() => {
-    if (listFriends && listFriends.listFriend) {
-      setFriends(listFriends.listFriend);
-    }
-  }, [listFriends]);
-
-  const [acceptFriend] = useMutation(ACCEPT_FRIENDS, {
-    onCompleted: () => {
-      enqueueSnackbar('Đã chặn đối phương!', {
-        variant: 'success',
-        enqueueSnackbar,
-      });
-    },
-    refetchQueries: () => [
-      {
-        query: LIST_FRIENDS,
-      },
-    ],
-
-    onError: (error) => {
-      enqueueSnackbar(`Không thể kết bạn đối tượng này. Nguyên nhân: ${error.message}`, {
-        variant: 'error',
-      });
-    },
-  });
+  // const [newOderNotifications] = useState([]);
+  // const [otherNotifications] = useState([]);
+  // const [notifications, setNotifications] = useState([]);
+  // const [markAsReadAllNotifications] = useMutation(LIST_FRIENDS);
 
   // const { data, loading } = useSubscription(SUBSCRIPTION, {
   //   variables: { input: { userId: Number(user.id) } },
@@ -108,6 +97,17 @@ export default function NotificationsAddFriendPopover() {
   const handleClose = () => {
     setOpen(null);
   };
+  const [friends, setFriends] = useState([]);
+
+  const { data: listFriends } = useQuery(LIST_FRIENDS);
+
+  useEffect(() => {
+    if (listFriends && listFriends.listFriend) {
+      setFriends(listFriends.listFriend);
+    }
+  }, [listFriends]);
+
+  console.log('fr', friends);
 
   // useEffect(() => {
   //   if (!loading && data) {
@@ -125,6 +125,15 @@ export default function NotificationsAddFriendPopover() {
   //   });
   //   // handleClose();
   // };
+  // const handleMarkAllAsRead = async () => {
+  //   await markAsReadAllNotifications({ variables: { userId: user.id } });
+  //   setNotifications(
+  //     notifications.map((notification) => ({
+  //       ...notification,
+  //       is_read: true,
+  //     }))
+  //   );
+  // };
 
   return (
     <>
@@ -138,7 +147,7 @@ export default function NotificationsAddFriendPopover() {
         open={Boolean(open)}
         anchorEl={open}
         onClose={handleClose}
-        sx={{ width: 360, p: 0, mt: 1.5, ml: 0.75 }}
+        sx={{ width: 300, p: 0, mt: 1.5, ml: 0.75 }}
       >
         <Box sx={{ display: 'flex', alignItems: 'center', py: 2, px: 2.5 }}>
           <Box sx={{ flexGrow: 1 }}>
@@ -147,14 +156,12 @@ export default function NotificationsAddFriendPopover() {
               Bạn có {totalUnRead} tin nhắn chưa đọc
             </Typography>
           </Box>
-
           {/* {totalUnRead > 0 && ( */}
-          {/*  <Tooltip title="Đánh dấu đã đọc tất cả thông báo"> */}
-          {/*    <IconButtonAnimate color="primary" onClick={handleMarkAllAsRead}> */}
-          {/*      <Iconify icon="eva:done-all-fill" width={20} height={20} /> */}
-          {/*    </IconButtonAnimate> */}
-          {/*  </Tooltip> */}
-          {/* )} */}
+          <Tooltip title="Đánh dấu đã đọc tất cả thông báo">
+            <IconButtonAnimate color="primary">
+              <Iconify icon="eva:done-all-fill" width={20} height={20} />
+            </IconButtonAnimate>
+          </Tooltip>
         </Box>
 
         <Divider sx={{ borderStyle: 'dashed' }} />
@@ -185,20 +192,15 @@ export default function NotificationsAddFriendPopover() {
 // ----------------------------------------------------------------------
 
 NotificationItem.propTypes = {
-  notifications: PropTypes.shape({
-    notification: PropTypes.object,
-    isRead: PropTypes.bool,
-    content: PropTypes.string,
-  }),
   firstName: PropTypes.string,
   avatarUrl: PropTypes.string,
   lastName: PropTypes.string,
 };
 
-function NotificationItem({ notifications, firstName, avatarUrl, lastName }) {
+function NotificationItem({ firstName, avatarUrl, lastName }) {
   const theme = useTheme();
   const { enqueueSnackbar } = useSnackbar();
-  const { notification, isRead } = notifications;
+
   const { toggle: openFrom, onOpen: onOpenFrom, onClose: onCloseFrom } = useToggle();
   const [friends, setFriends] = useState([]);
   const { data: listFriends } = useQuery(LIST_FRIENDS);
@@ -210,6 +212,34 @@ function NotificationItem({ notifications, firstName, avatarUrl, lastName }) {
   }, [listFriends]);
 
   const follower = friends.follower?.[0].id;
+
+  const [acceptFriend] = useMutation(ACCEPT_FRIEND, {
+    onCompleted: () => {
+      enqueueSnackbar('Đã kết bạn đối phương!', {
+        variant: 'success',
+        enqueueSnackbar,
+      });
+    },
+    refetchQueries: () => [
+      {
+        query: LIST_FRIENDS,
+      },
+    ],
+
+    onError: (error) => {
+      enqueueSnackbar(`Không thể kết đối tượng này. Nguyên nhân: ${error.message}`, {
+        variant: 'error',
+      });
+    },
+  });
+
+  const handleAccpetFriend = async (id) => {
+    await acceptFriend({
+      variables: {
+        id: Number(id),
+      },
+    });
+  };
 
   console.log('fo', follower);
 
@@ -239,18 +269,32 @@ function NotificationItem({ notifications, firstName, avatarUrl, lastName }) {
             <Avatar alt={firstName} src={avatarUrl} />
 
             <Stack spacing={0.3} textOverflow="ellipsis" overflow="hidden">
-              <Typography variant="subtitle2" sx={{ ml: 2, fontSize: 16 }}>
-                {firstName} {lastName}
-              </Typography>
+              <Stack>
+                <Typography variant="subtitle2" sx={{ ml: 2, fontSize: 20 }}>
+                  {firstName} {lastName}
+                </Typography>
+              </Stack>
+              <Grid container justifyContent="flex-end" sx={{ mt: 4 }}>
+                <Grid item>
+                  <LoadingButton variant="contained" onClick={handleAccpetFriend}>
+                    Xác nhận
+                  </LoadingButton>
+                </Grid>
+                <Grid item sx={{ ml: 1 }}>
+                  <LoadingButton type="submit" variant="contained">
+                    Từ chối
+                  </LoadingButton>
+                </Grid>
+                <CommonBackdrop />
+              </Grid>
             </Stack>
           </Stack>
         </Stack>
       </Box>
-      <NotificationDialog open={openFrom} onClose={onCloseFrom} notification={notification} />
+      <NotificationDialog open={openFrom} onClose={onCloseFrom} />
     </>
   );
 }
-
 // ----------------------------------------------------------------------
 //
 // function renderContent(notification) {

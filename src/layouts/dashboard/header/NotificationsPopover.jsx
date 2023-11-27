@@ -1,52 +1,32 @@
 // noinspection JSUnresolvedReference
 
 import PropTypes from 'prop-types';
-import React, { useEffect, useState } from 'react';
+import { useState } from 'react';
 import {
-  Avatar,
   Badge,
   Box,
   Button,
   Divider,
-  IconButton,
   List,
   ListItemButton,
   ListItemText,
   ListSubheader,
-  MenuItem,
-  Stack,
-  Tooltip,
   Typography,
 } from '@mui/material';
-import SimpleBarReact from 'simplebar-react';
-import { useQuery } from '@apollo/client';
-import { loader } from 'graphql.macro';
-// import { loader } from 'graphql.macro';
-// import { useMutation } from '@apollo/client';
-import { File } from 'phosphor-react';
-import { useTheme } from '@mui/material/styles';
-import { useSnackbar } from 'notistack';
-import useAuth from '../../../hooks/useAuth';
+
 import Iconify from '../../../components/Iconify';
 import Scrollbar from '../../../components/Scrollbar';
-
 import MenuPopover from '../../../components/MenuPopover';
 import { IconButtonAnimate } from '../../../components/animate';
 import NotificationDialog from '../../../sections/@dashboard/notification/NotificationDialog';
 import useToggle from '../../../hooks/useToggle';
-import ContactElement from '../../../components/ContacElement';
-// import BlockElement from '../../../sections/@dashboard/contacts/blockElement';
 
-// ----------------------------------------------------------------------
-const LIST_FRIENDS = loader('../../../graphql/queries/user/listFriends.graphql');
 // ----------------------------------------------------------------------
 
 export default function NotificationsPopover() {
   const [getListUserNotification] = useState([]);
-  // const [newOderNotifications] = useState([]);
-  // const [otherNotifications] = useState([]);
-  // const [notifications, setNotifications] = useState([]);
-  // const [markAsReadAllNotifications] = useMutation(LIST_FRIENDS);
+  const [newOderNotifications] = useState([]);
+  const [otherNotifications] = useState([]);
 
   // const { data, loading } = useSubscription(SUBSCRIPTION, {
   //   variables: { input: { userId: Number(user.id) } },
@@ -101,17 +81,6 @@ export default function NotificationsPopover() {
   const handleClose = () => {
     setOpen(null);
   };
-  const [friends, setFriends] = useState([]);
-
-  const { data: listFriends } = useQuery(LIST_FRIENDS);
-
-  useEffect(() => {
-    if (listFriends && listFriends.listFriend) {
-      setFriends(listFriends.listFriend);
-    }
-  }, [listFriends]);
-
-  console.log('fr', friends);
 
   // useEffect(() => {
   //   if (!loading && data) {
@@ -128,15 +97,6 @@ export default function NotificationsPopover() {
   //     variables: { input: { userNotificationIds: Number(id), isRead } },
   //   });
   //   // handleClose();
-  // };
-  // const handleMarkAllAsRead = async () => {
-  //   await markAsReadAllNotifications({ variables: { userId: user.id } });
-  //   setNotifications(
-  //     notifications.map((notification) => ({
-  //       ...notification,
-  //       is_read: true,
-  //     }))
-  //   );
   // };
 
   return (
@@ -160,26 +120,53 @@ export default function NotificationsPopover() {
               Bạn có {totalUnRead} tin nhắn chưa đọc
             </Typography>
           </Box>
+
           {/* {totalUnRead > 0 && ( */}
-          <Tooltip title="Đánh dấu đã đọc tất cả thông báo">
-            <IconButtonAnimate color="primary">
-              <Iconify icon="eva:done-all-fill" width={20} height={20} />
-            </IconButtonAnimate>
-          </Tooltip>
+          {/*  <Tooltip title="Đánh dấu đã đọc tất cả thông báo"> */}
+          {/*    <IconButtonAnimate color="primary" onClick={handleMarkAllAsRead}> */}
+          {/*      <Iconify icon="eva:done-all-fill" width={20} height={20} /> */}
+          {/*    </IconButtonAnimate> */}
+          {/*  </Tooltip> */}
+          {/* )} */}
         </Box>
 
         <Divider sx={{ borderStyle: 'dashed' }} />
 
-        <Stack key={friends} spacing={2} direction="column" sx={{ flexGrow: 1, overflow: 'scroll', height: '100%' }}>
-          <Stack spacing={2.4}>
-            <Typography variant="h6" sx={{ color: '#676767' }}>
-              Danh bạ
-            </Typography>
-            {friends.follower?.map((el, row) => (
-              <NotificationItem key={el.id} {...el} row={row} />
+        <Scrollbar sx={{ height: { xs: 340, sm: 'auto' } }}>
+          <List
+            disablePadding
+            subheader={
+              <ListSubheader disableSticky sx={{ py: 1, px: 2.5, typography: 'overline' }}>
+                Thông báo đơn hàng
+              </ListSubheader>
+            }
+          >
+            {newOderNotifications.slice(0, 3).map((notification) => (
+              <NotificationItem
+                key={notification.notification.id}
+                notifications={notification}
+                // onUpdate={() => handleUpdate(notification.idUserNotification, true)}
+              />
             ))}
-          </Stack>
-        </Stack>
+          </List>
+
+          <List
+            disablePadding
+            subheader={
+              <ListSubheader disableSticky sx={{ py: 1, px: 2.5, typography: 'overline' }}>
+                Thông báo khác
+              </ListSubheader>
+            }
+          >
+            {otherNotifications.slice(0, 3).map((notification) => (
+              <NotificationItem
+                key={notification.notification.id}
+                notifications={notification}
+                // onUpdate={() => handleUpdate(notification.idUserNotification, true)}
+              />
+            ))}
+          </List>
+        </Scrollbar>
 
         <Divider sx={{ borderStyle: 'dashed' }} />
 
@@ -196,66 +183,55 @@ export default function NotificationsPopover() {
 // ----------------------------------------------------------------------
 
 NotificationItem.propTypes = {
-  firstName: PropTypes.string,
-  avatarUrl: PropTypes.string,
-  lastName: PropTypes.string,
+  notifications: PropTypes.shape({
+    notification: PropTypes.object,
+    isRead: PropTypes.bool,
+    content: PropTypes.string,
+  }),
+  onUpdate: PropTypes.func,
 };
 
-function NotificationItem({ firstName, avatarUrl, lastName }) {
-  const theme = useTheme();
-  const { enqueueSnackbar } = useSnackbar();
-
+function NotificationItem({ notifications, onUpdate }) {
+  const { notification, isRead } = notifications;
   const { toggle: openFrom, onOpen: onOpenFrom, onClose: onCloseFrom } = useToggle();
-  const [friends, setFriends] = useState([]);
-  const { data: listFriends } = useQuery(LIST_FRIENDS);
-
-  useEffect(() => {
-    if (listFriends && listFriends.listFriend) {
-      setFriends(listFriends.listFriend);
-    }
-  }, [listFriends]);
-
-  const follower = friends.follower?.[0].id;
-
-  console.log('fo', follower);
-
-  console.log('fl', friends.follower);
-
   return (
     <>
-      <Box
+      <ListItemButton
         sx={{
-          width: '100%',
-          borderRadius: 1,
-          backgroundColor: theme.palette.mode === 'light' ? '#fff' : theme.palette.background.default,
+          py: 1.5,
+          px: 2.5,
+          mt: '1px',
+          ...(!isRead && {
+            bgcolor: 'action.selected',
+          }),
         }}
-        p={2}
+        onClick={() => {
+          onUpdate();
+          onOpenFrom();
+        }}
       >
-        <Stack direction="row" display="flex" justifyContent="space-between">
-          <Stack
-            alignItems="center"
-            direction="row"
-            spacing={2}
-            sx={{
-              textOverflow: 'clip',
-              overflow: 'hidden',
-              width: '100%',
-            }}
-          >
-            <Avatar alt={firstName} src={avatarUrl} />
-
-            <Stack spacing={0.3} textOverflow="ellipsis" overflow="hidden">
-              <Typography variant="subtitle2" sx={{ ml: 2, fontSize: 16 }}>
-                {firstName} {lastName}
-              </Typography>
-            </Stack>
-          </Stack>
-        </Stack>
-      </Box>
-      <NotificationDialog open={openFrom} onClose={onCloseFrom} />
+        <ListItemText
+          primary={notification?.content}
+          secondary={
+            <Typography
+              variant="body2"
+              sx={{
+                mt: 0.5,
+                display: 'flex',
+                alignItems: 'center',
+                color: 'text.disabled',
+              }}
+            >
+              <Iconify icon="eva:clock-outline" sx={{ mr: 0.5, width: 16, height: 16 }} />
+            </Typography>
+          }
+        />
+      </ListItemButton>
+      <NotificationDialog open={openFrom} onClose={onCloseFrom} notification={notification} />
     </>
   );
 }
+
 // ----------------------------------------------------------------------
 //
 // function renderContent(notification) {

@@ -10,7 +10,7 @@ const Transition = React.forwardRef((props, ref) => <Slide direction="up" childr
 
 StartCall.propTypes = {
   open: PropTypes.bool,
-  handleClose: PropTypes.bool,
+  handleClose: PropTypes.func,
 };
 
 function StartCall({ open, handleClose }) {
