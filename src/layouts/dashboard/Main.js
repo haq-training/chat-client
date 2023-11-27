@@ -47,7 +47,7 @@ const getPathAdmin = (index) => {
       return '/dashboard/muc-ghim';
 
     case 4:
-      return '/dashboard/nguoi-dung';
+      return '/dashboard/danh-sach';
     case 5:
       return '/dashboard/cai-dat';
 

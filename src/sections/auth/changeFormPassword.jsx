@@ -20,7 +20,6 @@ const CHANGE_PASSWORD = loader('../../graphql/mutations/user/changePass.graphql'
 
 export default function ChangeFormPassword() {
   const { user } = useAuth();
-  console.log('user',user)
   const navigate = useNavigate();
   const { enqueueSnackbar } = useSnackbar();
   const [changePasswordFn] = useMutation(CHANGE_PASSWORD, {

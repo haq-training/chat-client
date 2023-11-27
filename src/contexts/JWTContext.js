@@ -81,24 +81,26 @@ function AuthProvider({ children }) {
     },
   });
 
-
   useEffect(() => {
     const initialize = async () => {
       try {
         const accessToken = window.localStorage.getItem(SESSION_KEY.ACCESS_TOKEN);
-
         if (accessToken && isValidToken(accessToken)) {
           setSession(accessToken);
           const fetchedData = await fetchProfile();
           const user = fetchedData.me ?? fetchedData?.data?.me;
-
           if (user) {
             const currentUser = {
               ...user,
               id: `${user?.id}`,
               role: user?.role,
+              email: user?.email,
+              firstName: user?.firstName,
+              lastName: user?.lastName,
               avatarUrl: user?.avatarUrl,
-              status: user?.status === true ? 'Đang hoạt động' : 'Ngừng hoạt động',
+              status: user?.isActive === true ? 'Đang hoạt động' : 'Ngừng hoạt động',
+              story: user?.story,
+              location: user?.location,
             };
             dispatch({
               type: 'INITIALIZE',
@@ -127,7 +129,6 @@ function AuthProvider({ children }) {
           });
         }
       } catch (err) {
-        console.error(err);
         dispatch({
           type: 'INITIALIZE',
           payload: {
@@ -137,8 +138,7 @@ function AuthProvider({ children }) {
         });
       }
     };
-
-    initialize().catch((e) => console.error(e));
+    initialize().catch((e) => console.error('Lỗi trong quá trình bắt khởi tạo:', e));
   }, [fetchProfile]);
 
   const login = async (account, password) => {
@@ -155,7 +155,6 @@ function AuthProvider({ children }) {
     });
     if (!response.error && response.data.login) {
       const { token, user } = response.data.login;
-
       const currentUser = {
         ...user,
         id: `${user?.id}`,

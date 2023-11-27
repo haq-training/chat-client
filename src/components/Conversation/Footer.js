@@ -56,7 +56,7 @@ const ChatInput = () => {
           <Stack sx={{ width: 'max-content' }}>
             <Stack sx={{ position: 'relative', display: openAction ? 'inline-block' : 'none' }}>
               {Actions.map((el, index) => (
-                <Tooltip placement="right" key={index} title={el.title}>
+                <Tooltip key={index} placement="right" title={el.title}>
                   <Fab sx={{ position: 'absolute', top: -el.y, backgroundColor: el.color }}>{el.icon}</Fab>
                 </Tooltip>
               ))}
