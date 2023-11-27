@@ -23,7 +23,7 @@ export default function GeneralApp() {
       >
         <Conversation />
       </Box>
-      {sidebar.open &&
+       {sidebar.open &&
         (() => {
           switch (sidebar.type) {
             case 'CONTACT':
@@ -42,3 +42,4 @@ export default function GeneralApp() {
     </Stack>
   );
 }
+
