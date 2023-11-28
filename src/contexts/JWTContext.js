@@ -85,19 +85,22 @@ function AuthProvider({ children }) {
     const initialize = async () => {
       try {
         const accessToken = window.localStorage.getItem(SESSION_KEY.ACCESS_TOKEN);
-
         if (accessToken && isValidToken(accessToken)) {
           setSession(accessToken);
           const fetchedData = await fetchProfile();
           const user = fetchedData.me ?? fetchedData?.data?.me;
-
           if (user) {
             const currentUser = {
               ...user,
               id: `${user?.id}`,
               role: user?.role,
-              photoURL: user?.avatarUrl,
-              status: user?.status === true ? 'Đang hoạt động' : 'Ngừng hoạt động',
+              email: user?.email,
+              firstName: user?.firstName,
+              lastName: user?.lastName,
+              avatarUrl: user?.avatarUrl,
+              status: user?.isActive === true ? 'Đang hoạt động' : 'Ngừng hoạt động',
+              story: user?.story,
+              location: user?.location,
             };
             dispatch({
               type: 'INITIALIZE',
@@ -126,7 +129,6 @@ function AuthProvider({ children }) {
           });
         }
       } catch (err) {
-        console.error(err);
         dispatch({
           type: 'INITIALIZE',
           payload: {
@@ -136,8 +138,7 @@ function AuthProvider({ children }) {
         });
       }
     };
-
-    initialize().catch((e) => console.error(e));
+    initialize().catch((e) => console.error('Lỗi trong quá trình bắt khởi tạo:', e));
   }, [fetchProfile]);
 
   const login = async (account, password) => {
@@ -158,12 +159,13 @@ function AuthProvider({ children }) {
         ...user,
         id: `${user?.id}`,
         role: user?.role,
-        signatureImg: user?.signatureImg,
-        displayName: user?.fullName,
-        photoURL: user?.avatarURL,
+        email: user?.email,
+        firstName: user?.firstName,
+        lastName: user?.lastName,
+        avatarUrl: user?.avatarUrl,
         status: user?.isActive === true ? 'Đang hoạt động' : 'Ngừng hoạt động',
-        phone: user?.phoneNumber,
-        company: 'Công ty CP Thép Công Nghiệp HN',
+        story: user?.story,
+        location: user?.location,
       };
       setSession(token);
       dispatch({

@@ -56,6 +56,7 @@ export default function Router() {
         </AuthGuard>
       ),
       children: [
+        { element: <Navigate to={PATH_AFTER_LOGIN} replace />, index: true },
         { path: 'app', element: <GeneralApp /> },
         { path: 'chat', element: <Chats /> },
         { path: 'cai-dat', element: <Settings /> },
@@ -63,8 +64,8 @@ export default function Router() {
         { path: 'thong-tin', element: <UserAccount /> },
         { path: 'danh-ba', element: <Contacts /> },
         { path: 'muc-ghim', element: <BookMark /> },
-        { path: 'danh-sach', element: <ListUser /> },
         { path: 'doi-mat-khau', element: <ChangePass /> },
+        { path: 'danh-sach', element: <ListUser /> },
       ],
     },
     {
@@ -87,7 +88,7 @@ export default function Router() {
 const Login = Loadable(lazy(() => import('../pages/auth/Login')));
 const Register = Loadable(lazy(() => import('../pages/auth/Register')));
 const ResetPassword = Loadable(lazy(() => import('../pages/auth/ResetPassword')));
-const ChangePass = Loadable(lazy(() => import('../pages/dashboard/ChangePass')));
+const ChangePass = Loadable(lazy(() => import('../pages/dashboard/ChangePassword')));
 // main router
 const UserAccount = Loadable(lazy(() => import('../pages/dashboard/UserAccount')));
 const Contacts = Loadable(lazy(() => import('../pages/dashboard/Contacts')));

@@ -100,7 +100,7 @@ export default function SettingForm() {
             {/* List of options */}
             <Stack spacing={4}>
               {list.map(({ key, icon, title, onclick }) => (
-                <>
+                <div key={key}>
                   <Stack spacing={2} sx={{ cursor: 'pointer' }} onClick={onclick}>
                     <Stack direction="row" spacing={2}>
                       {icon}
@@ -108,7 +108,7 @@ export default function SettingForm() {
                     </Stack>
                     {key !== 7 && <Divider />}
                   </Stack>
-                </>
+                </div>
               ))}
             </Stack>
           </Stack>

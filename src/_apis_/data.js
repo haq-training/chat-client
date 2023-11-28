@@ -43,6 +43,7 @@ export const navButtonsAdmin = [
   {
     index: 0,
     icon: <ChatCircleDots />,
+    tooltip: 'Chat',
   },
   {
     index: 1,

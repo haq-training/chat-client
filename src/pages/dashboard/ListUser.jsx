@@ -1,6 +1,16 @@
 import { useEffect, useRef, useState } from 'react';
-// import { useNavigate } from 'react-router-dom';
-import { Card, Container, Divider, Tab, Table, TableBody, TableContainer, Tabs, Tooltip } from '@mui/material';
+import {
+  Card,
+  CardHeader,
+  Container,
+  Divider,
+  Tab,
+  Table,
+  TableBody,
+  TableContainer,
+  Tabs,
+  Tooltip,
+} from '@mui/material';
 import { loader } from 'graphql.macro';
 import { useMutation, useQuery } from '@apollo/client';
 import { useSnackbar } from 'notistack';
@@ -12,10 +22,11 @@ import { UserTableRow, UserTableToolbar } from '../../sections/@dashboard/user /
 import { DefaultMaxHeight, DefaultRowsPerPage, Role, RoleArr } from '../../constant';
 import useAuth from '../../hooks/useAuth';
 import CommonBackdrop from '../../components/CommonBackdrop';
-// import { formatRoleInput } from '../../utils/formatRole';
 
 const GET_ALL_USER = loader('../../graphql/queries/user/getAllUsers.graphql');
 const RESET_PASSWORD = loader('../../graphql/mutations/user/resetPassword.graphql');
+const UPDATE_USER_INFO = loader('../../graphql/mutations/user/upDateUserInformation.graphql');
+const DELETE_USER = loader('../../graphql/mutations/user/deleteUser.graphql');
 
 const STATUS_OPTIONS = ['Tất cả', 'Yêu cầu refresh pass', 'Ngừng hoạt động'];
 
@@ -24,6 +35,7 @@ const TABLE_HEAD = [
   { id: 'firstName', label: 'Họ người dùng', align: 'left' },
   { id: 'lastName', label: 'Tên người dùng', align: 'left' },
   { id: 'email', label: 'Tên tài khoản', align: 'left' },
+  { id: 'role', label: 'Chức vụ', align: 'left' },
   { id: 'story', label: 'Tiểu sử', align: 'left' },
   { id: '' },
 ];
@@ -49,8 +61,6 @@ export default function ListUser() {
   });
 
   const { user } = useAuth();
-
-  // const navigate = useNavigate();
 
   const [tableData, setTableData] = useState([]);
 
@@ -84,20 +94,33 @@ export default function ListUser() {
   //     });
   //   },
   // });
-  // const [deleteUserInfo, { loading: loadingDeleteInfoUser }] = useMutation(DELETE_USER_INFO, {
-  //   onCompleted: () => {
-  //     enqueueSnackbar('Xóa thông tin người dùng thành công', {
-  //       variant: 'success',
-  //     });
-  //   },
-  //
-  //   onError: (error) => {
-  //     enqueueSnackbar(`Xóa thông tin người dùng không thành công. Nguyên nhân: ${error.message}`, {
-  //       variant: 'error',
-  //     });
-  //   },
-  // });
+  const [deleteUser] = useMutation(DELETE_USER, {
+    onCompleted: async (res) => {
+      if (res) {
+        return res;
+      }
+      return null;
+    },
+    refetchQueries: () => [
+      {
+        query: GET_ALL_USER,
+      },
+    ],
+  });
 
+  const [updateUser] = useMutation(UPDATE_USER_INFO, {
+    onCompleted: async (res) => {
+      if (res) {
+        return res;
+      }
+      return null;
+    },
+    refetchQueries: () => [
+      {
+        query: GET_ALL_USER,
+      },
+    ],
+  });
   // const [updateUserStatus, { loading: loadingUpdateUserStatus }] = useMutation(UPDATE_USER, {
   //   onCompleted: () => {
   //     enqueueSnackbar('Khôi phục tài khoản thành công!', {
@@ -115,6 +138,7 @@ export default function ListUser() {
   //     });
   //   },
   // });
+
   const [resetPassword, { loading: loadingResetPassword }] = useMutation(RESET_PASSWORD, {
     onCompleted: () => {
       enqueueSnackbar('Mật khẩu đã được cài lại', {
@@ -175,17 +199,6 @@ export default function ListUser() {
     setPage(1);
   };
 
-  // const handleDeleteRow = async (id) => {
-  //   await deleteUser({
-  //     variables: {
-  //       input: {
-  //         usersId: id,
-  //       },
-  //     },
-  //   });
-  //   setSelected([]);
-  //   await refetch();
-  // };
   // const handleDeleteUserInfo = async (id) => {
   //   await deleteUserInfo({
   //     variables: {
@@ -230,10 +243,28 @@ export default function ListUser() {
       },
     });
   };
+  const handleEditRow = async (id) => {
+    try {
+      await updateUser({
+        variables: {
+          id: Number(id),
+        },
+      });
+      enqueueSnackbar('Cập nhật thông tin role thành công!');
+      // navigate('/dashboard/nguoi-dung');
+    } catch (error) {
+      console.error(error);
+    }
+  };
 
-  // const handleEditRow = (id) => {
-  //   navigate(SSM_PATH_DASHBOARD.user.edit(id));
-  // };
+  const handleDeleteRow = async (id) => {
+    await deleteUser({
+      variables: {
+        id: Number(id),
+      },
+    });
+    enqueueSnackbar('Xóa User thành công!');
+  };
 
   const dataFiltered = applySortFilter({
     tableData,
@@ -286,6 +317,7 @@ export default function ListUser() {
         }}
       >
         <Card>
+          <CardHeader sx={{ mb: 3, fontSize: '28px' }} title={'Danh sách User'} />
           <Tabs
             allowScrollButtonsMobile
             variant="scrollable"
@@ -361,11 +393,9 @@ export default function ListUser() {
                     idx={idx}
                     selected={selected.includes(row.id)}
                     onSelectRow={() => onSelectRow(row.id)}
-                    // onDeleteRow={() => handleDeleteRow(row.id)}
-                    // onEditRow={() => handleEditRow(row.id)}
+                    onDeleteRow={() => handleDeleteRow(row.id)}
+                    onEditRow={() => handleEditRow(row.id)}
                     onResetPassword={() => handleResetPassword(row.id)}
-                    // onResetAccount={() => handleUpdateStatusUser(row.id)}
-                    // onDeleteUserInfo={() => handleDeleteUserInfo(row.id)}
                   />
                 ))}
                 <TableEmptyRows height={denseHeight} emptyRows={tableEmptyRows(page, rowsPerPage, users.length)} />
