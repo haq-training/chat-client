@@ -53,8 +53,6 @@ export default function NotificationsPopover() {
     }
   }, [listFriends]);
 
-  console.log('fr', friends);
-
 
   return (
     <>
